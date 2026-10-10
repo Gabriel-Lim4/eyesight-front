@@ -185,6 +185,8 @@ body.light-mode .login-page {
 }
 
 body.light-mode .login-container {
+  background: var(--c-ffffff) !important;
+  border-color: var(--c-d9e2ef) !important;
   box-shadow: 0 20px 50px var(--c-rgba-15-23-42-0_08);
 }
 
@@ -204,6 +206,7 @@ body.light-mode .login-box h2 {
 
 
 body.light-mode .login-box input {
+  background: var(--c-f8fafc) !important;
   color: var(--c-111827) !important;
 }
 
@@ -226,6 +229,19 @@ body.light-mode .forgot,
 body.light-mode .register,
 body.light-mode .terms-link {
   color: var(--c-2563eb);
+}
+
+body.light-mode .register {
+  color: var(--c-64748b);
+}
+
+/* ajuste de contraste (5b): o azul do tema escuro não atinge 4,5:1 sobre o fundo claro */
+body.light-mode .register span {
+  color: var(--c-2563eb);
+}
+
+body.light-mode .right-side {
+  background: var(--c-ffffff) !important;
 }
 
 
@@ -268,6 +284,7 @@ body.light-mode .modal-body::-webkit-scrollbar-thumb {
 
 body.light-mode .fp-tab-btn:hover {
   border-color: var(--c-2563eb);
+  color: var(--c-111827);
 }
 
 body.light-mode .fp-tab-btn.active {

@@ -24,3 +24,22 @@ export function diffSnapshots(before, after) {
   }
   return { total, byKey };
 }
+
+/**
+ * Chaves `tela|largura|estado` cuja captura no tema claro é igual à do escuro: sinal de que o tema claro não foi aplicado
+ * (uma prova de neutralidade feita assim não vale para o claro). `invariant` lista telas que são iguais nos dois temas de propósito.
+ */
+export function themesWithoutEffect(snapshot, invariant = []) {
+  const groups = new Map();
+  for (const key of Object.keys(snapshot)) {
+    const [screen, theme, viewport, state] = key.split('|');
+    const group = `${screen}|${viewport}|${state}`;
+    groups.set(group, { ...groups.get(group), [theme]: key });
+  }
+  const same = [];
+  for (const [group, themes] of groups) {
+    if (!themes.dark || !themes.light || invariant.includes(group.split('|')[0])) continue;
+    if (diffSnapshots({ k: snapshot[themes.dark] }, { k: snapshot[themes.light] }).total === 0) same.push(group);
+  }
+  return same;
+}

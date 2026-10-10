@@ -5,10 +5,13 @@ import process from 'node:process';
 import { chromium } from 'playwright';
 import { STATES, THEMES, VIEWPORTS } from '../a11y/matrix.mjs';
 import { SCREENS, build, specKey, startPreview, withScreen } from '../lib/session.mjs';
+import { themesWithoutEffect } from './compare.mjs';
 import { capturePage } from './capture.mjs';
 
 export const BASELINE_DIR = '.theme-baseline';
 export const CURRENT_DIR = '.theme-current';
+// Telas que são iguais nos dois temas de propósito (vazio: toda tela muda no tema claro).
+const THEME_INVARIANT = [];
 
 export function parseOnly(argv) {
   const index = argv.findIndex(item => item === '--only' || item.startsWith('--only='));
@@ -55,6 +58,8 @@ export async function captureAll({ only, dir }) {
     server.kill();
   }
   console.log(`\n${keys.length} capturas em ${dir}`);
+  const idle = themesWithoutEffect(loadDir(dir, only), THEME_INVARIANT);
+  if (idle.length) throw new Error(`A captura clara é igual à escura em: ${idle.join(', ')}. O tema claro não foi aplicado nessas telas.`);
   return keys;
 }
 

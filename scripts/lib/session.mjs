@@ -25,7 +25,12 @@ export function build() {
 
 export async function startPreview() {
   const server = spawn(execPath, [VITE, 'preview', '--port', String(PORT), '--strictPort'], { stdio: 'ignore' });
+  let exited = false;
+  server.once('exit', () => { exited = true; });
   for (let attempt = 0; attempt < 60; attempt++) {
+    // Se o processo que subimos morreu (porta ocupada, por exemplo), quem responde na porta é OUTRO servidor, possivelmente
+    // com outro código: nunca aceitar isso em silêncio.
+    if (exited) throw new Error(`a pré-visualização encerrou ao subir (a porta ${PORT} está ocupada por outro processo?)`);
     try { if ((await fetch(BASE)).ok) return server; } catch { /* ainda subindo */ }
     await new Promise(resolve => setTimeout(resolve, 500));
   }
@@ -61,6 +66,9 @@ async function attempt(browser, { screen, theme, viewport, state }, freezeMotion
     await page.goto(`${BASE}${screen.path}`, { waitUntil: 'domcontentloaded', timeout: PAGE_TIMEOUT });
     await page.locator('h1, h2').first().waitFor({ timeout: PAGE_TIMEOUT });
     if (freezeMotion) await page.addStyleTag({ content: FREEZE_MOTION });
+    // A classe do tema só é aplicada por componentes de certas telas (barra lateral, perfil, landing); as outras (login…)
+    // a herdam ao navegar a partir delas. Aplicar aqui para todas garante que o tema claro seja realmente exercitado.
+    await page.evaluate(themeName => document.body.classList.toggle('light-mode', themeName === 'light'), theme);
     await page.waitForTimeout(SETTLE_MS);
     if (!isExpectedPath(page.url(), screen.path, screen.expectPath)) {
       throw new Error(`a tela terminou em ${new URL(page.url()).pathname} em vez de ${screen.expectPath}`);

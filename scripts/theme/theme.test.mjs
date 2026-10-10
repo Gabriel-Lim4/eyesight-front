@@ -145,3 +145,25 @@ describe('tokens', () => {
     expect(light).not.toContain('--c-3b82f6');
   });
 });
+
+describe('themesDiffer', () => {
+  it('lista as telas cuja captura clara é igual à escura (o tema claro não foi aplicado)', async () => {
+    const { themesWithoutEffect } = await import('./compare.mjs');
+    const el = color => ({ 'body:nth-child(2)': { color, backgroundColor: 'rgb(0, 0, 0)' } });
+    const snapshot = {
+      'app-x|dark|desktop|-': el('rgb(255, 255, 255)'), 'app-x|light|desktop|-': el('rgb(0, 0, 0)'),
+      'auth-y|dark|desktop|-': el('rgb(255, 255, 255)'), 'auth-y|light|desktop|-': el('rgb(255, 255, 255)'),
+      'auth-y|dark|mobile|goals': el('rgb(255, 255, 255)'), 'auth-y|light|mobile|goals': el('rgb(255, 255, 255)'),
+    };
+    expect(themesWithoutEffect(snapshot)).toEqual(['auth-y|desktop|-', 'auth-y|mobile|goals']);
+  });
+  it('aceita telas declaradas como iguais nos dois temas', async () => {
+    const { themesWithoutEffect } = await import('./compare.mjs');
+    const same = { 'z|dark|desktop|-': { a: { color: 'x' } }, 'z|light|desktop|-': { a: { color: 'x' } } };
+    expect(themesWithoutEffect(same, ['z'])).toEqual([]);
+  });
+  it('ignora chaves sem o par do outro tema', async () => {
+    const { themesWithoutEffect } = await import('./compare.mjs');
+    expect(themesWithoutEffect({ 'only|dark|desktop|-': { a: { color: 'x' } } })).toEqual([]);
+  });
+});
