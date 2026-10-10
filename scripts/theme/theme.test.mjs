@@ -94,3 +94,54 @@ describe('parseRules', () => {
     expect(rules.map(rule => rule.selector)).toEqual(['.a', '.b']);
   });
 });
+
+describe('tokens', () => {
+  it('normalizes computed colors to hex or a stable rgba()', async () => {
+    const { normalizeColor } = await import('./tokens.mjs');
+    expect(normalizeColor('rgb(15, 23, 42)')).toBe('#0f172a');
+    expect(normalizeColor('rgb(255, 255, 255)')).toBe('#ffffff');
+    expect(normalizeColor('rgba(37, 99, 235, 0.1)')).toBe('rgba(37, 99, 235, 0.1)');
+    expect(normalizeColor('rgba(0, 0, 0, 0)')).toBe('transparent');
+    expect(normalizeColor('linear-gradient(red, blue)')).toBeNull();
+    expect(normalizeColor('none')).toBeNull();
+  });
+
+  it('builds one token per distinct pair across classes, constant or varying', async () => {
+    const { buildTokens } = await import('./tokens.mjs');
+    const pairs = {
+      text: [{ dark: 'rgb(255, 255, 255)', light: 'rgb(31, 41, 55)', count: 5, examples: [] }, { dark: 'rgb(16, 185, 129)', light: 'rgb(16, 185, 129)', count: 4, examples: [] }],
+      background: [{ dark: 'rgb(255, 255, 255)', light: 'rgb(31, 41, 55)', count: 3, examples: [] }, { dark: 'linear-gradient(red, blue)', light: 'none', count: 9, examples: [] }],
+      border: [{ dark: 'rgb(255, 255, 255)', light: 'rgb(255, 255, 255)', count: 2, examples: [] }],
+      shadow: [], svg: [],
+    };
+    const tokens = buildTokens(pairs);
+    expect(tokens).toHaveLength(3);
+    const varying = tokens.find(token => token.dark === '#ffffff' && token.light === '#1f2937');
+    expect(varying.count).toBe(8);
+    expect(varying.varying).toBe(true);
+    expect(varying.name).toBe('--c-ffffff--1f2937');
+    expect(tokens.find(token => token.dark === '#10b981').name).toBe('--c-10b981');
+    expect(tokens.find(token => token.dark === '#ffffff' && !token.varying).name).toBe('--c-ffffff');
+    expect(new Set(tokens.map(token => token.name)).size).toBe(3);
+  });
+
+  it('uses role names for the pairs the project already names', async () => {
+    const { buildTokens } = await import('./tokens.mjs');
+    const pairs = { text: [{ dark: 'rgb(255, 255, 255)', light: 'rgb(15, 23, 42)', count: 1, examples: [] }, { dark: 'rgb(148, 163, 184)', light: 'rgb(100, 116, 139)', count: 1, examples: [] }], background: [], border: [], shadow: [], svg: [] };
+    expect(buildTokens(pairs).map(token => token.name).sort()).toEqual(['--text-primary', '--text-secondary']);
+  });
+
+  it('renders :root with every token and body.light-mode with the varying ones only', async () => {
+    const { renderTokensCss } = await import('./tokens.mjs');
+    const css = renderTokensCss([
+      { name: '--c-3b82f6', dark: '#3b82f6', light: '#3b82f6', varying: false, count: 1 },
+      { name: '--c-ffffff--111827', dark: '#ffffff', light: '#111827', varying: true, count: 1 },
+    ]);
+    const root = css.slice(css.indexOf(':root'), css.indexOf('body.light-mode'));
+    const light = css.slice(css.indexOf('body.light-mode'));
+    expect(root).toContain('--c-3b82f6: #3b82f6;');
+    expect(root).toContain('--c-ffffff--111827: #ffffff;');
+    expect(light).toContain('--c-ffffff--111827: #111827;');
+    expect(light).not.toContain('--c-3b82f6');
+  });
+});
