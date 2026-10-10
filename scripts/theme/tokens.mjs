@@ -35,7 +35,7 @@ export const ROLES = {
 // Variáveis que já estão definidas em variables.css com os mesmos valores: não são redefinidas no bloco gerado.
 export const EXISTING = new Set(['--text-primary', '--text-secondary', '--bg-container', '--bg-input', '--bg-page', '--border-color', '--accent-blue', '--accent-purple']);
 
-const slug = color => color.replace(/^#/, '').replace(/^rgba\((\d+), (\d+), (\d+), ([\d.]+)\)$/, 'rgba-$1-$2-$3-$4').replace(/\./g, '_');
+export const slug = color => color.replace(/^#/, '').replace(/^rgba\((\d+), (\d+), (\d+), ([\d.]+)\)$/, 'rgba-$1-$2-$3-$4').replace(/\./g, '_');
 
 export function buildTokens(pairs) {
   const map = new Map();

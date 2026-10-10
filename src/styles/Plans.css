@@ -18,7 +18,7 @@
 }
 
 .pl-link { border-color: transparent; color: var(--accent-blue); text-decoration: underline; }
-body.light-mode .pl-link { color: #1d4ed8; }
+body.light-mode .pl-link { color: var(--c-1d4ed8); }
 .pl-button:disabled,
 .pl-link:disabled,
 .pl-button[aria-disabled="true"],
@@ -34,9 +34,9 @@ body.light-mode .pl-link { color: #1d4ed8; }
 .pl-steps span { overflow-wrap: anywhere; }
 .pl-steps input:checked + span { color: var(--text-secondary); text-decoration: line-through; }
 
-.pl-done { margin: 6px 0 0; color: var(--ov-good, #34d399); font-weight: 600; }
+.pl-done { margin: 6px 0 0; color: var(--ov-good, var(--c-34d399)); font-weight: 600; }
 .pl-meta { display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: center; margin: 6px 0 0; color: var(--text-secondary); font-size: 0.85rem; }
 
-.pl-error { margin: 8px 0 0; padding: 8px 12px; border: 1px solid #f59e0b; border-radius: 10px; color: #f59e0b; font-size: 0.9rem; }
+.pl-error { margin: 8px 0 0; padding: 8px 12px; border: 1px solid var(--c-f59e0b); border-radius: 10px; color: var(--c-f59e0b); font-size: 0.9rem; }
 .pl-error p { margin: 0 0 6px; }
-body.light-mode .pl-error { border-color: #b45309; color: #b45309; }
+body.light-mode .pl-error { border-color: var(--c-b45309); color: var(--c-b45309); }

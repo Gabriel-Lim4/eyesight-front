@@ -14,7 +14,8 @@
     "theme:compare": "node scripts/theme-compare.mjs",
     "theme:pairs": "node scripts/theme-pairs.mjs",
     "theme:stats": "node scripts/theme-stats.mjs",
-    "theme:tokens": "node scripts/theme-tokens.mjs"
+    "theme:tokens": "node scripts/theme-tokens.mjs",
+    "theme:migrate": "node scripts/theme-migrate.mjs"
   },
   "dependencies": {
     "@lottiefiles/dotlottie-react": "^0.19.1",

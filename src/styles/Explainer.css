@@ -23,7 +23,7 @@
   position: fixed;
   inset: 0;
   z-index: 900;
-  background: rgba(0, 0, 0, 0.45);
+  background: var(--c-rgba-0-0-0-0_45);
 }
 
 .ex-panel {
@@ -41,7 +41,7 @@
   background: var(--bg-container);
   border-left: 1px solid var(--border-color);
   color: var(--text-primary);
-  box-shadow: -8px 0 24px rgba(0, 0, 0, 0.3);
+  box-shadow: -8px 0 24px var(--c-rgba-0-0-0-0_3);
   transition: transform 0.2s ease;
 }
 
@@ -75,17 +75,17 @@
 .ex-suggestions button[aria-disabled="true"],
 .ex-send:disabled, .ex-send[aria-disabled="true"] { opacity: 0.6; cursor: not-allowed; }
 
-.ex-send { border-color: transparent; background: var(--gradient-btn); color: #ffffff; align-self: flex-end; }
+.ex-send { border-color: transparent; background: var(--gradient-btn); color: var(--c-ffffff); align-self: flex-end; }
 
 .ex-log { display: flex; flex-direction: column; gap: 8px; flex: 1; min-height: 80px; }
 .ex-message { margin: 0; padding: 10px 12px; border-radius: 10px; white-space: pre-wrap; overflow-wrap: anywhere; }
-.ex-message.is-user { align-self: flex-end; background: var(--accent-blue); color: #ffffff; }
+.ex-message.is-user { align-self: flex-end; background: var(--accent-blue); color: var(--c-ffffff); }
 .ex-message.is-assistant { align-self: flex-start; border: 1px solid var(--border-color); }
 .ex-status { margin: 0; color: var(--text-secondary); font-size: 0.9rem; }
 
-.ex-error { padding: 10px 12px; border: 1px solid #f59e0b; border-radius: 10px; color: #f59e0b; }
+.ex-error { padding: 10px 12px; border: 1px solid var(--c-f59e0b); border-radius: 10px; color: var(--c-f59e0b); }
 .ex-error p { margin: 0 0 8px; }
-body.light-mode .ex-error { border-color: #b45309; color: #b45309; }
+body.light-mode .ex-error { border-color: var(--c-b45309); color: var(--c-b45309); }
 
 .ex-form { display: flex; flex-direction: column; gap: 8px; }
 .ex-form label { color: var(--text-secondary); font-size: 0.9rem; }

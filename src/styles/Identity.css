@@ -9,16 +9,16 @@
 .identity-page input,.identity-page select { box-sizing:border-box; width:100%; background:var(--bg-input); color:var(--text-primary); border:1px solid var(--border-color); border-radius:8px; padding:12px; min-height:44px; }
 .identity-page button,.identity-page a { min-height:44px; }
 .identity-page button { cursor:pointer; border:1px solid var(--border-color); border-radius:8px; padding:10px 18px; background:var(--bg-input); color:var(--text-primary); }
-.identity-page button.identity-primary { background:#2563eb; color:white; }
+.identity-page button.identity-primary { background:var(--c-2563eb); color:white; }
 .identity-page button:disabled { opacity:.55; cursor:not-allowed; }
 .identity-page a { color:var(--accent-blue); display:inline-flex; align-items:center; }
-body.light-mode .identity-page a { color:#1d4ed8; } /* o azul de destaque mede 3,67:1 sobre branco; este mede 6,7:1 */
-.identity-message { border:1px solid #16a34a; border-radius:10px; padding:14px; margin-bottom:20px; line-height:1.5; }
-.identity-message.error { border-color:#ef4444; }
+body.light-mode .identity-page a { color:var(--c-1d4ed8); } /* o azul de destaque mede 3,67:1 sobre branco; este mede 6,7:1 */
+.identity-message { border:1px solid var(--c-16a34a); border-radius:10px; padding:14px; margin-bottom:20px; line-height:1.5; }
+.identity-message.error { border-color:var(--c-ef4444); }
 .identity-actions { display:flex; flex-wrap:wrap; gap:12px; margin-top:16px; }
 .identity-status { color:var(--text-secondary); font-size:14px; }
 .identity-account-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:20px; }
 .identity-page :focus-visible { outline:3px solid var(--accent-blue); outline-offset:3px; }
 .identity-page dialog { color:var(--text-primary); background:var(--bg-container); border:1px solid var(--border-color); border-radius:16px; padding:24px; max-width:480px; width:calc(100% - 48px); }
-.identity-page dialog::backdrop { background:rgba(0,0,0,.65); }
+.identity-page dialog::backdrop { background:var(--c-rgba-0-0-0-0_65); }
 @media(max-width:768px) { .identity-page { padding:20px 14px; } .identity-fields,.identity-account-grid { grid-template-columns:1fr; } .identity-panel { padding:20px; } }

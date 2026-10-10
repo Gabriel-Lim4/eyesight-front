@@ -3,6 +3,7 @@
 // mesmo seletor, mesma propriedade); se o par (cor no escuro, cor no claro) tem variável, troca a cor pela variável e
 // remove a sobrescrita. Casos ambíguos são pulados e relatados, nunca adivinhados.
 import { COLOR_PROPS } from './css-rules.mjs';
+import { slug } from './tokens.mjs';
 
 const LIGHT = 'body.light-mode';
 
@@ -158,6 +159,13 @@ const baseSelector = selector => (selector === LIGHT ? 'body' : selector.startsW
 const isOverrideRule = rule => rule.selectors.some(selector => selector === LIGHT || selector.startsWith(`${LIGHT} `));
 const cleanValue = value => value.replace(/\s*!important\s*$/i, '').trim();
 
+const ALIASES = { background: ['background-color'], 'background-color': ['background'] };
+for (const side of ['border', 'border-top', 'border-right', 'border-bottom', 'border-left', 'outline']) {
+  ALIASES[side] = [`${side}-color`];
+  ALIASES[`${side}-color`] = [side];
+}
+const propsToPair = prop => [prop, ...(ALIASES[prop] ?? [])];
+
 export function planMigration(files, tokens, { targets }) {
   const parsed = files.map(file => ({ ...file, rules: scanCss(file.text) }));
   const rootDefs = {};
@@ -195,56 +203,72 @@ export function planMigration(files, tokens, { targets }) {
 
   const edits = Object.fromEntries(files.map(file => [file.name, []]));
   const skipped = [];
-  const stats = { replaced: 0, removed: 0 };
+  const stats = { replaced: 0, paired: 0, removed: 0, created: 0 };
   const confirmed = new Map(); // decl de sobrescrita → seletores já cobertos por uma troca
-  const constantOf = color => tokens.find(token => !token.varying && token.dark === color);
+  const handled = new Set(); // declarações-base já trocadas por par
+  const created = new Map();
+  const targetFiles = parsed.filter(item => targets.includes(item.name));
+  const isColorDecl = decl => !decl.prop.startsWith('--') && COLOR_PROPS.test(decl.prop);
   const skip = (file, rule, decl, reason) => skipped.push({ file: file.name, selector: rule.selectors.join(', '), prop: decl.prop, value: decl.value, reason });
+  const constantFor = color => {
+    const known = tokens.find(token => !token.varying && token.dark === color) ?? created.get(color);
+    if (known) return known;
+    const token = { name: `--c-${slug(color)}`, dark: color, light: color, varying: false };
+    created.set(color, token);
+    stats.created++;
+    return token;
+  };
 
-  for (const file of parsed.filter(item => targets.includes(item.name))) {
+  // Passo 1: pares (cor no escuro + sobrescrita clara) que têm variável medida.
+  for (const file of targetFiles) {
     for (const rule of file.rules) {
       if (isOverrideRule(rule)) continue;
-      for (const decl of rule.decls) {
-        if (decl.prop.startsWith('--') || !COLOR_PROPS.test(decl.prop)) continue;
-        const colors = findColors(decl.value).filter(color => color.normalized);
-        if (colors.length === 0) continue;
-        const lists = rule.selectors.map(selector => overrides.get(`${rule.context}||${selector}||${decl.prop}`) ?? []);
-        const replace = (color, token) => {
-          edits[file.name].push({ start: decl.valueStart + color.start, end: decl.valueStart + color.end, text: `var(${token.name})` });
-          stats.replaced++;
-        };
-        if (lists.every(list => list.length === 0)) {
-          for (const color of colors) {
-            const token = constantOf(color.normalized);
-            if (token) replace(color, token);
-            else skip(file, rule, decl, tokens.some(item => item.dark === color.normalized) ? 'sem constante' : 'sem variável');
-          }
-          continue;
-        }
-        if (colors.length !== 1) { skip(file, rule, decl, 'várias cores com sobrescrita'); continue; }
+      for (const decl of rule.decls.filter(isColorDecl)) {
+        const colors = findColors(decl.value).filter(color => color.normalized && color.normalized !== 'transparent');
+        if (colors.length !== 1) continue;
+        const lists = rule.selectors.map(selector => propsToPair(decl.prop).flatMap(prop => overrides.get(`${rule.context}||${selector}||${prop}`) ?? []));
+        if (lists.every(list => list.length === 0)) continue;
         if (lists.some(list => list.length === 0)) { skip(file, rule, decl, 'sobrescrita parcial'); continue; }
         const lights = lists.map(list => resolve(list[list.length - 1].decl.value, 'light'));
         if (lights.some(light => light === null)) { skip(file, rule, decl, 'sobrescrita não é cor simples'); continue; }
         if (new Set(lights).size !== 1) { skip(file, rule, decl, 'sobrescritas diferentes'); continue; }
-        const token = tokens.find(item => item.dark === colors[0].normalized && item.light === lights[0]);
-        if (!token) { skip(file, rule, decl, 'sem variável para o par'); continue; }
-        replace(colors[0], token);
-        for (const list of lists) {
-          for (const entry of list) confirmed.set(entry.decl, new Set([...(confirmed.get(entry.decl) ?? []), entry.selector]));
-        }
+        const token = tokens.find(item => item.varying && item.dark === colors[0].normalized && item.light === lights[0]);
+        if (!token) { skip(file, rule, decl, 'sem variável medida para o par'); continue; }
+        edits[file.name].push({ start: decl.valueStart + colors[0].start, end: decl.valueStart + colors[0].end, text: `var(${token.name})` });
+        handled.add(decl);
+        stats.replaced++;
+        stats.paired++;
+        for (const list of lists) for (const entry of list) confirmed.set(entry.decl, new Set([...(confirmed.get(entry.decl) ?? []), entry.selector]));
       }
     }
   }
 
   // Remove as sobrescritas cujos seletores foram todos cobertos; a regra some se ficar vazia.
+  const removed = new Set();
   for (const file of parsed) {
     for (const rule of file.rules) {
       if (!isOverrideRule(rule)) continue;
       const removable = rule.decls.filter(decl => confirmed.has(decl) && rule.selectors.every(selector => confirmed.get(decl).has(selector)));
       if (removable.length === 0) continue;
+      removable.forEach(decl => removed.add(decl));
       stats.removed += removable.length;
       if (removable.length === rule.decls.length) edits[file.name].push({ ...ruleSpan(file.text, rule), text: '' });
       else for (const decl of removable) edits[file.name].push({ ...declarationSpan(file.text, decl), text: '' });
     }
   }
-  return { edits, skipped, stats };
+
+  // Passo 2: toda outra cor escrita à mão vira variável constante (mesmo valor nos dois temas: neutro por construção).
+  for (const file of targetFiles) {
+    for (const rule of file.rules) {
+      for (const decl of rule.decls.filter(isColorDecl)) {
+        if (handled.has(decl) || removed.has(decl)) continue;
+        for (const color of findColors(decl.value)) {
+          if (!color.normalized || color.normalized === 'transparent') continue;
+          edits[file.name].push({ start: decl.valueStart + color.start, end: decl.valueStart + color.end, text: `var(${constantFor(color.normalized).name})` });
+          stats.replaced++;
+        }
+      }
+    }
+  }
+  return { edits, skipped, stats, created: [...created.values()] };
 }

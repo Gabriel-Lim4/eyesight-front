@@ -33,9 +33,9 @@
   color: var(--text-secondary);
 }
 
-.onboarding-step.is-done .onboarding-icon { color: #10b981; }
+.onboarding-step.is-done .onboarding-icon { color: var(--c-10b981); }
 .onboarding-step.is-running .onboarding-icon { color: var(--accent-blue); animation: onboarding-spin 1s linear infinite; }
-.onboarding-step.is-error .onboarding-icon { color: #f59e0b; }
+.onboarding-step.is-error .onboarding-icon { color: var(--c-f59e0b); }
 
 @keyframes onboarding-spin { to { transform: rotate(360deg); } }
 
@@ -59,9 +59,9 @@
   font-size: 0.9rem;
 }
 
-.onboarding-step-body .onboarding-error { color: #f59e0b; }
-body.light-mode .onboarding-step-body .onboarding-error { color: #b45309; }
-body.light-mode .onboarding-step.is-error .onboarding-icon { color: #b45309; }
+.onboarding-step-body .onboarding-error { color: var(--c-f59e0b); }
+body.light-mode .onboarding-step-body .onboarding-error { color: var(--c-b45309); }
+body.light-mode .onboarding-step.is-error .onboarding-icon { color: var(--c-b45309); }
 
 .onboarding-actions {
   display: flex;
@@ -90,7 +90,7 @@ body.light-mode .onboarding-step.is-error .onboarding-icon { color: #b45309; }
 .onboarding-actions .onboarding-primary {
   border-color: transparent;
   background: var(--gradient-btn);
-  color: #ffffff;
+  color: var(--c-ffffff);
 }
 
 .onboarding-actions button:focus-visible,

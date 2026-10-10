@@ -66,35 +66,58 @@ describe('planMigration', () => {
     const files = [{ name: 'A.css', text: base }, { name: 'Theme.css', text: 'body.light-mode .a { color: #0f172a; box-shadow: none; }\n' }];
     expect(run(files, ['A.css']).out['Theme.css']).toBe('body.light-mode .a { box-shadow: none; }\n');
   });
-  it('uses the constant token when there is no override, and leaves colors without one', () => {
+  it('uses the constant token when there is no override and creates one for a color without token', () => {
     const files = [{ name: 'A.css', text: '.b { color: #3b82f6; background: #123456; }\n' }];
     const { out, plan } = run(files, ['A.css']);
-    expect(out['A.css']).toBe('.b { color: var(--c-3b82f6); background: #123456; }\n');
-    expect(plan.skipped.some(item => item.reason === 'sem variável')).toBe(true);
+    expect(out['A.css']).toBe('.b { color: var(--c-3b82f6); background: var(--c-123456); }\n');
+    expect(plan.created).toEqual([{ name: '--c-123456', dark: '#123456', light: '#123456', varying: false }]);
   });
-  it('does not guess when only varying tokens exist for a color without override', () => {
+  it('never guesses a varying token for a color without override: it gets its own constant', () => {
     const files = [{ name: 'A.css', text: '.b { color: #94a3b8; }\n' }];
     const { out, plan } = run(files, ['A.css']);
-    expect(out['A.css']).toBe('.b { color: #94a3b8; }\n');
-    expect(plan.skipped.some(item => item.reason === 'sem constante')).toBe(true);
+    expect(out['A.css']).toBe('.b { color: var(--c-94a3b8); }\n');
+    expect(plan.created.map(token => token.name)).toEqual(['--c-94a3b8']);
+  });
+  it('pairs background with background-color and border with border-color', () => {
+    const tokens = [...TOKENS, { name: '--bg-input', dark: '#020617', light: '#f8fafc', varying: true }];
+    const files = [{ name: 'A.css', text: '.a { background: #020617; border: 1px solid #1e293b; }\n' }, { name: 'Theme.css', text: 'body.light-mode .a { background-color: #f8fafc; border-color: #e2e8f0; }\n' }];
+    const { out } = run(files, ['A.css'], tokens);
+    expect(out['A.css']).toBe('.a { background: var(--bg-input); border: 1px solid var(--border-color); }\n');
+    expect(out['Theme.css']).toBe('');
+  });
+  it('replaces every color of gradients and shadows by constants', () => {
+    const files = [{ name: 'A.css', text: '.g { background: linear-gradient(90deg, #3b82f6, rgba(139,92,246,.5)); box-shadow: 0 0 4px #3b82f6; }\n' }];
+    const { out } = run(files, ['A.css']);
+    expect(out['A.css']).toBe('.g { background: linear-gradient(90deg, var(--c-3b82f6), var(--c-rgba-139-92-246-0_5)); box-shadow: 0 0 4px var(--c-3b82f6); }\n');
+  });
+  it('leaves named colors, transparent, urls and custom properties alone', () => {
+    const text = '.n { color: white; background: transparent url("a#fff.svg") no-repeat; border: 1px solid rgba(0,0,0,0); --x: #fff; }\n';
+    expect(run([{ name: 'A.css', text }], ['A.css']).out['A.css']).toBe(text);
+  });
+  it('tokenizes the colors of override rules that stay', () => {
+    const files = [{ name: 'Theme.css', text: 'body.light-mode .x { color: #abcdef; }\n' }];
+    const { out, plan } = run(files, ['Theme.css']);
+    expect(out['Theme.css']).toBe('body.light-mode .x { color: var(--c-abcdef); }\n');
+    expect(plan.created.map(token => token.name)).toEqual(['--c-abcdef']);
   });
   it('pairs only inside the same media context', () => {
     const files = [{ name: 'A.css', text: '@media (max-width: 600px) { .a { color: #fff; } }\n' }, { name: 'Theme.css', text: 'body.light-mode .a { color: #0f172a; }\n' }];
     const { out } = run(files, ['A.css']);
-    expect(out['A.css']).toContain('color: #fff');
+    expect(out['A.css']).toContain('color: var(--c-ffffff)');
     expect(out['Theme.css']).toContain('body.light-mode .a');
   });
   it('skips a selector list when not every selector has the same override', () => {
     const files = [{ name: 'A.css', text: '.a, .b { color: #fff; }\n' }, { name: 'Theme.css', text: 'body.light-mode .a { color: #0f172a; }\n' }];
     const { out, plan } = run(files, ['A.css']);
-    expect(out['A.css']).toBe('.a, .b { color: #fff; }\n');
+    expect(out['A.css']).toBe('.a, .b { color: var(--c-ffffff); }\n');
     expect(out['Theme.css']).toContain('body.light-mode .a');
-    expect(plan.skipped.some(item => item.reason === 'sobrescrita parcial')).toBe(true);
+    expect(plan.created.map(token => token.name)).toEqual(['--c-ffffff']);
   });
   it('skips a declaration with several colors that has an override', () => {
     const files = [{ name: 'A.css', text: '.a { border: 1px solid #1e293b; box-shadow: 0 0 1px #fff, 0 0 2px #3b82f6; }\n' }, { name: 'Theme.css', text: 'body.light-mode .a { box-shadow: none; }\n' }];
     const { out } = run(files, ['A.css']);
-    expect(out['A.css']).toContain('box-shadow: 0 0 1px #fff, 0 0 2px #3b82f6');
+    expect(out['A.css']).toContain('box-shadow: 0 0 1px var(--c-ffffff), 0 0 2px var(--c-3b82f6)');
+    expect(out['Theme.css']).toContain('body.light-mode .a');
   });
   it('maps body.light-mode itself to body', () => {
     const files = [{ name: 'Theme.css', text: 'body { color: #fff; }\nbody.light-mode { color: #0f172a; }\n' }];
