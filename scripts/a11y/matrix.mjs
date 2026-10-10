@@ -1,5 +1,6 @@
 // Telas, temas, larguras e estados percorridos pela auditoria.
-const screen = (group, id, path) => ({ id, path, group });
+// `expectPath`: página em que a tela deve terminar (para as que redirecionam de propósito).
+const screen = (group, id, path, expectPath = path) => ({ id, path, group, expectPath });
 
 export const APP_SCREENS = [
   screen('app', 'app-overview', '/app'),
@@ -15,7 +16,7 @@ export const APP_SCREENS = [
 
 export const AUTH_SCREENS = [
   screen('auth', 'auth-login', '/login'),
-  screen('auth', 'auth-cadastro', '/cadastro'),
+  screen('auth', 'auth-cadastro', '/cadastro', '/login'),
   screen('auth', 'auth-esqueci-senha', '/esqueci-senha'),
   screen('auth', 'auth-cancelar-resumo', '/cancelar-resumo?t=x'),
 ];

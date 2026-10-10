@@ -1,5 +1,6 @@
 // Verificações feitas dentro do navegador para uma tela já aberta.
 import AxeBuilder from '@axe-core/playwright';
+import { hasFocusIndicator } from './report.mjs';
 
 const AXE_TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'];
 const FOCUSABLE = 'a[href], button, input:not([type=hidden]), select, textarea, summary, [tabindex]:not([tabindex="-1"])';
@@ -19,7 +20,7 @@ const hasOverflow = page => page.evaluate(() => document.documentElement.scrollW
 function snapshotFocusables(selector) {
   const read = el => {
     const cs = getComputedStyle(el);
-    return { outline: `${cs.outlineStyle} ${cs.outlineWidth} ${cs.outlineColor}`, boxShadow: cs.boxShadow, borderColor: cs.borderTopColor, backgroundColor: cs.backgroundColor, textDecoration: cs.textDecorationLine };
+    return { outlineStyle: cs.outlineStyle, outlineWidth: cs.outlineWidth, outlineColor: cs.outlineColor, boxShadow: cs.boxShadow, borderColor: cs.borderTopColor, backgroundColor: cs.backgroundColor, textDecoration: cs.textDecorationLine };
   };
   window.__a11yRead = read;
   window.__a11yBefore = {};
@@ -33,29 +34,25 @@ function inspectActive() {
   const el = document.activeElement;
   if (!el || el === document.body || el.dataset.a11yId === undefined) return null;
   const rect = el.getBoundingClientRect();
-  if (rect.width === 0 || rect.height === 0) return { id: el.dataset.a11yId, visited: true, hidden: true };
-  const before = window.__a11yBefore[el.dataset.a11yId];
-  const after = window.__a11yRead(el);
-  const visibleOutline = !after.outline.startsWith('none') && !after.outline.includes(' 0px ');
-  const changed = ['outline', 'boxShadow', 'borderColor', 'backgroundColor', 'textDecoration'].some(key => before[key] !== after[key]);
-  const visibleShadow = after.boxShadow !== 'none';
+  if (rect.width === 0 || rect.height === 0) return { visited: true, hidden: true };
   const name = el.tagName.toLowerCase() + (el.id ? `#${el.id}` : '') + (typeof el.className === 'string' && el.className.trim() ? `.${el.className.trim().split(/\s+/).slice(0, 2).join('.')}` : '');
   const visited = el.dataset.a11yVisited === '1';
   el.dataset.a11yVisited = '1';
-  return { id: el.dataset.a11yId, visited, indicator: visibleOutline || visibleShadow || changed, name: name.slice(0, 80) };
+  return { visited, name: name.slice(0, 80), before: window.__a11yBefore[el.dataset.a11yId], after: window.__a11yRead(el) };
 }
 
 async function missingFocusIndicators(page) {
   await page.evaluate(snapshotFocusables, FOCUSABLE);
   const missing = [];
+  let truncated = true;
   for (let stop = 0; stop < MAX_TAB_STOPS; stop++) {
     await page.keyboard.press('Tab');
     const info = await page.evaluate(inspectActive);
     if (!info) continue;
-    if (info.visited) break;
-    if (!info.hidden && !info.indicator) missing.push(info.name);
+    if (info.visited) { truncated = false; break; }
+    if (!info.hidden && !hasFocusIndicator(info.before, info.after)) missing.push(info.name);
   }
-  return missing;
+  return { missing, truncated };
 }
 
 // Elementos de toque menores que 44px nos dois eixos (links dentro de parágrafos não contam).
@@ -71,10 +68,12 @@ const countSmallTargets = page => page.evaluate(() => {
 
 export async function runChecks(page) {
   const axe = await runAxe(page);
+  const focus = await missingFocusIndicators(page);
   return {
     ...axe,
     overflow: await hasOverflow(page),
-    focusMissing: await missingFocusIndicators(page),
+    focusMissing: focus.missing,
+    focusTruncated: focus.truncated,
     smallTargets: await countSmallTargets(page),
   };
 }
