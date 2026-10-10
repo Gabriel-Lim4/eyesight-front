@@ -3,6 +3,7 @@ import { MemoryRouter } from 'react-router-dom';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import AnalyticsWorkspace from '../AnalyticsWorkspace';
 import api from '../../services/api';
+import { GOAL_FIELDS, GOALS_COPY } from '../../utils/goalsCopy';
 
 vi.mock('../../services/api', () => ({ default: { get: vi.fn(), post: vi.fn(), put: vi.fn() } }));
 vi.mock('recharts', () => ({
@@ -53,6 +54,39 @@ it('works without the optional props', async () => {
   expect(await screen.findByRole('row', { name: /Campaign A/ })).toBeInTheDocument();
 });
 
+describe('metas na análise completa', () => {
+  const openGoals = async () => {
+    mount();
+    fireEvent.click(await screen.findByRole('button', { name: /Suas metas/ }));
+  };
+
+  it('abre o formulário com o mesmo nome e os mesmos rótulos da Visão geral', async () => {
+    await openGoals();
+    expect(screen.getByRole('button', { name: /Suas metas/ })).toHaveAttribute('aria-expanded', 'true');
+    expect(screen.getByRole('heading', { name: GOALS_COPY.title })).toBeInTheDocument();
+    for (const [, label] of GOAL_FIELDS) expect(screen.getByLabelText(label)).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: GOALS_COPY.save })).toBeInTheDocument();
+    expect(screen.getByText(GOALS_COPY.help)).toBeInTheDocument();
+  });
+
+  it('salva as metas e confirma com o texto de Metas, não com o do servidor', async () => {
+    api.put.mockResolvedValue({ data: { mensagem: 'Limites salvos. Os alertas aparecem no painel ao consultar as métricas.' } });
+    await openGoals();
+    fireEvent.change(screen.getByLabelText(GOAL_FIELDS[0][1]), { target: { value: '45' } });
+    fireEvent.click(screen.getByRole('button', { name: GOALS_COPY.save }));
+    await waitFor(() => expect(api.put).toHaveBeenCalledWith('/metricas/alertas', { ctrMin: null, cpaMax: 45, budgetMax: null }));
+    expect(await screen.findByText(GOALS_COPY.saved)).toBeInTheDocument();
+    expect(screen.queryByText(/Limites salvos/)).toBeNull();
+  });
+
+  it('mostra a mensagem de erro de Metas quando o servidor não explica', async () => {
+    api.put.mockRejectedValue(new Error('offline'));
+    await openGoals();
+    fireEvent.click(screen.getByRole('button', { name: GOALS_COPY.save }));
+    expect(await screen.findByRole('alert')).toHaveTextContent(GOALS_COPY.error);
+  });
+});
+
 describe('overview mode', () => {
   const withVerdict = overrides => ({ ...fixture, verdict: { status: 'good', basis: 'comparison', indicator: 'cpa', insufficientReason: null, reasons: [], highlights: [], actions: [] }, ...overrides });
   const summary = ctx => <p>resumo {String(ctx.data.hasData)}</p>;
@@ -65,7 +99,7 @@ describe('overview mode', () => {
     expect(await screen.findByText('resumo true')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Atualizar dados' })).toBeInTheDocument();
     expect(screen.queryByRole('button', { name: 'Sincronizar dados' })).toBeNull();
-    expect(screen.queryByRole('button', { name: /Limites de alerta/ })).toBeNull();
+    expect(screen.queryByRole('button', { name: /Suas metas/ })).toBeNull();
     expect(detailsEl()).not.toHaveAttribute('open');
     expect(detailsEl().contains(screen.getByLabelText('Período'))).toBe(false);
     for (const inside of [screen.getByLabelText('Plataforma'), screen.getByLabelText('Campanha'), screen.getByRole('button', { name: 'Exportar CSV' }), screen.getByText('Evolução diária')]) {

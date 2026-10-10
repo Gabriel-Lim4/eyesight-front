@@ -1,12 +1,9 @@
 import { useState } from 'react';
 import api from '../../services/api';
+import { GOAL_FIELDS, GOALS_COPY } from '../../utils/goalsCopy';
 import '../../styles/Overview.css';
 
-const FIELDS = [
-  ['cpaMax', 'Quero pagar, no máximo, por cada resultado', 'money'],
-  ['budgetMax', 'Quero gastar, no máximo, no período', 'money'],
-  ['ctrMin', 'Quero que pelo menos esta % de quem vê meu anúncio clique', 'percent'],
-];
+const FIELDS = GOAL_FIELDS;
 const initial = settings => Object.fromEntries(FIELDS.map(([key]) => [key, settings?.[key] == null ? '' : String(settings[key])]));
 
 export default function GoalsForm({ alertSettings, currency, disabled, onSaved }) {
@@ -18,21 +15,21 @@ export default function GoalsForm({ alertSettings, currency, disabled, onSaved }
     event.preventDefault();
     const limits = Object.fromEntries(FIELDS.map(([key]) => [key, values[key] === '' ? null : Number(values[key])]));
     if (Object.values(limits).some(value => value !== null && !Number.isFinite(value))) {
-      setMessage({ error: true, text: 'Informe apenas números nas metas.' });
+      setMessage({ error: true, text: GOALS_COPY.numbers });
       return;
     }
     setBusy(true); setMessage(null);
     try {
       await api.put('/metricas/alertas', { ctrMin: limits.ctrMin, cpaMax: limits.cpaMax, budgetMax: limits.budgetMax });
-      setMessage({ text: 'Metas salvas.' });
+      setMessage({ text: GOALS_COPY.saved });
       onSaved?.();
     } catch (error) {
-      setMessage({ error: true, text: error.response?.data?.erro || 'Não foi possível salvar as metas.' });
+      setMessage({ error: true, text: error.response?.data?.erro || GOALS_COPY.error });
     } finally { setBusy(false); }
   }
 
   return <details className="ov-goals">
-    <summary>Suas metas</summary>
+    <summary>{GOALS_COPY.title}</summary>
     <form onSubmit={submit}>
       <p>Com uma meta, o veredito passa a comparar seus anúncios com ela. Deixe em branco para não usar.</p>
       <fieldset disabled={disabled || busy}>
@@ -46,7 +43,7 @@ export default function GoalsForm({ alertSettings, currency, disabled, onSaved }
             </div>
           </div>;
         })}
-        <button type="submit">Salvar metas</button>
+        <button type="submit">{GOALS_COPY.save}</button>
       </fieldset>
       {disabled && <p className="ov-note">Na demonstração as metas não podem ser alteradas.</p>}
       {message && <p className={message.error ? 'ov-error' : 'ov-note'} role={message.error ? 'alert' : 'status'}>{message.text}</p>}

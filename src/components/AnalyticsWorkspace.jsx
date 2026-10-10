@@ -1,3 +1,4 @@
+import { GOAL_FIELDS, GOALS_COPY } from '../utils/goalsCopy';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
@@ -95,9 +96,9 @@ export default function AnalyticsWorkspace({ platform = 'all', title = 'Visão g
     event.preventDefault(); setSavingAlerts(true);
     try {
       const limits = Object.fromEntries(['ctrMin', 'cpaMax', 'budgetMax'].map(key => [key, alertSettings[key] === '' || alertSettings[key] == null ? null : Number(alertSettings[key])]));
-      const { data: result } = await api.put('/metricas/alertas', limits);
-      setNotice(result.mensagem); setRevision(value => value + 1);
-    } catch (err) { setError(err.response?.data?.erro || 'Não foi possível salvar os limites.'); }
+      await api.put('/metricas/alertas', limits);
+      setNotice(GOALS_COPY.saved); setRevision(value => value + 1);
+    } catch (err) { setError(err.response?.data?.erro || GOALS_COPY.error); }
     finally { setSavingAlerts(false); }
   }
   const campaigns = useMemo(() => (data?.campaigns || []).filter(item => item.name.toLocaleLowerCase('pt-BR').includes(search.toLocaleLowerCase('pt-BR'))).sort((a, b) => sort === 'name' ? a.name.localeCompare(b.name, 'pt-BR') : (b.metrics[sort] ?? -Infinity) - (a.metrics[sort] ?? -Infinity)), [data, search, sort]);
@@ -147,10 +148,10 @@ export default function AnalyticsWorkspace({ platform = 'all', title = 'Visão g
     <fieldset disabled={syncing} className="analytics-filters"><legend className="sr-only">Filtros das métricas</legend>
       {periodField}
       {!simple && otherFields}
-      {!simple && <button aria-expanded={showAlerts} onClick={() => setShowAlerts(value => !value)}><SlidersHorizontal size={16} /> Limites de alerta</button>}
+      {!simple && <button aria-expanded={showAlerts} onClick={() => setShowAlerts(value => !value)}><SlidersHorizontal size={16} /> {GOALS_COPY.title}</button>}
     </fieldset>
     {custom && <form className="analytics-custom" onSubmit={event => { event.preventDefault(); update({ periodo: 'custom', ...customDates }); }}><label>Data inicial<input required type="date" value={customDates.startDate} onChange={event => setCustomDates(value => ({ ...value, startDate: event.target.value }))} /></label><label>Data final<input required type="date" min={customDates.startDate} value={customDates.endDate} onChange={event => setCustomDates(value => ({ ...value, endDate: event.target.value }))} /></label><button type="submit" disabled={syncing}>Aplicar datas</button></form>}
-    {!simple && showAlerts && <form className="analytics-panel analytics-alert-form" onSubmit={saveAlerts}><div><h2>Alertas por campanha</h2><p>Limites pessoais exibidos neste painel. Valores monetários seguem a moeda selecionada. Deixe em branco para desativar.</p></div>{[['ctrMin', 'CTR mínimo (%)'], ['cpaMax', 'CPA máximo'], ['budgetMax', 'Investimento máximo no período']].map(([key, label]) => <label key={key}>{label}<input type="number" min="0" max={key === 'ctrMin' ? 100 : 1000000000} step="0.01" value={alertSettings[key] ?? ''} onChange={event => setAlertSettings(value => ({ ...value, [key]: event.target.value }))} /></label>)}<button type="submit" disabled={savingAlerts}>{savingAlerts ? 'Salvando…' : 'Salvar limites'}</button></form>}
+    {!simple && showAlerts && <form className="analytics-panel analytics-alert-form" onSubmit={saveAlerts}><div><h2>{GOALS_COPY.title}</h2><p>{GOALS_COPY.help}</p></div>{GOAL_FIELDS.map(([key, label]) => <label key={key}>{label}<input type="number" min="0" max={key === 'ctrMin' ? 100 : 1000000000} step="0.01" value={alertSettings[key] ?? ''} onChange={event => setAlertSettings(value => ({ ...value, [key]: event.target.value }))} /></label>)}<button type="submit" disabled={savingAlerts}>{savingAlerts ? 'Salvando…' : GOALS_COPY.save}</button></form>}
     {notice && <p className="analytics-notice" role="status">{notice}</p>}
     {error && <div className="analytics-error" role="alert"><p>{error}</p><button onClick={() => setRevision(value => value + 1)}>Tentar novamente</button><Link to="/app/account">Ver conexões</Link></div>}
     {simple ? <>
