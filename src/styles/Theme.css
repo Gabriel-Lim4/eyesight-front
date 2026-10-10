@@ -196,8 +196,6 @@ body.light-mode .login-page {
 }
 
 body.light-mode .login-container {
-  background: #ffffff !important;
-  border-color: var(--app-border) !important;
   box-shadow: 0 20px 50px rgba(15, 23, 42, .08);
 }
 
@@ -205,9 +203,6 @@ body.light-mode .left-side {
   background: linear-gradient(160deg, #1e3a8a, #581c87) !important;
 }
 
-body.light-mode .right-side {
-  background: #ffffff !important;
-}
 
 body.light-mode .login-box {
   background: transparent !important;
@@ -218,13 +213,8 @@ body.light-mode .login-box h2 {
   color: var(--app-text);
 }
 
-body.light-mode .login-box label {
-  color: var(--app-muted);
-}
 
 body.light-mode .login-box input {
-  background: #f8fafc !important;
-  border-color: var(--app-border) !important;
   color: var(--app-text) !important;
 }
 
@@ -249,30 +239,15 @@ body.light-mode .terms-link {
   color: var(--app-blue);
 }
 
-body.light-mode .register {
-  color: var(--app-muted);
-}
 
-body.light-mode .divider {
-  color: var(--app-muted);
-}
 
-body.light-mode .divider::before,
-body.light-mode .divider::after {
-  border-bottom-color: var(--app-border);
-}
 
-body.light-mode .terms-checkbox-container label {
-  color: var(--app-muted);
-}
 
 body.light-mode .strength-track {
   background-color: #e2e8f0 !important;
 }
 
 body.light-mode .modal-content {
-  background: #ffffff !important;
-  border-color: var(--app-border) !important;
   color: var(--app-text);
   box-shadow: 0 20px 50px rgba(15, 23, 42, .15);
 }
@@ -297,32 +272,13 @@ body.light-mode .modal-body::-webkit-scrollbar-thumb {
   background: #cbd5e1;
 }
 
-/* ---------- FORGOT PASSWORD ---------- */
-body.light-mode .fp-back {
-  color: var(--app-muted);
-}
 
-body.light-mode .fp-back:hover {
-  color: var(--app-text);
-}
 
-body.light-mode .fp-subtitle {
-  color: var(--app-muted);
-}
 
-body.light-mode .fp-subtitle strong {
-  color: var(--app-text);
-}
 
-body.light-mode .fp-tab-btn {
-  background: #f8fafc !important;
-  border-color: var(--app-border) !important;
-  color: var(--app-muted);
-}
 
 body.light-mode .fp-tab-btn:hover {
   border-color: var(--app-blue);
-  color: var(--app-text);
 }
 
 body.light-mode .fp-tab-btn.active {
@@ -336,10 +292,6 @@ body.light-mode .fp-resend {
   color: var(--app-blue);
 }
 
-/* Password toggle button no tema claro */
-body.light-mode .toggle-password-btn {
-  color: var(--app-muted);
-}
 
 body.light-mode .toggle-password-btn:hover {
   color: var(--app-text);

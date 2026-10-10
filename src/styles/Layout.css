@@ -1,6 +1,6 @@
 .app-shell.dashboard-container { background:var(--bg-page); }
 .app-main.dashboard-content { min-width:0; background:var(--bg-page); padding:32px; color:var(--text-primary); }
-.demo-banner { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:14px; border:1px solid #3b82f6; border-radius:10px; padding:14px 18px; margin:0 auto 24px; max-width:1600px; background:var(--bg-container); font-family:'Segoe UI',sans-serif; }
+.demo-banner { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:14px; border:1px solid var(--accent-blue); border-radius:10px; padding:14px 18px; margin:0 auto 24px; max-width:1600px; background:var(--bg-container); font-family:'Segoe UI',sans-serif; }
 .demo-banner>div { display:flex; flex-wrap:wrap; gap:8px 14px; align-items:center; }
 .demo-banner strong { font-size:13px; color:var(--text-primary); }
 .demo-banner span { font-size:12px; color:var(--text-secondary); }
