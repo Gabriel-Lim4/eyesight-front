@@ -32,3 +32,6 @@ coverage/
 .env
 .env.*
 !.env.example
+
+# Relatório da auditoria de acessibilidade
+a11y-report.json
