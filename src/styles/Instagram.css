@@ -10,7 +10,7 @@
 
 body {
   font-family: 'Inter', sans-serif;
-  background: #081221;
+  background: var(--c-081221);
   color: white;
   overflow-x: hidden;
 }
@@ -18,7 +18,7 @@ body {
 .dashboard-content {
   flex: 1;
   padding: 40px;
-  background: #081221;
+  background: var(--c-081221);
   min-height: 100vh;
 }
 
@@ -31,7 +31,7 @@ body {
 }
 
 .subtitle {
-  color: #94a3b8;
+  color: var(--c-94a3b8);
   margin-bottom: 36px;
   font-size: 0.95rem;
 }
@@ -42,15 +42,15 @@ body {
   font-family: 'Inter', sans-serif;
   font-weight: 600;
   font-size: 1.1rem;
-  color: #e2e8f0;
+  color: var(--c-e2e8f0);
   padding-bottom: 10px;
-  border-bottom: 1px solid #1f2937;
+  border-bottom: 1px solid var(--c-1f2937);
 }
 
 /* --- CARD BASE (reaproveitado do dashboard) --- */
 .card {
-  background: #111827;
-  border: 1px solid #1f2937;
+  background: var(--c-111827);
+  border: 1px solid var(--c-1f2937);
   border-radius: 8px;
   padding: 20px;
   transition: border-color 0.2s;
@@ -65,9 +65,9 @@ body {
 }
 
 .icon-box.instagram-accent {
-  background-color: rgba(217, 113, 74, 0.1) !important;
-  border: 1px solid rgba(217, 113, 74, 0.25) !important;
-  color: #d9714a !important;
+  background-color: var(--c-rgba-217-113-74-0_1) !important;
+  border: 1px solid var(--c-rgba-217-113-74-0_25) !important;
+  color: var(--c-d9714a) !important;
   width: 36px;
   height: 36px;
   border-radius: 6px;
@@ -78,13 +78,13 @@ body {
 }
 
 .green-text {
-  color: #10b981;
+  color: var(--c-10b981);
   font-weight: 600;
   font-size: 0.85rem;
 }
 
 .card .card-title {
-  color: #94a3b8;
+  color: var(--c-94a3b8);
   font-size: 0.85rem;
   margin-bottom: 6px;
   font-family: 'Inter', sans-serif;
@@ -93,7 +93,7 @@ body {
 .card .card-value {
   font-size: 1.65rem;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--c-ffffff);
   font-family: 'Inter', sans-serif;
   margin: 0;
   font-variant-numeric: tabular-nums;
@@ -102,7 +102,7 @@ body {
 .card-note {
   display: block;
   margin-top: 6px;
-  color: #64748b;
+  color: var(--c-64748b);
   font-size: 0.78rem;
 }
 
@@ -115,7 +115,7 @@ body {
 
 .card-highlight:hover,
 .card-ring:hover {
-  border-color: #d9714a;
+  border-color: var(--c-d9714a);
 }
 
 .card-ring {
@@ -141,25 +141,25 @@ body {
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  background: #111827;
+  background: var(--c-111827);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  color: #d9714a;
+  color: var(--c-d9714a);
   gap: 2px;
 }
 
 .engagement-ring-inner strong {
-  color: #fff;
+  color: var(--c-ffffff);
   font-size: 1rem;
   font-variant-numeric: tabular-nums;
 }
 
 /* --- FAIXA DE ESTATÍSTICAS --- */
 .stats-strip {
-  background: #111827;
-  border: 1px solid #1f2937;
+  background: var(--c-111827);
+  border: 1px solid var(--c-1f2937);
   border-radius: 8px;
   padding: 22px 10px;
   display: grid;
@@ -171,8 +171,8 @@ body {
   align-items: center;
   gap: 12px;
   padding: 0 20px;
-  border-right: 1px solid #1f2937;
-  color: #64748b;
+  border-right: 1px solid var(--c-1f2937);
+  color: var(--c-64748b);
   font-size: 1.05rem;
 }
 
@@ -181,12 +181,12 @@ body {
 }
 
 .stats-strip-item p {
-  color: #94a3b8;
+  color: var(--c-94a3b8);
   font-size: 0.78rem;
 }
 
 .stats-strip-item strong {
-  color: #fff;
+  color: var(--c-ffffff);
   font-size: 1.1rem;
   font-variant-numeric: tabular-nums;
 }
@@ -199,29 +199,29 @@ body {
 }
 
 .post-card {
-  background: #111827;
-  border: 1px solid #1f2937;
+  background: var(--c-111827);
+  border: 1px solid var(--c-1f2937);
   border-radius: 8px;
   overflow: hidden;
   transition: border-color 0.2s;
 }
 
 .post-card:hover {
-  border-color: #d9714a;
+  border-color: var(--c-d9714a);
 }
 
 .post-image {
-  background: #0d1526;
+  background: var(--c-0d1526);
   height: 160px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-bottom: 1px solid #1f2937;
+  border-bottom: 1px solid var(--c-1f2937);
 }
 
 .placeholder-insta-icon {
   font-size: 2.2rem;
-  color: rgba(255, 255, 255, 0.06);
+  color: var(--c-rgba-255-255-255-0_06);
 }
 
 .post-info {
@@ -235,7 +235,7 @@ body {
   display: flex;
   align-items: center;
   gap: 6px;
-  color: #94a3b8;
+  color: var(--c-94a3b8);
   font-size: 0.82rem;
 }
 
@@ -248,15 +248,15 @@ body {
 }
 
 .analytics-card {
-  background: #111827;
-  border: 1px solid #1f2937;
+  background: var(--c-111827);
+  border: 1px solid var(--c-1f2937);
   border-radius: 8px;
   padding: 24px;
   transition: border-color 0.2s;
 }
 
 .analytics-card:hover {
-  border-color: #d9714a;
+  border-color: var(--c-d9714a);
 }
 
 .analytics-card-header {
@@ -275,7 +275,7 @@ body {
 
 .analytics-card-header .section-icon {
   font-size: 1.15rem;
-  color: #d9714a;
+  color: var(--c-d9714a);
 }
 
 .stats-grid {
@@ -285,7 +285,7 @@ body {
 }
 
 .stats-grid p {
-  color: #94a3b8;
+  color: var(--c-94a3b8);
   font-size: 0.82rem;
   font-family: 'Inter', sans-serif;
 }
@@ -318,7 +318,7 @@ body {
   }
   .stats-strip-item {
     border-right: none;
-    border-bottom: 1px solid #1f2937;
+    border-bottom: 1px solid var(--c-1f2937);
     padding: 12px 0;
   }
   .stats-strip-item:last-child {

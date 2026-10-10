@@ -8,19 +8,19 @@
   width: 80px;
   height: 80px;
   margin: 0 auto 24px;
-  color: #64748b;
+  color: var(--c-64748b);
 }
 
 .empty-state-title {
   margin-bottom: 12px;
   font-size: 1.25rem;
   font-weight: 600;
-  color: #ffffff;
+  color: var(--c-ffffff);
 }
 
 .empty-state-description {
   margin-bottom: 24px;
-  color: #94a3b8;
+  color: var(--c-94a3b8);
   font-size: 0.95rem;
 }
 
@@ -28,7 +28,7 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: #3b82f6;
+  background: var(--accent-blue);
   color: white;
   border: none;
   border-radius: 8px;
@@ -40,11 +40,11 @@
 }
 
 .empty-state-button:hover {
-  background: #2563eb;
+  background: var(--c-2563eb);
 }
 
 .empty-state-button:focus-visible {
-  outline: 2px solid #60a5fa;
+  outline: 2px solid var(--c-60a5fa);
   outline-offset: 2px;
 }
 
@@ -59,21 +59,21 @@
 
 /* Icon styles for different variants */
 .empty-state .fi-heart {
-  color: #e1306c;
+  color: var(--c-e1306c);
 }
 
 .empty-state .fi-shopping-bag {
-  color: #f4b400;
+  color: var(--c-f4b400);
 }
 
 .empty-state .fi-file {
-  color: #3b82f6;
+  color: var(--accent-blue);
 }
 
 .empty-state .fi-settings {
-  color: #a78bfa;
+  color: var(--c-a78bfa);
 }
 
 .empty-state .fi-trending-up {
-  color: #10b981;
+  color: var(--c-10b981);
 }

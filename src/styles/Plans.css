@@ -34,7 +34,7 @@ body.light-mode .pl-link { color: var(--c-1d4ed8); }
 .pl-steps span { overflow-wrap: anywhere; }
 .pl-steps input:checked + span { color: var(--text-secondary); text-decoration: line-through; }
 
-.pl-done { margin: 6px 0 0; color: var(--ov-good, var(--c-34d399)); font-weight: 600; }
+.pl-done { margin: 6px 0 0; color: var(--status-good); font-weight: 600; }
 .pl-meta { display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: center; margin: 6px 0 0; color: var(--text-secondary); font-size: 0.85rem; }
 
 .pl-error { margin: 8px 0 0; padding: 8px 12px; border: 1px solid var(--c-f59e0b); border-radius: 10px; color: var(--c-f59e0b); font-size: 0.9rem; }

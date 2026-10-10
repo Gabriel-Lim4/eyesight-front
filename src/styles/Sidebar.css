@@ -135,10 +135,7 @@
 }
 
 .sidebar-toggle:hover {
-  background: var(
-    --gradient-brand,
-    linear-gradient(135deg, var(--accent-blue), var(--c-8b5cf6))
-  );
+  background: linear-gradient(135deg, var(--accent-blue), var(--c-8b5cf6));
 
   border-color: transparent;
   color: var(--c-ffffff);
@@ -211,8 +208,8 @@
   );
 
   -webkit-mask:
-    linear-gradient(#fff 0 0) content-box,
-    linear-gradient(#fff 0 0);
+    linear-gradient(var(--c-ffffff) 0 0) content-box,
+    linear-gradient(var(--c-ffffff) 0 0);
 
   -webkit-mask-composite: xor;
 

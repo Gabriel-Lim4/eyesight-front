@@ -8,6 +8,6 @@
 /* CONFIGURAÇÕES GERAIS */
 body {
   font-family: 'Segoe UI', sans-serif;
-  background: #020817;
+  background: var(--c-020817);
   overflow-x: hidden;
 }

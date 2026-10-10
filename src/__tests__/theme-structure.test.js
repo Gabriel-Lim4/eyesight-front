@@ -13,12 +13,13 @@ const EXCEPTIONS = JSON.parse(readFileSync(join(ROOT, 'scripts/theme/exceptions.
 const byName = name => FILES.find(file => basename(file.path) === name);
 
 describe('estrutura do tema', () => {
-  it('todo var(--x) usado nos CSS do app está definido (ou tem valor de reserva)', () => {
+  it('todo var(--x) usado nos CSS do app está definido (mesmo quando tem valor de reserva)', () => {
     const defined = new Set(FILES.flatMap(file => [...file.text.matchAll(/(--[\w-]+)\s*:/g)].map(match => match[1])));
     const missing = [];
     for (const file of FILES) {
-      for (const match of file.text.matchAll(/var\(\s*(--[\w-]+)\s*([,)])/g)) {
-        if (match[2] === ')' && !defined.has(match[1])) missing.push(`${basename(file.path)}: ${match[1]}`);
+      // Mesmo com valor de reserva, a variável precisa existir: a reserva esconderia uma variável apagada por engano.
+      for (const match of file.text.matchAll(/var\(\s*(--[\w-]+)\s*[,)]/g)) {
+        if (!defined.has(match[1])) missing.push(`${basename(file.path)}: ${match[1]}`);
       }
     }
     expect(missing).toEqual([]);
@@ -48,6 +49,16 @@ describe('estrutura do tema', () => {
     for (const exception of EXCEPTIONS) {
       expect(exception.file && exception.selector && exception.reason, JSON.stringify(exception)).toBeTruthy();
     }
+  });
+
+  it('Theme.css não define variáveis de cor (só a landing, fora de escopo, mantém as dela)', () => {
+    const LANDING = 'body.light-mode .home';
+    const offenders = [];
+    for (const rule of parseRules(byName('Theme.css').text)) {
+      if (rule.selector === LANDING) continue;
+      for (const declaration of rule.declarations) if (declaration.prop.startsWith('--')) offenders.push(`${rule.selector} { ${declaration.prop} }`);
+    }
+    expect(offenders).toEqual([]);
   });
 
   it('as variáveis de cor do tema são definidas em variables.css', () => {

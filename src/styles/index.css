@@ -28,7 +28,7 @@ body {
 
 /* Foco visível para acessibilidade */
 :focus-visible {
-  outline: 2px solid #3b82f6;
+  outline: 2px solid var(--accent-blue);
   outline-offset: 2px;
 }
 
@@ -49,7 +49,7 @@ body {
   position: absolute;
   top: -40px;
   left: 0;
-  background: #3b82f6;
+  background: var(--accent-blue);
   color: white;
   padding: 8px 16px;
   z-index: 1000;
@@ -84,15 +84,15 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #334155;
+  background: var(--c-334155);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #475569;
+  background: var(--c-475569);
 }
 
 /* Seleção de texto */
 ::selection {
-  background: rgba(59, 130, 246, 0.3);
+  background: var(--c-rgba-59-130-246-0_3);
 }

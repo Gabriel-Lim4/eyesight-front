@@ -8,7 +8,7 @@
 .analytics-workspace button,.analytics-link { display:inline-flex; align-items:center; justify-content:center; gap:8px; border:1px solid var(--border-color); background:var(--bg-container); color:var(--text-primary); border-radius:9px; padding:10px 14px; font-size:13px; font-weight:600; cursor:pointer; min-height:40px; }
 .analytics-workspace button:hover:not(:disabled) { border-color:var(--accent-blue); }
 .analytics-workspace button:disabled { opacity:.5; cursor:not-allowed; }
-.analytics-workspace button.analytics-primary { background:#2563eb; border-color:#2563eb; color:white; }
+.analytics-workspace button.analytics-primary { background:var(--c-2563eb); border-color:var(--c-2563eb); color:white; }
 .analytics-workspace label { display:flex; flex-direction:column; gap:7px; color:var(--text-secondary); font-size:12px; font-weight:600; min-width:0; }
 .analytics-workspace select,.analytics-workspace input { color:var(--text-primary); background:var(--bg-input); border:1px solid var(--border-color); padding:10px 12px; border-radius:8px; min-height:40px; font:inherit; font-size:13px; max-width:100%; }
 .analytics-workspace :focus-visible { outline:2px solid var(--accent-blue); outline-offset:3px; }
@@ -38,8 +38,8 @@
 .analytics-daily summary { cursor:pointer; padding:8px 0; }
 .analytics-daily caption { text-align:left; padding:12px; }
 .analytics-daily .analytics-table-scroll { max-height:260px; }
-.analytics-notice,.analytics-error { padding:16px; margin:16px 0; border:1px solid var(--border-color); border-left:3px solid #3b82f6; border-radius:8px; background:var(--bg-container); font-size:13px; }
-.analytics-error { border-left-color:#f87171; }
+.analytics-notice,.analytics-error { padding:16px; margin:16px 0; border:1px solid var(--border-color); border-left:3px solid var(--accent-blue); border-radius:8px; background:var(--bg-container); font-size:13px; }
+.analytics-error { border-left-color:var(--c-f87171); }
 .analytics-error button,.analytics-error a { margin:10px 12px 0 0; }
 .analytics-error a,.analytics-detail a { color:var(--accent-blue); display:inline-flex; gap:6px; align-items:center; }
 .analytics-empty,.analytics-loading { padding:48px 24px; text-align:center; }

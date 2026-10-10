@@ -1,18 +1,4 @@
 /* --- Visão geral em linguagem simples --- */
-:root {
-  --ov-good: #34d399;
-  --ov-stable: #93c5fd;
-  --ov-attention: #fbbf24;
-  --ov-unknown: #94a3b8;
-}
-
-body.light-mode {
-  --ov-good: #047857;
-  --ov-stable: #1d4ed8;
-  --ov-attention: #b45309;
-  --ov-unknown: #475569;
-}
-
 .ov-verdict {
   margin-bottom: 20px;
   padding: 20px 24px;
@@ -23,18 +9,18 @@ body.light-mode {
   color: var(--text-primary);
 }
 
-.ov-verdict.is-good { border-left-color: var(--ov-good); }
-.ov-verdict.is-stable { border-left-color: var(--ov-stable); }
-.ov-verdict.is-attention { border-left-color: var(--ov-attention); }
-.ov-verdict.is-insufficient { border-left-color: var(--ov-unknown); }
+.ov-verdict.is-good { border-left-color: var(--status-good); }
+.ov-verdict.is-stable { border-left-color: var(--status-stable); }
+.ov-verdict.is-attention { border-left-color: var(--status-attention); }
+.ov-verdict.is-insufficient { border-left-color: var(--status-unknown); }
 
 .ov-verdict-head { display: flex; gap: 12px; align-items: center; }
 .ov-verdict-head h2 { margin: 0; font-size: 0.95rem; color: var(--text-secondary); font-weight: 600; }
 .ov-status-label { font-weight: 700; font-size: 1rem; }
-.ov-verdict.is-good .ov-verdict-icon, .ov-verdict.is-good .ov-status-label { color: var(--ov-good); }
-.ov-verdict.is-stable .ov-verdict-icon, .ov-verdict.is-stable .ov-status-label { color: var(--ov-stable); }
-.ov-verdict.is-attention .ov-verdict-icon, .ov-verdict.is-attention .ov-status-label { color: var(--ov-attention); }
-.ov-verdict.is-insufficient .ov-verdict-icon, .ov-verdict.is-insufficient .ov-status-label { color: var(--ov-unknown); }
+.ov-verdict.is-good .ov-verdict-icon, .ov-verdict.is-good .ov-status-label { color: var(--status-good); }
+.ov-verdict.is-stable .ov-verdict-icon, .ov-verdict.is-stable .ov-status-label { color: var(--status-stable); }
+.ov-verdict.is-attention .ov-verdict-icon, .ov-verdict.is-attention .ov-status-label { color: var(--status-attention); }
+.ov-verdict.is-insufficient .ov-verdict-icon, .ov-verdict.is-insufficient .ov-status-label { color: var(--status-unknown); }
 .ov-verdict-icon { flex: none; }
 
 .ov-headline { margin: 12px 0 0; font-size: 1.25rem; font-weight: 600; line-height: 1.35; }
@@ -62,12 +48,12 @@ body.light-mode {
 .ov-value { display: block; margin-top: 6px; font-size: 1.6rem; }
 .ov-compare { display: flex; flex-wrap: wrap; gap: 4px 8px; align-items: center; margin: 6px 0 0; font-size: 0.85rem; color: var(--text-secondary); }
 .ov-compare strong { font-weight: 700; }
-.ov-compare.is-better, .ov-compare.is-better strong { color: var(--ov-good); }
-.ov-compare.is-worse, .ov-compare.is-worse strong { color: var(--ov-attention); }
-.ov-compare.is-stable { color: var(--ov-stable); }
+.ov-compare.is-better, .ov-compare.is-better strong { color: var(--status-good); }
+.ov-compare.is-worse, .ov-compare.is-worse strong { color: var(--status-attention); }
+.ov-compare.is-stable { color: var(--status-stable); }
 .ov-goal { margin: 6px 0 0; font-size: 0.85rem; font-weight: 600; }
-.ov-goal.is-within { color: var(--ov-good); }
-.ov-goal.is-above { color: var(--ov-attention); }
+.ov-goal.is-within { color: var(--status-good); }
+.ov-goal.is-above { color: var(--status-attention); }
 .ov-hint { margin: 8px 0 0; color: var(--text-secondary); font-size: 0.85rem; line-height: 1.4; }
 
 @media (max-width: 600px) {
@@ -128,7 +114,7 @@ body.light-mode {
 }
 
 .ov-unit { color: var(--text-secondary); font-size: 0.8rem; }
-.ov-goals .ov-error { color: var(--ov-attention); font-weight: 600; }
+.ov-goals .ov-error { color: var(--status-attention); font-weight: 600; }
 .ov-goals button { justify-self: start; }
 
 .ov-warning, .ov-fallback {

@@ -10,7 +10,7 @@
 
 body {
   font-family: 'Inter', sans-serif;
-  background: #081221;
+  background: var(--c-081221);
   color: white;
   overflow-x: hidden;
 }
@@ -18,7 +18,7 @@ body {
 .dashboard-content {
   flex: 1;
   padding: 40px;
-  background: #081221;
+  background: var(--c-081221);
   min-height: 100vh;
 }
 
@@ -30,7 +30,7 @@ body {
 }
 
 .subtitle {
-  color: #94a3b8;
+  color: var(--c-94a3b8);
   margin-bottom: 36px;
   font-size: 0.95rem;
 }
@@ -41,15 +41,15 @@ body {
   font-weight: 600;
   margin-top: 44px;
   margin-bottom: 16px;
-  color: #e2e8f0;
+  color: var(--c-e2e8f0);
   padding-bottom: 10px;
-  border-bottom: 1px solid #1f2937;
+  border-bottom: 1px solid var(--c-1f2937);
 }
 
 /* --- CARD BASE --- */
 .card {
-  background: #111827;
-  border: 1px solid #1f2937;
+  background: var(--c-111827);
+  border: 1px solid var(--c-1f2937);
   border-radius: 8px;
   padding: 20px;
   display: flex;
@@ -59,7 +59,7 @@ body {
 }
 
 .card:hover {
-  border-color: #334155;
+  border-color: var(--c-334155);
 }
 
 .card-header {
@@ -71,9 +71,9 @@ body {
 }
 
 .icon-box.google-accent {
-  background-color: rgba(217, 119, 6, 0.1) !important;
-  border: 1px solid rgba(217, 119, 6, 0.25) !important;
-  color: #d97706 !important;
+  background-color: var(--c-rgba-217-119-6-0_1) !important;
+  border: 1px solid var(--c-rgba-217-119-6-0_25) !important;
+  color: var(--c-d97706) !important;
   width: 36px;
   height: 36px;
   border-radius: 6px;
@@ -84,13 +84,13 @@ body {
 }
 
 .green-text {
-  color: #10b981;
+  color: var(--c-10b981);
   font-weight: 600;
   font-size: 0.85rem;
 }
 
 .card-title {
-  color: #94a3b8;
+  color: var(--c-94a3b8);
   font-size: 0.85rem;
   margin-bottom: 6px;
 }
@@ -98,7 +98,7 @@ body {
 .card-value {
   font-size: 1.65rem;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--c-ffffff);
   font-family: 'Inter', sans-serif;
   margin: 0;
   font-variant-numeric: tabular-nums;
@@ -115,8 +115,8 @@ body {
 /* --- FAIXA DE MÉTRICAS DE PERFORMANCE --- */
 /* Sem ícone em caixa aqui — nível hierárquico abaixo dos cards principais */
 .google-strip {
-  background: #111827;
-  border: 1px solid #1f2937;
+  background: var(--c-111827);
+  border: 1px solid var(--c-1f2937);
   border-radius: 8px;
   padding: 22px 10px;
   display: grid;
@@ -128,8 +128,8 @@ body {
   align-items: center;
   gap: 12px;
   padding: 0 20px;
-  border-right: 1px solid #1f2937;
-  color: #64748b;
+  border-right: 1px solid var(--c-1f2937);
+  color: var(--c-64748b);
   font-size: 1.05rem;
 }
 
@@ -138,21 +138,21 @@ body {
 }
 
 .google-strip-item p {
-  color: #94a3b8;
+  color: var(--c-94a3b8);
   font-size: 0.78rem;
   margin-bottom: 2px;
 }
 
 .google-strip-item strong {
-  color: #fff;
+  color: var(--c-ffffff);
   font-size: 1.1rem;
   font-variant-numeric: tabular-nums;
 }
 
 /* --- TABELA DE CAMPANHAS --- */
 .table-container {
-  background: #111827;
-  border: 1px solid #1f2937;
+  background: var(--c-111827);
+  border: 1px solid var(--c-1f2937);
   border-radius: 8px;
   padding: 8px 20px;
   margin-top: 8px;
@@ -168,9 +168,9 @@ body {
 .table th {
   text-align: left;
   padding: 14px 10px;
-  color: #64748b;
+  color: var(--c-64748b);
   font-weight: 500;
-  border-bottom: 1px solid #1f2937;
+  border-bottom: 1px solid var(--c-1f2937);
   font-size: 0.78rem;
   text-transform: uppercase;
   letter-spacing: 0.04em;
@@ -178,9 +178,9 @@ body {
 
 .table td {
   padding: 14px 10px;
-  border-bottom: 1px solid #1f2937;
+  border-bottom: 1px solid var(--c-1f2937);
   font-size: 0.9rem;
-  color: #cbd5e1;
+  color: var(--c-cbd5e1);
 }
 
 .table tbody tr:last-child td {
@@ -188,7 +188,7 @@ body {
 }
 
 .table tbody tr:hover td {
-  background: rgba(217, 119, 6, 0.04);
+  background: var(--c-rgba-217-119-6-0_04);
 }
 
 .status {
@@ -201,15 +201,15 @@ body {
 }
 
 .status.active {
-  background: rgba(16, 185, 129, 0.1);
-  color: #10b981;
-  border: 1px solid rgba(16, 185, 129, 0.25);
+  background: var(--c-rgba-16-185-129-0_1);
+  color: var(--c-10b981);
+  border: 1px solid var(--c-rgba-16-185-129-0_25);
 }
 
 .status.paused {
-  background: rgba(148, 163, 184, 0.08);
-  color: #94a3b8;
-  border: 1px solid rgba(148, 163, 184, 0.2);
+  background: var(--c-rgba-148-163-184-0_08);
+  color: var(--c-94a3b8);
+  border: 1px solid var(--c-rgba-148-163-184-0_2);
 }
 
 /* --- POR TIPO DE CAMPANHA: 3 cards de mesmo tamanho --- */
@@ -230,14 +230,14 @@ body {
 
 .card.type p {
   font-size: 0.78rem;
-  color: #64748b;
+  color: var(--c-64748b);
   margin: 0;
 }
 
 .card-extra-info {
   margin-top: 6px;
   font-size: 0.78rem;
-  color: #94a3b8;
+  color: var(--c-94a3b8);
   font-weight: 500;
 }
 
@@ -263,7 +263,7 @@ body {
   }
   .google-strip-item {
     border-right: none;
-    border-bottom: 1px solid #1f2937;
+    border-bottom: 1px solid var(--c-1f2937);
     padding: 12px 0;
   }
   .google-strip-item:last-child {
