@@ -26,7 +26,7 @@
 
   flex-shrink: 0;
 
-  background-color: var(--surface, var(--c-0b1120));
+  background-color: var(--c-0b1120);
   border-right: 1px solid var(--c-1b2436);
 
   padding: 30px 20px;
@@ -592,7 +592,7 @@
   background: var(--c-10b981);
 
   border: 2px solid
-    var(--surface, var(--c-0b1120));
+    var(--c-0b1120);
 }
 
 
