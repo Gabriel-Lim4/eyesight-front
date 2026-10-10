@@ -84,7 +84,7 @@ export default function Profile() {
         <p>Use pelo menos 8 caracteres.</p>
         <button className="identity-primary" disabled={busy || demo}>{busy ? 'Aguarde…' : 'Alterar senha'}</button>
       </form>
-      <SummarySettings weekly={profile.preferences?.summary?.weekly === true} nome={profile.nome} />
+      <SummarySettings weekly={profile.preferences?.summary?.weekly === true} alerts={profile.preferences?.summary?.alerts === true} nome={profile.nome} />
       <section className="identity-panel"><h2>Contas conectadas</h2><p>Gerencie suas integrações e confira o status de autorização das plataformas.</p><Link to="/app/account">Gerenciar contas</Link></section>
     </>}
   </div>;

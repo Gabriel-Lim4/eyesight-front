@@ -9,6 +9,7 @@ const INVALID = 'Este link não é válido ou expirou. Entre no app e desligue o
 export default function CancelSummary() {
   const [params] = useSearchParams();
   const token = params.get('t');
+  const alerts = params.get('e') === 'alertas';
   const [state, setState] = useState('idle');
   const [error, setError] = useState(token ? '' : INVALID);
 
@@ -17,7 +18,7 @@ export default function CancelSummary() {
     setState('sending');
     setError('');
     try {
-      await api.post('/resumo/cancelar', { token });
+      await api.post('/resumo/cancelar', alerts ? { token, escopo: 'alertas' } : { token });
       setState('done');
     } catch (err) {
       setState('idle');
@@ -27,9 +28,9 @@ export default function CancelSummary() {
 
   const invalid = !token || error === INVALID;
   return <main id="main-content" className="summary-cancel">
-    <h1>Parar de receber o resumo semanal?</h1>
+    <h1>{alerts ? 'Parar de receber os alertas?' : 'Parar de receber o resumo semanal?'}</h1>
     {state === 'done'
-      ? <p role="status">Pronto. Você não receberá mais o resumo semanal. Para voltar a receber, ligue em Meu perfil.</p>
+      ? <p role="status">{alerts ? 'Pronto. Você não receberá mais os alertas. Para voltar a receber, ligue em Meu perfil.' : 'Pronto. Você não receberá mais o resumo semanal. Para voltar a receber, ligue em Meu perfil.'}</p>
       : <>
         {error && <p className="summary-error" role="alert">{error}</p>}
         {!invalid && <button type="button" className="summary-button" aria-disabled={state === 'sending'} onClick={cancel}>

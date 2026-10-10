@@ -19,30 +19,35 @@ function exampleError(error) {
   return { text: EXAMPLE_FALLBACK, retry: true };
 }
 
-/* Seção "Resumo semanal por e-mail" do perfil: liga/desliga o envio e manda um exemplo para a própria conta. */
-export default function SummarySettings({ weekly, nome }) {
+const OPTIONS = {
+  weekly: { on: 'Resumo semanal ligado.', off: 'Resumo semanal desligado.' },
+  alerts: { on: 'Alertas ligados.', off: 'Alertas desligados.' },
+};
+
+/* Seção de e-mails do perfil: resumo semanal e alertas (cada um liga/desliga sozinho) e um exemplo para a própria conta. */
+export default function SummarySettings({ weekly, alerts, nome }) {
   const demo = isDemo();
-  const [checked, setChecked] = useState(Boolean(weekly));
-  const [confirmed, setConfirmed] = useState(Boolean(weekly));
+  const [values, setValues] = useState({ weekly: Boolean(weekly), alerts: Boolean(alerts) });
+  const [confirmed, setConfirmed] = useState({ weekly: Boolean(weekly), alerts: Boolean(alerts) });
   const [saving, setSaving] = useState(false);
   const [status, setStatus] = useState('');
   const [saveError, setSaveError] = useState('');
   const [example, setExample] = useState({ state: 'idle', text: '', retry: false });
 
-  // Uma gravação por vez; em falha volta ao último valor confirmado pelo servidor.
-  const toggle = async event => {
+  // Uma gravação por vez; em falha a caixa volta ao último valor confirmado pelo servidor.
+  const toggle = key => async event => {
     if (saving) return;
     const next = event.target.checked;
-    setChecked(next);
+    setValues(current => ({ ...current, [key]: next }));
     setSaving(true);
     setStatus('');
     setSaveError('');
     try {
-      await api.put('/auth/me', { nome, preferences: { summary: { weekly: next } } });
-      setConfirmed(next);
-      setStatus(next ? 'Resumo semanal ligado.' : 'Resumo semanal desligado.');
+      await api.put('/auth/me', { nome, preferences: { summary: { [key]: next } } });
+      setConfirmed(current => ({ ...current, [key]: next }));
+      setStatus(next ? OPTIONS[key].on : OPTIONS[key].off);
     } catch {
-      setChecked(confirmed);
+      setValues(current => ({ ...current, [key]: confirmed[key] }));
       setSaveError(SAVE_ERROR);
     } finally {
       setSaving(false);
@@ -64,8 +69,13 @@ export default function SummarySettings({ weekly, nome }) {
     <h2 id="summary-title"><Mail size={20} aria-hidden="true" /> Resumo semanal por e-mail</h2>
     <p>Toda segunda-feira, um e-mail com como estão seus anúncios, os 4 números e o que fazer agora. Você pode parar quando quiser.</p>
     <label className="summary-check">
-      <input type="checkbox" checked={checked} onChange={toggle} disabled={demo} aria-disabled={saving} />
+      <input type="checkbox" checked={values.weekly} onChange={toggle('weekly')} disabled={demo} aria-disabled={saving} />
       <span>Receber o resumo semanal</span>
+    </label>
+    <p>Quer ser avisado antes? Mande um e-mail quando seus anúncios passarem de bom ou estável para pedir atenção: no máximo um aviso por dia e, depois de um aviso, só outro três dias depois.</p>
+    <label className="summary-check">
+      <input type="checkbox" checked={values.alerts} onChange={toggle('alerts')} disabled={demo} aria-disabled={saving} />
+      <span>Avisar quando meus anúncios passarem a pedir atenção</span>
     </label>
     {demo && <p className="summary-note">Indisponível na demonstração.</p>}
     <div aria-live="polite" role="status">{status}</div>

@@ -115,3 +115,43 @@ describe('SummarySettings', () => {
     expect(box()).toBeChecked();
   });
 });
+
+describe('SummarySettings alerts', () => {
+  const alertsBox = () => screen.getByRole('checkbox', { name: 'Avisar quando meus anúncios passarem a pedir atenção' });
+
+  it('offers the alerts option, off by default, explaining the limits', () => {
+    mount();
+    expect(alertsBox()).not.toBeChecked();
+    expect(screen.getByText(/no máximo um aviso por dia/i)).toBeInTheDocument();
+  });
+
+  it('starts checked when the profile already has alerts on', () => {
+    mount({ alerts: true });
+    expect(alertsBox()).toBeChecked();
+  });
+
+  it('saves only the alerts key and says so, leaving the weekly box alone', async () => {
+    mount({ weekly: true });
+    fireEvent.click(alertsBox());
+    await waitFor(() => expect(api.put).toHaveBeenCalledWith('/auth/me', { nome: 'Ana', preferences: { summary: { alerts: true } } }));
+    expect(await screen.findByText('Alertas ligados.')).toBeInTheDocument();
+    expect(box()).toBeChecked();
+    fireEvent.click(alertsBox());
+    expect(await screen.findByText('Alertas desligados.')).toBeInTheDocument();
+  });
+
+  it('reverts only the alerts box when saving fails', async () => {
+    api.put.mockRejectedValueOnce(new Error('offline'));
+    mount({ weekly: true });
+    fireEvent.click(alertsBox());
+    expect(await screen.findByRole('alert')).toHaveTextContent('Não foi possível salvar. Tente de novo.');
+    expect(alertsBox()).not.toBeChecked();
+    expect(box()).toBeChecked();
+  });
+
+  it('is disabled in the demo', () => {
+    localStorage.setItem('eyesight-demo', '1');
+    mount();
+    expect(alertsBox()).toBeDisabled();
+  });
+});

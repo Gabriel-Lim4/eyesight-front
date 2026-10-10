@@ -46,4 +46,12 @@ describe('CancelSummary', () => {
     expect(screen.queryByRole('button', { name: 'Parar de receber' })).toBeNull();
     expect(api.post).not.toHaveBeenCalled();
   });
+
+  it('for an alerts link, asks about alerts and cancels only the alerts', async () => {
+    mount('/cancelar-resumo?t=abc&e=alertas');
+    expect(screen.getByRole('heading', { level: 1, name: 'Parar de receber os alertas?' })).toBeInTheDocument();
+    fireEvent.click(screen.getByRole('button', { name: 'Parar de receber' }));
+    expect(await screen.findByRole('status')).toHaveTextContent('Pronto. Você não receberá mais os alertas. Para voltar a receber, ligue em Meu perfil.');
+    expect(api.post).toHaveBeenCalledWith('/resumo/cancelar', { token: 'abc', escopo: 'alertas' });
+  });
 });
