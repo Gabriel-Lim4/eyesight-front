@@ -9,7 +9,11 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest",
-    "a11y": "node scripts/a11y-audit.mjs"
+    "a11y": "node scripts/a11y-audit.mjs",
+    "theme:snapshot": "node scripts/theme-snapshot.mjs",
+    "theme:compare": "node scripts/theme-compare.mjs",
+    "theme:pairs": "node scripts/theme-pairs.mjs",
+    "theme:stats": "node scripts/theme-stats.mjs"
   },
   "dependencies": {
     "@lottiefiles/dotlottie-react": "^0.19.1",

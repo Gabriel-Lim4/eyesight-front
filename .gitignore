@@ -35,3 +35,7 @@ coverage/
 
 # Relatório da auditoria de acessibilidade
 a11y-report.json
+
+# Linha de base do tema (local, grande)
+.theme-baseline/
+.theme-current/
