@@ -128,7 +128,6 @@ body.light-mode .lp {
 .lp button:focus-visible {
   outline: 3px solid var(--lp-link);
   outline-offset: 3px;
-  border-radius: 6px;
 }
 
 .lp-btn {
@@ -231,6 +230,10 @@ body.light-mode .lp {
   align-items: center;
   gap: 10px;
   margin-left: auto;
+}
+
+.lp .lp-menu-only {
+  display: none;
 }
 
 .lp-link-quiet {
@@ -731,6 +734,17 @@ body.light-mode .lp {
   }
 
   .lp-link-quiet {
+    display: none;
+  }
+
+  .lp .lp-menu-only {
+    display: inline-flex;
+  }
+}
+
+/* a 360px a barra não comporta o botão de cadastro; ele fica no menu e no topo da página */
+@media (max-width: 520px) {
+  .lp .lp-nav-register {
     display: none;
   }
 }

@@ -190,13 +190,19 @@ function Home() {
                 {texto}
               </a>
             ))}
+            <Link to="/login" className="lp-menu-only" onClick={closeMenu}>
+              Entrar
+            </Link>
+            <Link to="/cadastro" className="lp-menu-only" onClick={closeMenu}>
+              Cadastrar
+            </Link>
           </nav>
 
           <div className="lp-nav-actions">
             <Link to="/login" className="lp-link-quiet">
               Entrar
             </Link>
-            <Link to="/cadastro" className="lp-btn lp-btn-solid lp-btn-small">
+            <Link to="/cadastro" className="lp-btn lp-btn-solid lp-btn-small lp-nav-register">
               Cadastrar
             </Link>
             <ThemeToggle className="lp-theme" />
@@ -204,7 +210,7 @@ function Home() {
               type="button"
               className="lp-menu-toggle"
               onClick={() => setMenuOpen((v) => !v)}
-              aria-label="Abrir menu"
+              aria-label={menuOpen ? "Fechar menu" : "Abrir menu"}
               aria-expanded={menuOpen}
               aria-controls="lp-menu"
             >
@@ -214,7 +220,7 @@ function Home() {
         </div>
       </header>
 
-      <main>
+      <main id="main-content" tabIndex={-1}>
         {/* HERO: a frase do veredito é a própria mensagem do produto */}
         <section id="inicio" className="lp-hero">
           <div className="lp-wrap lp-hero-grid">

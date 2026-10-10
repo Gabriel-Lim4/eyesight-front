@@ -54,4 +54,19 @@ describe('Home (landing)', () => {
     fireEvent.click(botao);
     expect(botao).toHaveAttribute('aria-expanded', 'true');
   });
+
+  it('o conteúdo principal é o alvo do link de pular para o conteúdo', () => {
+    renderHome();
+    const main = screen.getByRole('main');
+    expect(main).toHaveAttribute('id', 'main-content');
+    expect(main).toHaveAttribute('tabindex', '-1');
+  });
+
+  it('o menu de celular oferece Entrar e troca o nome do botão ao abrir', () => {
+    renderHome();
+    const menu = screen.getByRole('navigation', { name: 'Seções da página' });
+    expect(within(menu).getByRole('link', { name: 'Entrar' })).toHaveAttribute('href', '/login');
+    fireEvent.click(screen.getByRole('button', { name: 'Abrir menu' }));
+    expect(screen.getByRole('button', { name: 'Fechar menu' })).toHaveAttribute('aria-expanded', 'true');
+  });
 });
