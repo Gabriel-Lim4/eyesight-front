@@ -49,6 +49,19 @@ describe('scanCss', () => {
   });
 });
 
+describe('scanCss com comentários difíceis', () => {
+  it('não perde as regras seguintes por causa de parêntese ou aspa soltos dentro de um comentário', () => {
+    const text = '.a {\n  /* largura fluida (nunca menor; a gente nao fecha o parêntese */\n  color: #fff; /* d\'agua */\n}\n.b { color: #000; }\n';
+    const rules = scanCss(text);
+    expect(rules.map(rule => rule.selectors[0])).toEqual(['.a', '.b']);
+    expect(rules[0].decls.map(item => item.prop)).toEqual(['color']);
+  });
+  it('lê todas as regras de um arquivo com comentários entre as declarações', () => {
+    const text = '.x {\n  /* a ( */\n  color: red;\n  /* b \' */\n  background: blue;\n}\n@media (max-width: 1px) {\n  /* c ) */\n  .y { color: #fff; }\n}\n.z { color: #111; }\n';
+    expect(scanCss(text).map(rule => rule.selectors[0])).toEqual(['.x', '.y', '.z']);
+  });
+});
+
 describe('planMigration', () => {
   const base = '.a { color: #fff; border: 1px solid #3b82f6; }\n';
   it('replaces a paired color by the varying token and removes the override', () => {
@@ -128,6 +141,82 @@ describe('planMigration', () => {
   it('leaves custom property definitions alone', () => {
     const files = [{ name: 'A.css', text: ':root { --x: #fff; }\n' }];
     expect(run(files, ['A.css']).out['A.css']).toBe(':root { --x: #fff; }\n');
+  });
+});
+
+describe('uma sobrescrita só sai quando todas as declarações originais que ela cobre foram emparelhadas', () => {
+  const override = { name: 'Theme.css', text: 'body.light-mode .a { color: #0f172a; }\n' };
+  it('mantém a sobrescrita se outra declaração original igual (em outro arquivo) não foi migrada', () => {
+    const files = [{ name: 'A.css', text: '.a { color: #fff; }\n' }, { name: 'B.css', text: '.a { color: #cbd5e1; }\n' }, override];
+    const { out } = run(files, ['A.css']);
+    expect(out['A.css']).toBe('.a { color: var(--text-primary); }\n');
+    expect(out['Theme.css']).toBe(override.text);
+  });
+  it('mantém a sobrescrita se a outra declaração original é do mesmo arquivo, mas sem variável para o par', () => {
+    const files = [{ name: 'A.css', text: '.a { color: #fff; }\n.a { color: #cbd5e1; }\n' }, override];
+    const { out } = run(files, ['A.css']);
+    expect(out['Theme.css']).toBe(override.text);
+    expect(out['A.css']).toContain('color: var(--c-cbd5e1)');
+  });
+  it('remove a sobrescrita quando todas as declarações originais foram emparelhadas com o mesmo valor claro', () => {
+    const files = [{ name: 'A.css', text: '.a { color: #fff; }\n' }, { name: 'B.css', text: '.a { color: #ffffff; }\n' }, override];
+    const { out } = run(files, ['A.css', 'B.css']);
+    expect(out['A.css']).toBe('.a { color: var(--text-primary); }\n');
+    expect(out['B.css']).toBe('.a { color: var(--text-primary); }\n');
+    expect(out['Theme.css']).toBe('');
+  });
+  it('mantém a sobrescrita quando uma declaração original com o mesmo seletor está dentro de @media e não foi emparelhada', () => {
+    const files = [{ name: 'A.css', text: '.a { color: #fff; }\n@media (max-width: 600px) { .a { color: #cbd5e1; } }\n' }, override];
+    const { out } = run(files, ['A.css']);
+    expect(out['A.css']).toContain('@media (max-width: 600px) { .a { color: var(--c-cbd5e1); } }');
+    expect(out['Theme.css']).toBe(override.text);
+  });
+});
+
+describe('cascata: vencedora do grupo, !important e regras com estado', () => {
+  const tokens = [...TOKENS, { name: '--c-0b1120--rgba-255-255-255-0_96', dark: '#0b1120', light: 'rgba(255, 255, 255, 0.96)', varying: true }, { name: '--bg-container', dark: '#0b1120', light: '#ffffff', varying: true }];
+  it('emparelha com a sobrescrita vencedora (a última) e remove o grupo inteiro', () => {
+    const files = [{ name: 'A.css', text: '.s { background: #0b1120; }\n' }, { name: 'Theme.css', text: 'body.light-mode .s { background: #ffffff; }\nbody.light-mode .s { background: rgba(255,255,255,.96); }\n' }];
+    const { out } = run(files, ['A.css'], tokens);
+    expect(out['A.css']).toBe('.s { background: var(--c-0b1120--rgba-255-255-255-0_96); }\n');
+    expect(out['Theme.css']).toBe('');
+  });
+  it('não emparelha nem remove quando a vencedora é !important: tudo vira constante', () => {
+    const files = [{ name: 'A.css', text: '.s { background: #0b1120; }\n' }, { name: 'Theme.css', text: 'body.light-mode .s { background: #ffffff !important; }\n' }];
+    const { out } = run(files, ['A.css', 'Theme.css'], tokens);
+    expect(out['A.css']).toBe('.s { background: var(--c-0b1120); }\n');
+    expect(out['Theme.css']).toBe('body.light-mode .s { background: var(--c-ffffff) !important; }\n');
+  });
+  it('uma sobrescrita !important mais antiga ainda vence a mais nova sem !important', () => {
+    const files = [{ name: 'A.css', text: '.s { background: #0b1120; }\n' }, { name: 'Theme.css', text: 'body.light-mode .s { background: #ffffff !important; }\nbody.light-mode .s { background: rgba(255,255,255,.96); }\n' }];
+    const { out } = run(files, ['A.css'], tokens);
+    expect(out['A.css']).toBe('.s { background: var(--c-0b1120); }\n');
+    expect(out['Theme.css']).toContain('background: #ffffff !important');
+  });
+  it('não emparelha quando existe regra do mesmo elemento com estado na mesma propriedade (:hover)', () => {
+    const files = [{ name: 'A.css', text: '.a { color: #fff; }\n.a:hover { color: #cbd5e1; }\n' }, { name: 'Theme.css', text: 'body.light-mode .a { color: #0f172a; }\n' }];
+    const { out } = run(files, ['A.css'], tokens);
+    expect(out['A.css']).toBe('.a { color: var(--c-ffffff); }\n.a:hover { color: var(--c-cbd5e1); }\n');
+    expect(out['Theme.css']).toBe('body.light-mode .a { color: #0f172a; }\n');
+  });
+  it('não emparelha quando existe regra com modificador (.a.ativo) na mesma propriedade', () => {
+    const files = [{ name: 'A.css', text: '.a { color: #fff; }\n.a.ativo { color: #3b82f6; }\n' }, { name: 'Theme.css', text: 'body.light-mode .a { color: #0f172a; }\n' }];
+    expect(run(files, ['A.css'], tokens).out['Theme.css']).toBe('body.light-mode .a { color: #0f172a; }\n');
+  });
+  it('estados de outra propriedade não impedem o emparelhamento', () => {
+    const files = [{ name: 'A.css', text: '.a { color: #fff; }\n.a:hover { background: #020617; }\n' }, { name: 'Theme.css', text: 'body.light-mode .a { color: #0f172a; }\n' }];
+    expect(run(files, ['A.css'], tokens).out['Theme.css']).toBe('');
+  });
+  it('pseudo-elementos (::before) não contam como estado do elemento', () => {
+    const files = [{ name: 'A.css', text: '.a { color: #fff; }\n.a::before { color: #3b82f6; }\n' }, { name: 'Theme.css', text: 'body.light-mode .a { color: #0f172a; }\n' }];
+    expect(run(files, ['A.css'], tokens).out['Theme.css']).toBe('');
+  });
+  it('sobrescritas com valores diferentes em arquivos diferentes não são emparelhadas', () => {
+    const files = [{ name: 'A.css', text: '.a { color: #fff; }\n' }, { name: 'Theme.css', text: 'body.light-mode .a { color: #0f172a; }\n' }, { name: 'Other.css', text: 'body.light-mode .a { color: #111827; }\n' }];
+    const { out } = run(files, ['A.css'], tokens);
+    expect(out['A.css']).toBe('.a { color: var(--c-ffffff); }\n');
+    expect(out['Theme.css']).toContain('#0f172a');
+    expect(out['Other.css']).toContain('#111827');
   });
 });
 

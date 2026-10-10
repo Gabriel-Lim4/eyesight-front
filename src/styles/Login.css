@@ -194,7 +194,7 @@ body {
 
 .login-box input:not([type="checkbox"]):focus {
   outline: none; /* a borda azul marca o foco nos campos de texto; a caixa de marcar mantém o contorno global */
-  border-color: #3b82f6;
+  border-color: var(--accent-blue);
 }
 
 /* Password input wrapper */

@@ -66,7 +66,10 @@ function parseDecls(text, start, end) {
   let segStart = start;
   const flush = (segEnd, hasSemicolon) => {
     let s = segStart;
-    while (s < segEnd && /\s/.test(text[s])) s++;
+    for (;;) {
+      while (s < segEnd && /\s/.test(text[s])) s++;
+      if (text.startsWith('/*', s) && s < segEnd) { const close = text.indexOf('*/', s + 2); s = close < 0 ? segEnd : close + 2; } else break;
+    }
     let e = segEnd;
     while (e > s && /\s/.test(text[e - 1])) e--;
     const colon = text.slice(s, e).indexOf(':');
@@ -106,6 +109,7 @@ export function scanCss(text) {
       if (header.startsWith('@')) { stack.push(header.replace(/\s+/g, ' ')); i++; segmentStart = i; continue; }
       let bodyEnd = i + 1;
       for (let depth = 0; bodyEnd < text.length; bodyEnd++) {
+        if (text[bodyEnd] === '/' && text[bodyEnd + 1] === '*') { const close = text.indexOf('*/', bodyEnd + 2); bodyEnd = (close < 0 ? text.length : close + 2) - 1; continue; }
         if (text[bodyEnd] === '"' || text[bodyEnd] === "'") { bodyEnd = skipString(text, bodyEnd) - 1; continue; }
         if (text[bodyEnd] === '(') depth++;
         if (text[bodyEnd] === ')') depth--;
@@ -159,15 +163,21 @@ const baseSelector = selector => (selector === LIGHT ? 'body' : selector.startsW
 const isOverrideRule = rule => rule.selectors.some(selector => selector === LIGHT || selector.startsWith(`${LIGHT} `));
 const cleanValue = value => value.replace(/\s*!important\s*$/i, '').trim();
 
-const ALIASES = { background: ['background-color'], 'background-color': ['background'] };
-for (const side of ['border', 'border-top', 'border-right', 'border-bottom', 'border-left', 'outline']) {
-  ALIASES[side] = [`${side}-color`];
-  ALIASES[`${side}-color`] = [side];
-}
-const propsToPair = prop => [prop, ...(ALIASES[prop] ?? [])];
+// Propriedades que pintam a mesma coisa (shorthand e longhand de cor) formam uma família.
+const FAMILY = prop => (prop === 'background' || prop === 'background-color' ? 'background'
+  : /^(border|outline)(-(top|right|bottom|left))?(-color)?$/.test(prop) ? prop.replace(/-color$/, '')
+    : prop);
+const aliasesOf = prop => (FAMILY(prop) === prop && !/^(background|border|outline)/.test(prop) ? [prop]
+  : FAMILY(prop) === 'background' ? ['background', 'background-color']
+    : [FAMILY(prop), `${FAMILY(prop)}-color`]);
+const isImportant = value => /!important\s*$/i.test(value);
+
+// Uma regra "estende" outra quando é o mesmo elemento com estado ou modificador (.a:hover, .a.ativo, .a[x]), nunca pseudo-elemento.
+const extendsSelector = (candidate, base) => candidate !== base && candidate.startsWith(base)
+  && /^(:(?!:)|\.|\[|#)/.test(candidate.slice(base.length));
 
 export function planMigration(files, tokens, { targets }) {
-  const parsed = files.map(file => ({ ...file, rules: scanCss(file.text) }));
+  const parsed = files.map((file, fileIndex) => ({ ...file, fileIndex, rules: scanCss(file.text) }));
   const rootDefs = {};
   const lightDefs = {};
   for (const file of parsed) {
@@ -187,25 +197,52 @@ export function planMigration(files, tokens, { targets }) {
     return next === undefined ? null : resolve(next, mode, depth + 1);
   };
 
-  const overrides = new Map();
+  // Grupos de sobrescrita: contexto + seletor-base + família da propriedade.
+  const groupKey = (context, selector, prop) => `${context}||${selector}||${FAMILY(prop)}`;
+  const groups = new Map();
   for (const file of parsed) {
     for (const rule of file.rules) {
       for (const selector of rule.selectors) {
         const base = baseSelector(selector);
         if (base === null) continue;
         for (const decl of rule.decls) {
-          const key = `${rule.context}||${base}||${decl.prop}`;
-          overrides.set(key, [...(overrides.get(key) ?? []), { file, rule, decl, selector }]);
+          const key = groupKey(rule.context, base, decl.prop);
+          groups.set(key, [...(groups.get(key) ?? []), { file, rule, decl, selector, important: isImportant(decl.value) }]);
         }
       }
     }
   }
+  // Vencedora do grupo: !important primeiro; entre iguais, a última do arquivo. Vários arquivos só valem se concordarem.
+  const winnerLight = entries => {
+    if (entries.some(entry => entry.important)) return { reason: 'sobrescrita !important' };
+    const lights = entries.map(entry => resolve(entry.decl.value, 'light'));
+    if (lights.some(light => light === null)) return { reason: 'sobrescrita não é cor simples' };
+    if (new Set(entries.map(entry => entry.file.name)).size > 1) {
+      return new Set(lights).size === 1 ? { light: lights[0] } : { reason: 'sobrescritas em arquivos diferentes' };
+    }
+    const last = entries.reduce((best, entry) => (entry.decl.valueStart > best.decl.valueStart ? entry : best));
+    return { light: resolve(last.decl.value, 'light') };
+  };
+
+  const baseDecls = new Map();
+  const baseSelectors = new Map(); // seletor → famílias de cor que ele declara
+  for (const file of parsed) {
+    for (const rule of file.rules) {
+      if (isOverrideRule(rule)) continue;
+      for (const selector of rule.selectors) {
+        for (const decl of rule.decls) {
+          baseDecls.set(`${selector}||${decl.prop}`, [...(baseDecls.get(`${selector}||${decl.prop}`) ?? []), decl]);
+          if (!decl.prop.startsWith('--') && COLOR_PROPS.test(decl.prop)) baseSelectors.set(selector, new Set([...(baseSelectors.get(selector) ?? []), FAMILY(decl.prop)]));
+        }
+      }
+    }
+  }
+  const hasStateRule = (selector, prop) => [...baseSelectors].some(([candidate, families]) => extendsSelector(candidate, selector) && families.has(FAMILY(prop)));
 
   const edits = Object.fromEntries(files.map(file => [file.name, []]));
   const skipped = [];
   const stats = { replaced: 0, paired: 0, removed: 0, created: 0 };
-  const confirmed = new Map(); // decl de sobrescrita → seletores já cobertos por uma troca
-  const handled = new Set(); // declarações-base já trocadas por par
+  const handled = new Map(); // declaração-base já trocada por par → valor claro usado
   const created = new Map();
   const targetFiles = parsed.filter(item => targets.includes(item.name));
   const isColorDecl = decl => !decl.prop.startsWith('--') && COLOR_PROPS.test(decl.prop);
@@ -219,36 +256,49 @@ export function planMigration(files, tokens, { targets }) {
     return token;
   };
 
-  // Passo 1: pares (cor no escuro + sobrescrita clara) que têm variável medida.
+  // Passo 1: pares (cor no escuro + sobrescrita clara vencedora) que têm variável medida.
   for (const file of targetFiles) {
     for (const rule of file.rules) {
       if (isOverrideRule(rule)) continue;
       for (const decl of rule.decls.filter(isColorDecl)) {
         const colors = findColors(decl.value).filter(color => color.normalized && color.normalized !== 'transparent');
         if (colors.length !== 1) continue;
-        const lists = rule.selectors.map(selector => propsToPair(decl.prop).flatMap(prop => overrides.get(`${rule.context}||${selector}||${prop}`) ?? []));
+        const lists = rule.selectors.map(selector => groups.get(groupKey(rule.context, selector, decl.prop)) ?? []);
         if (lists.every(list => list.length === 0)) continue;
         if (lists.some(list => list.length === 0)) { skip(file, rule, decl, 'sobrescrita parcial'); continue; }
-        const lights = lists.map(list => resolve(list[list.length - 1].decl.value, 'light'));
-        if (lights.some(light => light === null)) { skip(file, rule, decl, 'sobrescrita não é cor simples'); continue; }
-        if (new Set(lights).size !== 1) { skip(file, rule, decl, 'sobrescritas diferentes'); continue; }
-        const token = tokens.find(item => item.varying && item.dark === colors[0].normalized && item.light === lights[0]);
+        if (rule.selectors.some(selector => hasStateRule(selector, decl.prop))) { skip(file, rule, decl, 'regra com estado na mesma propriedade'); continue; }
+        const winners = lists.map(winnerLight);
+        const failed = winners.find(winner => winner.reason);
+        if (failed) { skip(file, rule, decl, failed.reason); continue; }
+        if (new Set(winners.map(winner => winner.light)).size !== 1) { skip(file, rule, decl, 'sobrescritas diferentes'); continue; }
+        const token = tokens.find(item => item.varying && item.dark === colors[0].normalized && item.light === winners[0].light);
         if (!token) { skip(file, rule, decl, 'sem variável medida para o par'); continue; }
         edits[file.name].push({ start: decl.valueStart + colors[0].start, end: decl.valueStart + colors[0].end, text: `var(${token.name})` });
-        handled.add(decl);
+        handled.set(decl, winners[0].light);
         stats.replaced++;
         stats.paired++;
-        for (const list of lists) for (const entry of list) confirmed.set(entry.decl, new Set([...(confirmed.get(entry.decl) ?? []), entry.selector]));
       }
     }
   }
 
-  // Remove as sobrescritas cujos seletores foram todos cobertos; a regra some se ficar vazia.
+  // Um grupo só sai quando TODAS as declarações originais que ele cobre (qualquer arquivo ou contexto) foram emparelhadas
+  // com a luz da vencedora, não há !important nem regra com estado; então a vencedora e as perdedoras saem juntas.
+  const removableGroup = new Set();
+  for (const [key, entries] of groups) {
+    const [, base, family] = key.split('||');
+    const winner = winnerLight(entries);
+    if (winner.reason) continue;
+    const props = aliasesOf(family);
+    const matches = props.flatMap(prop => baseDecls.get(`${base}||${prop}`) ?? []);
+    if (matches.length === 0 || !matches.every(match => handled.get(match) === winner.light)) continue;
+    if (hasStateRule(base, family)) continue;
+    removableGroup.add(key);
+  }
   const removed = new Set();
   for (const file of parsed) {
     for (const rule of file.rules) {
       if (!isOverrideRule(rule)) continue;
-      const removable = rule.decls.filter(decl => confirmed.has(decl) && rule.selectors.every(selector => confirmed.get(decl).has(selector)));
+      const removable = rule.decls.filter(decl => rule.selectors.every(selector => removableGroup.has(groupKey(rule.context, baseSelector(selector), decl.prop))));
       if (removable.length === 0) continue;
       removable.forEach(decl => removed.add(decl));
       stats.removed += removable.length;
