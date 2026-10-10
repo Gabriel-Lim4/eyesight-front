@@ -199,13 +199,13 @@ body {
 }
 
 .sidebar-footer .view-profile {
-  color: #64748b;
+  color: #94a3b8; /* contraste 6,5:1 sobre o fundo escuro da lateral */
   font-size: 0.8rem;
   transition: 0.2s;
 }
 
 .sidebar-footer .view-profile:hover {
-  color: #94a3b8;
+  color: #e2e8f0;
 }
 
 /* ==================================================================== */

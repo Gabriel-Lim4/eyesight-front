@@ -379,7 +379,7 @@ style={{
                     value={confirmarSenha}
                     onChange={(e) => setConfirmarSenha(e.target.value)}
                     disabled={loading}
-                    autoComplete="confirm-password"
+                    autoComplete="new-password"
                     spellCheck={false}
                   />
                   <button

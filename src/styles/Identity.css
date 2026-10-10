@@ -12,6 +12,7 @@
 .identity-page button.identity-primary { background:#2563eb; color:white; }
 .identity-page button:disabled { opacity:.55; cursor:not-allowed; }
 .identity-page a { color:var(--accent-blue); display:inline-flex; align-items:center; }
+body.light-mode .identity-page a { color:#1d4ed8; } /* o azul de destaque mede 3,67:1 sobre branco; este mede 6,7:1 */
 .identity-message { border:1px solid #16a34a; border-radius:10px; padding:14px; margin-bottom:20px; line-height:1.5; }
 .identity-message.error { border-color:#ef4444; }
 .identity-actions { display:flex; flex-wrap:wrap; gap:12px; margin-top:16px; }

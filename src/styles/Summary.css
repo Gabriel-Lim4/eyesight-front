@@ -33,5 +33,5 @@ body.light-mode .summary-error { border-color: #b45309; color: #b45309; }
 
 .summary-cancel { max-width: 520px; margin: 0 auto; padding: 48px 16px; color: var(--text-primary); }
 .summary-cancel h1 { margin: 0 0 16px; font-size: 1.5rem; }
-.summary-cancel a { color: var(--accent-blue); }
+.summary-cancel a { display: inline-flex; align-items: center; min-height: 44px; color: var(--accent-blue); }
 body.light-mode .summary-cancel a { color: #1d4ed8; }

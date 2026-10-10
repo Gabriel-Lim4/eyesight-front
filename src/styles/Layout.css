@@ -9,6 +9,7 @@
 @media(max-width:768px) { .app-main.dashboard-content { padding:22px 16px; } .demo-banner { padding:12px; } }
 @media(max-width:768px) {
  .app-shell .sidebar,.app-shell .sidebar.sidebar-collapsed { width:100%!important; min-width:100%!important; height:auto!important; min-height:0; padding:16px!important; position:relative!important; gap:12px; }
+ .app-shell .sidebar::after { display:none; } /* a linha de luz da lateral sai 1px da tela quando a barra ocupa a largura toda */
  .app-shell .sidebar>div:first-of-type { display:block; }
  .app-shell .sidebar-brand { margin-bottom:14px!important; }
  .app-shell .sidebar nav { overflow:visible; }

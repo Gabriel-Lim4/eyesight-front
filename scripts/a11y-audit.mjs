@@ -53,6 +53,9 @@ async function auditAttempt(browser, screen, theme, viewport, state) {
       if (demo) localStorage.setItem('eyesight-demo', '1');
     } catch { /* sem armazenamento */ }
   }, { themeName: theme, demo: screen.group === 'app' });
+  // A auditoria não depende da rede externa: as fontes do Google respondem vazias (a página usa as fontes de reserva).
+  await context.route(/^https:\/\/fonts\.googleapis\.com\//, route => route.fulfill({ status: 200, contentType: 'text/css', body: '' }));
+  await context.route(/^https:\/\/fonts\.gstatic\.com\//, route => route.abort());
   const page = await context.newPage();
   try {
     await page.goto(`${BASE}${screen.path}`, { waitUntil: 'domcontentloaded', timeout: PAGE_TIMEOUT });

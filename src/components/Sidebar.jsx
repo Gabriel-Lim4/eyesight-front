@@ -119,7 +119,7 @@ function Sidebar() {
 
           <li className={isActive("/app/google")} title={collapsed ? "Google Ads" : undefined}>
             <Link to="/app/google" aria-current={location.pathname === "/app/google" ? "page" : undefined}>
-              <SiGoogleads /> <span className="link-text">Google Ads</span>
+              <SiGoogleads aria-hidden="true" focusable="false" /> <span className="link-text">Google Ads</span>
             </Link>
           </li>
 

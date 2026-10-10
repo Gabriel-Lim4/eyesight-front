@@ -192,8 +192,8 @@ body {
   font-size: 0.95rem;
 }
 
-.login-box input:focus {
-  outline: none;
+.login-box input:not([type="checkbox"]):focus {
+  outline: none; /* a borda azul marca o foco nos campos de texto; a caixa de marcar mantém o contorno global */
   border-color: #3b82f6;
 }
 
@@ -211,18 +211,24 @@ body {
 
 .toggle-password-btn {
   position: absolute;
-  right: 8px;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
   background: none;
   border: none;
-  color: #6b7280;
+  color: #94a3b8; /* contraste 7:1 sobre o fundo escuro do campo */
   font-size: 0.8rem;
   cursor: pointer;
-  padding: 4px 8px;
+  padding: 0 12px;
   transition: color 0.2s;
 }
 
 .toggle-password-btn:hover {
-  color: #94a3b8;
+  color: #e2e8f0;
 }
 
 /* ERRO */
@@ -275,7 +281,7 @@ body {
   display: flex;
   align-items: center;
   margin: 22px 0;
-  color: #64748b;
+  color: #94a3b8;
   font-size: 0.85rem;
 }
 
