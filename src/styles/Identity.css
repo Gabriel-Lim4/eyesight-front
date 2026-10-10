@@ -1,0 +1,23 @@
+.identity-page { color:var(--text-primary); padding:28px; max-width:1180px; margin:0 auto; width:100%; box-sizing:border-box; }
+.identity-page header { margin-bottom:24px; }
+.identity-page h1 { font-size:28px; margin:0 0 8px; }
+.identity-page h2 { display:flex; align-items:center; gap:10px; font-size:19px; margin:0 0 20px; }
+.identity-page p { color:var(--text-secondary); line-height:1.6; }
+.identity-panel { background:var(--bg-container); border:1px solid var(--border-color); border-radius:16px; padding:24px; margin-bottom:20px; }
+.identity-fields { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:20px; }
+.identity-page label { display:flex; flex-direction:column; gap:8px; font-size:14px; }
+.identity-page input,.identity-page select { box-sizing:border-box; width:100%; background:var(--bg-input); color:var(--text-primary); border:1px solid var(--border-color); border-radius:8px; padding:12px; min-height:44px; }
+.identity-page button,.identity-page a { min-height:44px; }
+.identity-page button { cursor:pointer; border:1px solid var(--border-color); border-radius:8px; padding:10px 18px; background:var(--bg-input); color:var(--text-primary); }
+.identity-page button.identity-primary { background:#2563eb; color:white; }
+.identity-page button:disabled { opacity:.55; cursor:not-allowed; }
+.identity-page a { color:var(--accent-blue); display:inline-flex; align-items:center; }
+.identity-message { border:1px solid #16a34a; border-radius:10px; padding:14px; margin-bottom:20px; line-height:1.5; }
+.identity-message.error { border-color:#ef4444; }
+.identity-actions { display:flex; flex-wrap:wrap; gap:12px; margin-top:16px; }
+.identity-status { color:var(--text-secondary); font-size:14px; }
+.identity-account-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:20px; }
+.identity-page :focus-visible { outline:3px solid var(--accent-blue); outline-offset:3px; }
+.identity-page dialog { color:var(--text-primary); background:var(--bg-container); border:1px solid var(--border-color); border-radius:16px; padding:24px; max-width:480px; width:calc(100% - 48px); }
+.identity-page dialog::backdrop { background:rgba(0,0,0,.65); }
+@media(max-width:768px) { .identity-page { padding:20px 14px; } .identity-fields,.identity-account-grid { grid-template-columns:1fr; } .identity-panel { padding:20px; } }

@@ -1,0 +1,276 @@
+/* importação das fontes que vou usar no sistema */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Tomorrow:wght@400;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+  list-style: none;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: #081221;
+  color: white;
+  overflow-x: hidden;
+}
+
+.dashboard-content {
+  flex: 1;
+  padding: 40px;
+  background: #081221;
+  min-height: 100vh;
+}
+
+.dashboard-content h1 {
+  font-size: 2.2rem;
+  margin-bottom: 8px;
+  font-family: 'Tomorrow', sans-serif;
+  letter-spacing: -0.01em;
+}
+
+.subtitle {
+  color: #94a3b8;
+  margin-bottom: 36px;
+  font-size: 0.95rem;
+}
+
+.section-title {
+  font-size: 1.1rem;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  margin-top: 44px;
+  margin-bottom: 16px;
+  color: #e2e8f0;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #1f2937;
+}
+
+/* --- CARD BASE --- */
+.card {
+  background: #111827;
+  border: 1px solid #1f2937;
+  border-radius: 8px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: border-color 0.2s;
+}
+
+.card:hover {
+  border-color: #334155;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 14px;
+}
+
+.icon-box.google-accent {
+  background-color: rgba(217, 119, 6, 0.1) !important;
+  border: 1px solid rgba(217, 119, 6, 0.25) !important;
+  color: #d97706 !important;
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.05rem;
+}
+
+.green-text {
+  color: #10b981;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.card-title {
+  color: #94a3b8;
+  font-size: 0.85rem;
+  margin-bottom: 6px;
+}
+
+.card-value {
+  font-size: 1.65rem;
+  font-weight: 700;
+  color: #ffffff;
+  font-family: 'Inter', sans-serif;
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+/* --- VISÃO GERAL: 4 cards de mesmo tamanho, lado a lado --- */
+.google-overview-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-top: 8px;
+}
+
+/* --- FAIXA DE MÉTRICAS DE PERFORMANCE --- */
+/* Sem ícone em caixa aqui — nível hierárquico abaixo dos cards principais */
+.google-strip {
+  background: #111827;
+  border: 1px solid #1f2937;
+  border-radius: 8px;
+  padding: 22px 10px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.google-strip-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 20px;
+  border-right: 1px solid #1f2937;
+  color: #64748b;
+  font-size: 1.05rem;
+}
+
+.google-strip-item:last-child {
+  border-right: none;
+}
+
+.google-strip-item p {
+  color: #94a3b8;
+  font-size: 0.78rem;
+  margin-bottom: 2px;
+}
+
+.google-strip-item strong {
+  color: #fff;
+  font-size: 1.1rem;
+  font-variant-numeric: tabular-nums;
+}
+
+/* --- TABELA DE CAMPANHAS --- */
+.table-container {
+  background: #111827;
+  border: 1px solid #1f2937;
+  border-radius: 8px;
+  padding: 8px 20px;
+  margin-top: 8px;
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  color: white;
+}
+
+.table th {
+  text-align: left;
+  padding: 14px 10px;
+  color: #64748b;
+  font-weight: 500;
+  border-bottom: 1px solid #1f2937;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.table td {
+  padding: 14px 10px;
+  border-bottom: 1px solid #1f2937;
+  font-size: 0.9rem;
+  color: #cbd5e1;
+}
+
+.table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.table tbody tr:hover td {
+  background: rgba(217, 119, 6, 0.04);
+}
+
+.status {
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.status.active {
+  background: rgba(16, 185, 129, 0.1);
+  color: #10b981;
+  border: 1px solid rgba(16, 185, 129, 0.25);
+}
+
+.status.paused {
+  background: rgba(148, 163, 184, 0.08);
+  color: #94a3b8;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+/* --- POR TIPO DE CAMPANHA: 3 cards de mesmo tamanho --- */
+.google-type-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.google-type-featured h3,
+.card.type h3 {
+  margin-top: 0;
+  margin-bottom: 2px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.card.type p {
+  font-size: 0.78rem;
+  color: #64748b;
+  margin: 0;
+}
+
+.card-extra-info {
+  margin-top: 6px;
+  font-size: 0.78rem;
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+/* --- RESPONSIVIDADE --- */
+@media (max-width: 1024px) {
+  .google-overview-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .google-type-row {
+    grid-template-columns: 1fr;
+  }
+  .google-strip {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .google-overview-row {
+    grid-template-columns: 1fr;
+  }
+  .google-strip {
+    grid-template-columns: 1fr;
+  }
+  .google-strip-item {
+    border-right: none;
+    border-bottom: 1px solid #1f2937;
+    padding: 12px 0;
+  }
+  .google-strip-item:last-child {
+    border-bottom: none;
+  }
+  .dashboard-content {
+    padding: 20px;
+  }
+}

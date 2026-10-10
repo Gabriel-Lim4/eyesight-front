@@ -1,0 +1,42 @@
+/* --- Passo a passo das ações --- */
+.pl-plan { flex-basis: 100%; margin-top: 8px; }
+
+.pl-button,
+.pl-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 0 14px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text-primary);
+  font: inherit;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.pl-link { border-color: transparent; color: var(--accent-blue); text-decoration: underline; }
+body.light-mode .pl-link { color: #1d4ed8; }
+.pl-button:disabled,
+.pl-link:disabled,
+.pl-button[aria-disabled="true"],
+.pl-link[aria-disabled="true"] { opacity: 0.6; cursor: not-allowed; }
+.pl-button:focus-visible,
+.pl-link:focus-visible,
+.pl-steps input:focus-visible { outline: 2px solid var(--accent-blue); outline-offset: 2px; }
+
+.pl-progress { margin: 0 0 6px; color: var(--text-secondary); font-size: 0.85rem; font-weight: 600; }
+.pl-steps { display: grid; gap: 4px; margin: 0; padding: 0; list-style: none; }
+.pl-steps label { display: flex; align-items: flex-start; gap: 10px; min-height: 44px; padding: 8px 0; cursor: pointer; }
+.pl-steps input { flex: none; width: 22px; height: 22px; margin: 0; accent-color: var(--accent-blue); }
+.pl-steps span { overflow-wrap: anywhere; }
+.pl-steps input:checked + span { color: var(--text-secondary); text-decoration: line-through; }
+
+.pl-done { margin: 6px 0 0; color: var(--ov-good, #34d399); font-weight: 600; }
+.pl-meta { display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: center; margin: 6px 0 0; color: var(--text-secondary); font-size: 0.85rem; }
+
+.pl-error { margin: 8px 0 0; padding: 8px 12px; border: 1px solid #f59e0b; border-radius: 10px; color: #f59e0b; font-size: 0.9rem; }
+.pl-error p { margin: 0 0 6px; }
+body.light-mode .pl-error { border-color: #b45309; color: #b45309; }

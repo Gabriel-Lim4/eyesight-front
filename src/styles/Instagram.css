@@ -1,0 +1,338 @@
+/* importação das fontes */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+  list-style: none;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: #081221;
+  color: white;
+  overflow-x: hidden;
+}
+
+.dashboard-content {
+  flex: 1;
+  padding: 40px;
+  background: #081221;
+  min-height: 100vh;
+}
+
+.dashboard-content h1 {
+  font-size: 2.2rem;
+  margin-bottom: 8px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.subtitle {
+  color: #94a3b8;
+  margin-bottom: 36px;
+  font-size: 0.95rem;
+}
+
+.section-title {
+  margin-top: 44px;
+  margin-bottom: 16px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #e2e8f0;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #1f2937;
+}
+
+/* --- CARD BASE (reaproveitado do dashboard) --- */
+.card {
+  background: #111827;
+  border: 1px solid #1f2937;
+  border-radius: 8px;
+  padding: 20px;
+  transition: border-color 0.2s;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 14px;
+}
+
+.icon-box.instagram-accent {
+  background-color: rgba(217, 113, 74, 0.1) !important;
+  border: 1px solid rgba(217, 113, 74, 0.25) !important;
+  color: #d9714a !important;
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.05rem;
+}
+
+.green-text {
+  color: #10b981;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.card .card-title {
+  color: #94a3b8;
+  font-size: 0.85rem;
+  margin-bottom: 6px;
+  font-family: 'Inter', sans-serif;
+}
+
+.card .card-value {
+  font-size: 1.65rem;
+  font-weight: 700;
+  color: #ffffff;
+  font-family: 'Inter', sans-serif;
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.card-note {
+  display: block;
+  margin-top: 6px;
+  color: #64748b;
+  font-size: 0.78rem;
+}
+
+/* --- VISÃO GERAL: 4 cards de mesmo tamanho, lado a lado --- */
+.overview-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.card-highlight:hover,
+.card-ring:hover {
+  border-color: #d9714a;
+}
+
+.card-ring {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 12px;
+}
+
+.engagement-ring {
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+}
+
+.engagement-ring-inner {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: #111827;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #d9714a;
+  gap: 2px;
+}
+
+.engagement-ring-inner strong {
+  color: #fff;
+  font-size: 1rem;
+  font-variant-numeric: tabular-nums;
+}
+
+/* --- FAIXA DE ESTATÍSTICAS --- */
+.stats-strip {
+  background: #111827;
+  border: 1px solid #1f2937;
+  border-radius: 8px;
+  padding: 22px 10px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.stats-strip-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 20px;
+  border-right: 1px solid #1f2937;
+  color: #64748b;
+  font-size: 1.05rem;
+}
+
+.stats-strip-item:last-child {
+  border-right: none;
+}
+
+.stats-strip-item p {
+  color: #94a3b8;
+  font-size: 0.78rem;
+}
+
+.stats-strip-item strong {
+  color: #fff;
+  font-size: 1.1rem;
+  font-variant-numeric: tabular-nums;
+}
+
+/* --- POSTS: 4 cards de mesmo tamanho --- */
+.posts-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.post-card {
+  background: #111827;
+  border: 1px solid #1f2937;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+
+.post-card:hover {
+  border-color: #d9714a;
+}
+
+.post-image {
+  background: #0d1526;
+  height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid #1f2937;
+}
+
+.placeholder-insta-icon {
+  font-size: 2.2rem;
+  color: rgba(255, 255, 255, 0.06);
+}
+
+.post-info {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 12px 8px;
+}
+
+.post-info span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #94a3b8;
+  font-size: 0.82rem;
+}
+
+/* --- STORIES E REELS --- */
+.analytics-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-top: 8px;
+}
+
+.analytics-card {
+  background: #111827;
+  border: 1px solid #1f2937;
+  border-radius: 8px;
+  padding: 24px;
+  transition: border-color 0.2s;
+}
+
+.analytics-card:hover {
+  border-color: #d9714a;
+}
+
+.analytics-card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 22px;
+}
+
+.analytics-card-header h2 {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 1.05rem;
+  margin: 0;
+}
+
+.analytics-card-header .section-icon {
+  font-size: 1.15rem;
+  color: #d9714a;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 22px;
+}
+
+.stats-grid p {
+  color: #94a3b8;
+  font-size: 0.82rem;
+  font-family: 'Inter', sans-serif;
+}
+
+.stats-grid h1 {
+  font-size: 1.65rem;
+  font-weight: 700;
+  margin-top: 4px;
+  font-family: 'Inter', sans-serif;
+  font-variant-numeric: tabular-nums;
+}
+
+/* --- RESPONSIVIDADE --- */
+@media (max-width: 1024px) {
+  .overview-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .posts-grid, .analytics-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .overview-row,
+  .stats-strip,
+  .posts-grid,
+  .analytics-grid,
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+  .stats-strip-item {
+    border-right: none;
+    border-bottom: 1px solid #1f2937;
+    padding: 12px 0;
+  }
+  .stats-strip-item:last-child {
+    border-bottom: none;
+  }
+  .dashboard-content {
+    padding: 20px;
+  }
+}
+.instagram-controls { align-items:flex-end; }
+.instagram-controls label { min-width:190px; }
+.instagram-overview { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:20px; margin-bottom:20px; }
+.instagram-overview .card { background:var(--bg-container); border:1px solid var(--border-color); border-radius:16px; padding:24px; }
+.instagram-overview .card-value { color:var(--text-primary); font-size:26px; overflow-wrap:anywhere; }
+.instagram-overview .card-title,.instagram-overview .card-note { color:var(--text-secondary); }
+@media(max-width:768px) { .instagram-overview { grid-template-columns:1fr; } }

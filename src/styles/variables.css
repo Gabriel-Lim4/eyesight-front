@@ -1,0 +1,38 @@
+/* --- TEMA ESCURO (Padrão) --- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+:root {
+  --bg-page: #04070f;
+  --bg-container: #0b1120;
+  --bg-input: #020617;
+  --border-color: #1e293b;
+  --text-primary: #ffffff;
+  --text-secondary: #94a3b8;
+
+  /* Cores de destaque (NÃO MUDAM no modo claro) */
+  --accent-blue: #3b82f6;
+  --accent-purple: #9333ea;
+  --gradient-btn: linear-gradient(90deg, #3b82f6, #9333ea);
+  --gradient-left: linear-gradient(160deg, #051836, #150233);
+}
+
+/* --- TEMA CLARO --- */
+body.light-mode {
+  --bg-page: #f1f5f9;
+  --bg-container: #ffffff;
+  --bg-input: #f8fafc;
+  --border-color: #e2e8f0;
+  --text-primary: #0f172a;
+  --text-secondary: #64748b;
+
+  /* Mantém o painel esquerdo elegante no modo claro se desejar */
+  --gradient-left: linear-gradient(160deg, #1e3a8a, #581c87);
+}

@@ -1,0 +1,13 @@
+/* RESET GLOBAL */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* CONFIGURAÇÕES GERAIS */
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #020817;
+  overflow-x: hidden;
+}

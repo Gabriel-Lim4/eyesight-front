@@ -1,0 +1,23 @@
+.app-shell.dashboard-container { background:var(--bg-page); }
+.app-main.dashboard-content { min-width:0; background:var(--bg-page); padding:32px; color:var(--text-primary); }
+.demo-banner { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:14px; border:1px solid #3b82f6; border-radius:10px; padding:14px 18px; margin:0 auto 24px; max-width:1600px; background:var(--bg-container); font-family:'Segoe UI',sans-serif; }
+.demo-banner>div { display:flex; flex-wrap:wrap; gap:8px 14px; align-items:center; }
+.demo-banner strong { font-size:13px; color:var(--text-primary); }
+.demo-banner span { font-size:12px; color:var(--text-secondary); }
+.demo-banner button { cursor:pointer; border:1px solid var(--border-color); background:var(--bg-input); border-radius:7px; color:var(--text-primary); padding:9px 12px; }
+.demo-banner button:focus-visible { outline:2px solid var(--accent-blue); outline-offset:3px; }
+@media(max-width:768px) { .app-main.dashboard-content { padding:22px 16px; } .demo-banner { padding:12px; } }
+@media(max-width:768px) {
+ .app-shell .sidebar,.app-shell .sidebar.sidebar-collapsed { width:100%!important; min-width:100%!important; height:auto!important; min-height:0; padding:16px!important; position:relative!important; gap:12px; }
+ .app-shell .sidebar>div:first-of-type { display:block; }
+ .app-shell .sidebar-brand { margin-bottom:14px!important; }
+ .app-shell .sidebar nav { overflow:visible; }
+ .app-shell .sidebar nav ul { display:flex!important; flex-direction:row!important; flex-wrap:nowrap!important; gap:6px; overflow-x:auto!important; padding:0 0 6px; }
+ .app-shell .sidebar nav ul li { flex:0 0 auto; margin:0; }
+ .app-shell .sidebar nav ul li a { padding:10px 12px; min-height:42px; }
+ .app-shell .sidebar .link-text { display:inline!important; }
+ .app-shell .sidebar-theme { display:flex; margin:0; }
+ .app-shell .sidebar-footer { margin:0; padding-top:10px; }
+ .app-shell .sidebar-logout { margin-top:0; }
+ .app-shell .sidebar-toggle { display:none; }
+}

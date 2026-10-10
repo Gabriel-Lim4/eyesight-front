@@ -1,0 +1,119 @@
+/* --- Cartão "Primeiros passos" --- */
+.onboarding-card {
+  margin-bottom: 24px;
+  padding: 20px 24px;
+  background: var(--bg-container);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  color: var(--text-primary);
+}
+
+.onboarding-card h2 {
+  margin: 0 0 16px;
+  font-size: 1.1rem;
+}
+
+.onboarding-steps {
+  display: grid;
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.onboarding-step {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.onboarding-icon {
+  flex: none;
+  margin-top: 2px;
+  color: var(--text-secondary);
+}
+
+.onboarding-step.is-done .onboarding-icon { color: #10b981; }
+.onboarding-step.is-running .onboarding-icon { color: var(--accent-blue); animation: onboarding-spin 1s linear infinite; }
+.onboarding-step.is-error .onboarding-icon { color: #f59e0b; }
+
+@keyframes onboarding-spin { to { transform: rotate(360deg); } }
+
+.onboarding-step-body { min-width: 0; flex: 1; }
+
+.onboarding-step-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  align-items: baseline;
+}
+
+.onboarding-state {
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+}
+
+.onboarding-step-body p {
+  margin: 6px 0 0;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.onboarding-step-body .onboarding-error { color: #f59e0b; }
+body.light-mode .onboarding-step-body .onboarding-error { color: #b45309; }
+body.light-mode .onboarding-step.is-error .onboarding-icon { color: #b45309; }
+
+.onboarding-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.onboarding-actions button,
+.onboarding-actions a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 16px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text-primary);
+  font: inherit;
+  font-size: 0.9rem;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.onboarding-actions .onboarding-primary {
+  border-color: transparent;
+  background: var(--gradient-btn);
+  color: #ffffff;
+}
+
+.onboarding-actions button:focus-visible,
+.onboarding-actions a:focus-visible {
+  outline: 2px solid var(--accent-blue);
+  outline-offset: 2px;
+}
+
+.onboarding-note { color: var(--text-secondary); font-size: 0.85rem; }
+
+.onboarding-done {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-color);
+}
+
+.onboarding-done > p { margin: 0; font-weight: 600; }
+
+@media (max-width: 600px) {
+  .onboarding-card { padding: 16px; }
+  .onboarding-actions { flex-direction: column; align-items: stretch; }
+}
+
+.onboarding-offer { margin-top: 12px; }
+.onboarding-offer > p { margin: 0 0 8px; font-weight: 400; }
+.onboarding-offer button[aria-disabled="true"] { opacity: 0.6; cursor: not-allowed; }

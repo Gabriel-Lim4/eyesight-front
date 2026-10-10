@@ -1,0 +1,112 @@
+/* --- Botão e painel "Explicar" --- */
+.ex-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 0 14px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text-primary);
+  font: inherit;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.ex-button:disabled { opacity: 0.6; cursor: not-allowed; }
+.ex-button:focus-visible,
+.ex-panel button:focus-visible,
+.ex-panel textarea:focus-visible { outline: 2px solid var(--accent-blue); outline-offset: 2px; }
+
+.ex-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 900;
+  background: rgba(0, 0, 0, 0.45);
+}
+
+.ex-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 901;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: min(420px, 100%);
+  padding: 16px;
+  overflow-y: auto;
+  background: var(--bg-container);
+  border-left: 1px solid var(--border-color);
+  color: var(--text-primary);
+  box-shadow: -8px 0 24px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s ease;
+}
+
+.ex-panel:focus { outline: none; }
+
+.ex-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.ex-head h2 { margin: 0; font-size: 1.1rem; }
+
+.ex-close,
+.ex-retry,
+.ex-send,
+.ex-suggestions button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0 14px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text-primary);
+  font: inherit;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.ex-suggestions { display: flex; flex-direction: column; gap: 8px; }
+.ex-suggestions button { justify-content: flex-start; text-align: left; }
+.ex-suggestions button[aria-disabled="true"],
+.ex-send:disabled, .ex-send[aria-disabled="true"] { opacity: 0.6; cursor: not-allowed; }
+
+.ex-send { border-color: transparent; background: var(--gradient-btn); color: #ffffff; align-self: flex-end; }
+
+.ex-log { display: flex; flex-direction: column; gap: 8px; flex: 1; min-height: 80px; }
+.ex-message { margin: 0; padding: 10px 12px; border-radius: 10px; white-space: pre-wrap; overflow-wrap: anywhere; }
+.ex-message.is-user { align-self: flex-end; background: var(--accent-blue); color: #ffffff; }
+.ex-message.is-assistant { align-self: flex-start; border: 1px solid var(--border-color); }
+.ex-status { margin: 0; color: var(--text-secondary); font-size: 0.9rem; }
+
+.ex-error { padding: 10px 12px; border: 1px solid #f59e0b; border-radius: 10px; color: #f59e0b; }
+.ex-error p { margin: 0 0 8px; }
+body.light-mode .ex-error { border-color: #b45309; color: #b45309; }
+
+.ex-form { display: flex; flex-direction: column; gap: 8px; }
+.ex-form label { color: var(--text-secondary); font-size: 0.9rem; }
+.ex-form textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text-primary);
+  font: inherit;
+  resize: vertical;
+}
+
+@media (max-width: 600px) {
+  .ex-panel { width: 100%; border-left: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ex-panel { transition: none; }
+}
+
+.ex-note { margin: 0 0 12px; color: var(--text-secondary); font-size: 0.9rem; }

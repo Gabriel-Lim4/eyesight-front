@@ -1,0 +1,1162 @@
+/* ============================================================
+   SIDEBAR — EYESIGHT
+   ============================================================ */
+
+/* Evita que padding e bordas aumentem a largura real */
+.sidebar,
+.sidebar *,
+.sidebar *::before,
+.sidebar *::after {
+  box-sizing: border-box;
+}
+
+
+/* ============================================================
+   SIDEBAR PRINCIPAL
+   ============================================================ */
+
+.sidebar {
+  position: sticky;
+  top: 0;
+  left: 0;
+
+  width: 260px;
+  min-width: 260px;
+  height: 100vh;
+
+  flex-shrink: 0;
+
+  background-color: var(--surface, #0b1120);
+  border-right: 1px solid #1b2436;
+
+  padding: 30px 20px;
+
+  display: flex;
+  flex-direction: column;
+
+  z-index: 20;
+
+  /* Não corta o botão lateral */
+  overflow: visible;
+
+  transition:
+    width 0.25s ease,
+    min-width 0.25s ease,
+    padding 0.25s ease;
+}
+
+
+/* Linha de luz na lateral */
+.sidebar::after {
+  content: "";
+
+  position: absolute;
+  top: 0;
+  right: -1px;
+
+  width: 1px;
+  height: 100%;
+
+  background: linear-gradient(
+    180deg,
+    transparent,
+    rgba(59, 130, 246, 0.35) 35%,
+    rgba(139, 92, 246, 0.35) 65%,
+    transparent
+  );
+
+  pointer-events: none;
+}
+
+
+/* ============================================================
+   ÁREA INTERNA
+   ============================================================ */
+
+.sidebar > div:first-of-type {
+  display: flex;
+  flex-direction: column;
+
+  flex: 1;
+  min-height: 0;
+
+  overflow: hidden;
+}
+
+
+/* ============================================================
+   SIDEBAR RECOLHIDA
+   ============================================================ */
+
+.sidebar.sidebar-collapsed {
+  width: 82px;
+  min-width: 82px;
+
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+
+/*
+   BOTÃO RECOLHER / EXPANDIR */
+
+.sidebar-toggle {
+  position: absolute;
+
+  top: 28px;
+  right: -13px;
+
+  width: 26px;
+  height: 26px;
+
+  border-radius: 50%;
+
+  background: #131c30;
+  border: 1px solid #263349;
+
+  color: #94a3b8;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+
+  font-size: 0.78rem;
+
+  z-index: 50;
+
+  transition:
+    transform 0.25s ease,
+    background 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.sidebar-toggle:hover {
+  background: var(
+    --gradient-brand,
+    linear-gradient(135deg, #3b82f6, #8b5cf6)
+  );
+
+  border-color: transparent;
+  color: #ffffff;
+
+  box-shadow:
+    0 0 0 4px rgba(59, 130, 246, 0.12);
+}
+
+
+/* Gira a seta quando recolhida */
+.sidebar-collapsed .sidebar-toggle {
+  transform: rotate(180deg);
+}
+
+
+/* ============================================================
+   LOGO / MARCA
+   ============================================================ */
+
+.sidebar-brand {
+  width: 100%;
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 10px;
+
+  margin-bottom: 34px;
+
+  cursor: pointer;
+}
+
+
+/* Círculo da logo */
+.sidebar-logo-ring {
+  position: relative;
+
+  width: 62px;
+  height: 62px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+/* Anel gradiente */
+.sidebar-logo-ring::before {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  border-radius: 50%;
+
+  padding: 1.5px;
+
+  background: conic-gradient(
+    from 0deg,
+    #3b82f6,
+    #8b5cf6,
+    #06b6d4,
+    #3b82f6
+  );
+
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+
+  -webkit-mask-composite: xor;
+
+  mask-composite: exclude;
+
+  opacity: 0.55;
+
+  animation: sidebar-ring-spin 8s linear infinite;
+}
+
+
+@keyframes sidebar-ring-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+/* Logo */
+.sidebar-logo {
+  width: 46px !important;
+  height: 46px !important;
+
+  min-width: 46px;
+  min-height: 46px;
+
+  flex-shrink: 0;
+
+  object-fit: contain;
+
+  display: block;
+
+  position: relative;
+  z-index: 1;
+}
+
+
+/* Nome EYESIGHT */
+.sidebar-brand h2 {
+  margin: 0;
+  padding: 0;
+
+  width: 100%;
+
+  text-align: center;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  font-family: "Tomorrow", sans-serif;
+
+  font-size: 21px !important;
+  font-weight: 700;
+
+  line-height: 1.1;
+
+  letter-spacing: 0.02em;
+
+  background: linear-gradient(
+    90deg,
+    #ffffff,
+    #c7d5f5
+  );
+
+  -webkit-background-clip: text;
+  background-clip: text;
+
+  -webkit-text-fill-color: transparent;
+
+  transition:
+    opacity 0.2s ease,
+    width 0.2s ease;
+}
+
+
+/* Logo quando recolhida */
+.sidebar-collapsed .sidebar-brand {
+  gap: 0;
+}
+
+.sidebar-collapsed .sidebar-brand h2 {
+  display: none;
+}
+
+.sidebar-collapsed .sidebar-logo-ring {
+  width: 42px;
+  height: 42px;
+}
+
+.sidebar-collapsed .sidebar-logo {
+  width: 30px !important;
+  height: 30px !important;
+
+  min-width: 30px;
+  min-height: 30px;
+}
+
+
+/* ============================================================
+   MENU
+   ============================================================ */
+
+.sidebar ul {
+  list-style: none;
+
+  padding: 0;
+  margin: 0;
+
+  /* Não ocupa o espaço vazio até o rodapé */
+  flex: 0 0 auto;
+
+  max-height: calc(100vh - 180px);
+
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  padding-right: 4px;
+}
+
+
+/* Scrollbar Chrome */
+.sidebar ul::-webkit-scrollbar {
+  width: 5px;
+}
+
+.sidebar ul::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 10px;
+}
+
+.sidebar ul::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+
+/* Item */
+.sidebar ul li {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+
+  width: 100%;
+
+  gap: 12px;
+
+  padding: 11px 14px;
+
+  margin-bottom: 4px;
+
+  border-radius: 12px;
+
+  cursor: pointer;
+
+  color: #8291a8;
+
+  font-size: 0.92rem;
+  font-weight: 500;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+
+/* Link */
+.sidebar ul li a {
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  width: 100%;
+
+  color: inherit;
+
+  text-decoration: none;
+
+  min-width: 0;
+}
+
+
+/* Ícones */
+.sidebar ul li a svg {
+  font-size: 1.15rem !important;
+
+  flex-shrink: 0;
+
+  transition:
+    filter 0.2s ease,
+    color 0.2s ease;
+}
+
+
+/* Texto */
+.link-text {
+  white-space: nowrap;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+
+  font-size: 0.92rem !important;
+
+  transition:
+    opacity 0.2s ease,
+    width 0.2s ease;
+}
+
+
+/* ============================================================
+   HOVER
+   ============================================================ */
+
+.sidebar ul li:hover {
+  background: rgba(148, 163, 184, 0.08);
+
+  color: #e2e8f0;
+}
+
+
+/* ============================================================
+   ITEM ATIVO
+   ============================================================ */
+
+.sidebar ul li.active-purple {
+  background: linear-gradient(
+    90deg,
+    rgba(59, 130, 246, 0.14),
+    rgba(139, 92, 246, 0.08)
+  );
+
+  color: #cdd9ff !important;
+}
+
+
+/* Barrinha lateral */
+.sidebar ul li::before {
+  content: "";
+
+  position: absolute;
+
+  left: -4px;
+  top: 50%;
+
+  transform: translateY(-50%);
+
+  width: 3px;
+  height: 0;
+
+  border-radius: 4px;
+
+  background: linear-gradient(
+    180deg,
+    #3b82f6,
+    #8b5cf6
+  );
+
+  transition: height 0.2s ease;
+}
+
+
+.sidebar ul li.active-purple::before {
+  height: 62%;
+}
+
+
+/* Ícone ativo */
+.sidebar ul li.active-purple a svg {
+  color: #93c5fd;
+
+  filter:
+    drop-shadow(
+      0 0 6px rgba(59, 130, 246, 0.6)
+    );
+}
+
+
+/* ============================================================
+   SIDEBAR RECOLHIDA — MENU
+   ============================================================ */
+
+.sidebar-collapsed ul li {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.sidebar-collapsed ul li a {
+  justify-content: center;
+}
+
+.sidebar-collapsed .link-text {
+  display: none;
+}
+
+.sidebar-collapsed ul li::before {
+  left: -3px;
+}
+
+
+/* ============================================================
+   RODAPÉ / USUÁRIO
+   ============================================================ */
+
+.sidebar-footer {
+  position: relative;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  padding-top: 18px;
+  margin-top: 16px;
+
+  border-top: 1px solid #1b2436;
+
+  min-width: 0;
+}
+
+
+/* Rodapé recolhido */
+.sidebar-collapsed .sidebar-footer {
+  justify-content: center;
+}
+
+.sidebar-collapsed .sidebar-footer .user-info {
+  display: none;
+}
+
+
+/* Avatar */
+.sidebar-footer .avatar {
+  position: relative;
+
+  width: 40px;
+  height: 40px;
+
+  min-width: 40px;
+
+  flex-shrink: 0;
+
+  border-radius: 12px;
+
+  background: linear-gradient(
+    135deg,
+    #3b82f6,
+    #8b5cf6
+  );
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #ffffff;
+
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+
+/* Bolinha online */
+.sidebar-footer .avatar::after {
+  content: "";
+
+  position: absolute;
+
+  bottom: -2px;
+  right: -2px;
+
+  width: 11px;
+  height: 11px;
+
+  border-radius: 50%;
+
+  background: #10b981;
+
+  border: 2px solid
+    var(--surface, #0b1120);
+}
+
+
+/* Informações */
+.sidebar-footer .user-info {
+  display: flex;
+  flex-direction: column;
+
+  min-width: 0;
+
+  overflow: hidden;
+}
+
+
+/* Nome */
+.sidebar-footer .user-name {
+  color: #ffffff;
+
+  font-size: 0.9rem;
+
+  font-weight: 600;
+
+  white-space: nowrap;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+}
+
+
+/* Perfil */
+.sidebar-footer .view-profile {
+  color: #64748b;
+
+  font-size: 0.78rem;
+
+  text-decoration: none;
+
+  transition: color 0.2s ease;
+}
+
+.sidebar-footer .view-profile:hover {
+  color: #93c5fd;
+}
+
+
+/* ============================================================
+   DESKTOP GRANDE — 1920px+
+   ============================================================ */
+
+@media (min-width: 1920px) {
+
+  .sidebar {
+    width: 280px;
+    min-width: 280px;
+
+    padding: 34px 24px;
+  }
+
+  .sidebar.sidebar-collapsed {
+    width: 90px;
+    min-width: 90px;
+
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .sidebar-brand h2 {
+    font-size: 23px !important;
+  }
+
+}
+
+
+/* ============================================================
+   NOTEBOOK — ATÉ 1366px
+   ============================================================ */
+
+@media (max-width: 1366px) and (min-width: 1025px) {
+
+  .sidebar {
+    width: 245px;
+    min-width: 245px;
+
+    padding: 26px 17px;
+  }
+
+  .sidebar.sidebar-collapsed {
+    width: 78px;
+    min-width: 78px;
+
+    padding-left: 11px;
+    padding-right: 11px;
+  }
+
+  .sidebar-brand {
+    margin-bottom: 28px;
+  }
+
+  .sidebar ul li {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+}
+
+
+/* ============================================================
+   TABLETS — 769px ATÉ 1024px
+   ============================================================ */
+
+@media (min-width: 769px) and (max-width: 1024px) {
+
+  .sidebar {
+    width: 210px;
+    min-width: 210px;
+
+    padding: 24px 14px;
+  }
+
+  .sidebar.sidebar-collapsed {
+    width: 72px;
+    min-width: 72px;
+
+    padding-left: 9px;
+    padding-right: 9px;
+  }
+
+  .sidebar-brand {
+    margin-bottom: 24px;
+  }
+
+  .sidebar-logo-ring {
+    width: 50px;
+    height: 50px;
+  }
+
+  .sidebar-logo {
+    width: 38px !important;
+    height: 38px !important;
+
+    min-width: 38px;
+    min-height: 38px;
+  }
+
+  .sidebar-brand h2 {
+    font-size: 18px !important;
+  }
+
+  .sidebar ul li {
+    padding-top: 9px;
+    padding-bottom: 9px;
+
+    gap: 9px;
+  }
+
+  .sidebar ul li a {
+    gap: 9px;
+  }
+
+  .link-text {
+    font-size: 0.84rem !important;
+  }
+
+}
+
+
+/* ============================================================
+   CELULAR / TABLET PEQUENO — ATÉ 768px
+   ============================================================ */
+
+@media (max-width: 768px) {
+
+  .sidebar {
+    position: relative;
+
+    width: 100%;
+    min-width: 100%;
+
+    height: auto;
+    min-height: auto;
+
+    padding: 18px 16px;
+
+    border-right: none;
+    border-bottom: 1px solid #1b2436;
+  }
+
+  /* No celular não existe sidebar recolhida */
+  .sidebar.sidebar-collapsed {
+    width: 100%;
+    min-width: 100%;
+
+    padding: 18px 16px;
+  }
+
+  /* Esconde botão */
+  .sidebar-toggle {
+    display: none;
+  }
+
+  /* Logo */
+  .sidebar-brand {
+    flex-direction: row;
+
+    justify-content: flex-start;
+
+    gap: 10px;
+
+    margin-bottom: 18px;
+  }
+
+  .sidebar-brand h2 {
+    width: auto;
+
+    font-size: 18px !important;
+
+    text-align: left;
+  }
+
+  .sidebar-logo-ring {
+    width: 42px;
+    height: 42px;
+  }
+
+  .sidebar-logo {
+    width: 30px !important;
+    height: 30px !important;
+
+    min-width: 30px;
+    min-height: 30px;
+  }
+
+  /* Menu horizontal */
+  .sidebar ul {
+    display: flex;
+
+    width: 100%;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    gap: 6px;
+
+    padding: 2px 0 8px;
+
+    flex: none;
+
+    scrollbar-width: none;
+
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .sidebar ul::-webkit-scrollbar {
+    display: none;
+  }
+
+  .sidebar ul li {
+    flex-shrink: 0;
+
+    width: auto;
+
+    white-space: nowrap;
+
+    margin-bottom: 0;
+
+    padding: 9px 12px;
+  }
+
+  .sidebar ul li a {
+    width: auto;
+  }
+
+  .link-text {
+    display: inline;
+
+    font-size: 0.85rem !important;
+  }
+
+  /* Rodapé */
+  .sidebar-footer {
+    margin-top: 12px;
+
+    padding-top: 12px;
+  }
+
+  .sidebar-collapsed .sidebar-footer .user-info {
+    display: flex;
+  }
+
+}
+
+
+/* ============================================================
+   CELULARES PEQUENOS — ATÉ 480px
+   ============================================================ */
+
+@media (max-width: 480px) {
+
+  .sidebar {
+    padding: 14px 12px;
+  }
+
+  .sidebar.sidebar-collapsed {
+    padding: 14px 12px;
+  }
+
+  .sidebar-brand {
+    gap: 8px;
+
+    margin-bottom: 14px;
+  }
+
+  .sidebar-brand h2 {
+    font-size: 17px !important;
+  }
+
+  .sidebar-logo-ring {
+    width: 38px;
+    height: 38px;
+  }
+
+  .sidebar-logo {
+    width: 26px !important;
+    height: 26px !important;
+
+    min-width: 26px;
+    min-height: 26px;
+  }
+
+  .sidebar ul {
+    gap: 4px;
+  }
+
+  .sidebar ul li {
+    gap: 7px;
+
+    padding: 8px 10px;
+  }
+
+  .sidebar ul li a {
+    gap: 7px;
+  }
+
+  .sidebar ul li a svg {
+    font-size: 0.95rem !important;
+  }
+
+  .link-text {
+    font-size: 0.82rem !important;
+  }
+
+  .sidebar-footer .avatar {
+    width: 34px;
+    height: 34px;
+
+    min-width: 34px;
+
+    font-size: 0.75rem;
+  }
+
+  .sidebar-footer .user-name {
+    font-size: 0.8rem;
+  }
+
+  .sidebar-footer .view-profile {
+    font-size: 0.7rem;
+  }
+
+}
+
+
+/* ============================================================
+   CELULAR DEITADO — ALTURA PEQUENA
+   ============================================================ */
+
+@media (max-height: 500px) and (orientation: landscape) {
+
+  .sidebar {
+    width: 100%;
+    min-width: 100%;
+
+    height: auto;
+
+    position: relative;
+
+    padding: 10px 14px;
+  }
+
+  .sidebar.sidebar-collapsed {
+    width: 100%;
+    min-width: 100%;
+  }
+
+  .sidebar-toggle {
+    display: none;
+  }
+
+  .sidebar-brand {
+    flex-direction: row;
+
+    justify-content: flex-start;
+
+    margin-bottom: 8px;
+  }
+
+  .sidebar-brand h2 {
+    text-align: left;
+  }
+
+  .sidebar ul {
+    display: flex;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    padding-bottom: 5px;
+
+    scrollbar-width: none;
+  }
+
+  .sidebar ul::-webkit-scrollbar {
+    display: none;
+  }
+
+  .sidebar ul li {
+    flex-shrink: 0;
+
+    width: auto;
+
+    white-space: nowrap;
+
+    margin-bottom: 0;
+  }
+
+  .sidebar ul li a {
+    white-space: nowrap;
+  }
+
+}
+
+/* ============================================================
+   AJUSTE DE ALTURA / RESPONSIVIDADE
+   O menu agora usa apenas o espaço disponível e a área de tema
+   não participa do cálculo de altura do menu.
+   ============================================================ */
+
+.sidebar > div:first-of-type {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.sidebar > div:first-of-type .sidebar-brand {
+  flex-shrink: 0;
+}
+
+.sidebar > div:first-of-type ul {
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: none;
+  overflow-y: auto;
+}
+
+.sidebar-theme {
+  flex: 0 0 auto !important;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-top: 14px;
+  margin-top: 12px;
+  border-top: 1px solid #1b2436;
+  color: #94a3b8;
+}
+
+.sidebar-collapsed .sidebar-theme {
+  justify-content: center;
+}
+
+.sidebar-collapsed .sidebar-theme .link-text {
+  display: none;
+}
+
+@media (max-height: 760px) and (min-width: 769px) {
+  .sidebar {
+    padding-top: 18px;
+    padding-bottom: 16px;
+  }
+
+  .sidebar-brand {
+    margin-bottom: 18px;
+  }
+
+  .sidebar-logo-ring {
+    width: 52px;
+    height: 52px;
+  }
+
+  .sidebar-logo {
+    width: 38px !important;
+    height: 38px !important;
+    min-width: 38px;
+    min-height: 38px;
+  }
+
+  .sidebar ul li {
+    padding-top: 7px;
+    padding-bottom: 7px;
+    margin-bottom: 2px;
+  }
+
+  .sidebar-theme {
+    margin-top: 8px;
+    padding-top: 8px;
+  }
+
+  .sidebar-footer {
+    margin-top: 8px;
+    padding-top: 10px;
+  }
+}
+
+@media (max-width: 1024px) and (min-width: 769px) {
+  .sidebar ul li {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .sidebar ul li a {
+    gap: 8px;
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar > div:first-of-type {
+    overflow: visible;
+  }
+
+  .sidebar-theme {
+    border-top: 0;
+    margin-top: 4px;
+    padding-top: 0;
+  }
+}
+
+.sidebar-brand { background:transparent; border:0; color:inherit; }
+.sidebar nav { min-height:0; overflow-y:auto; }
+.sidebar nav a { min-height:28px; }
+.sidebar-logout { background:transparent; color:var(--text-secondary); border:1px solid var(--border-color); border-radius:8px; display:flex; gap:10px; align-items:center; justify-content:center; min-height:44px; margin-top:12px; cursor:pointer; }
+.sidebar-logout-error { color:var(--text-primary); font-size:12px; }
+.sidebar-footer .avatar { text-decoration:none; }
+.sidebar :focus-visible { outline:3px solid var(--accent-blue); outline-offset:3px; }
+body.light-mode .sidebar { background:var(--bg-container); }
+body.light-mode .sidebar-footer .user-name { color:var(--text-primary); }
+body.light-mode .sidebar-brand h2 { background:none; -webkit-text-fill-color:var(--text-primary); }
+body.light-mode .sidebar ul li.active-purple { color:#1d4ed8!important; }
+@media(max-width:768px) {
+ .sidebar.sidebar-collapsed .link-text,.sidebar.sidebar-collapsed .sidebar-theme .link-text { display:inline; }
+ .sidebar.sidebar-collapsed .sidebar-brand h2 { display:block; }
+ .sidebar nav ul { flex-wrap:wrap; overflow:visible; }
+ .sidebar nav a { min-height:28px; }
+ .sidebar.sidebar-collapsed .sidebar-footer { justify-content:flex-start; }
+ .sidebar.sidebar-collapsed .sidebar-theme { justify-content:flex-start; }
+}

@@ -1,0 +1,63 @@
+/* Esconde o cursor padrão só quando o JS confirma que dá pra usar o customizado
+   (ponteiro fino, tipo mouse) — nunca por CSS puro, pra nunca sumir o cursor
+   caso o JavaScript não carregue por algum motivo. */
+body.custom-cursor-active,
+body.custom-cursor-active * {
+  cursor: none;
+}
+
+.cursor-dot,
+.cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 9999;
+  border-radius: 50%;
+  will-change: transform;
+}
+
+/* Pontinho central, acompanha o mouse instantaneamente */
+.cursor-dot {
+  width: 6px;
+  height: 6px;
+  background: #3b82f6;
+  transition: transform 0.05s linear;
+}
+
+/* Anel externo, com leve atraso (suavização feita via JS) */
+.cursor-ring {
+  width: 34px;
+  height: 34px;
+  border: 1.5px solid rgba(59, 130, 246, 0.6);
+  background: rgba(59, 130, 246, 0.06);
+  transition: width 0.2s ease, height 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+}
+
+/* Estado de hover: passando por cima de links, botões, itens de menu... */
+.cursor-ring.cursor-hover {
+  width: 54px;
+  height: 54px;
+  background: rgba(59, 130, 246, 0.12);
+  border-color: #3b82f6;
+}
+
+/* Estado de clique: um leve "aperto" no anel */
+.cursor-ring.cursor-active {
+  width: 26px;
+  height: 26px;
+  background: rgba(59, 130, 246, 0.2);
+}
+
+/* Nunca ativa em telas de toque, mesmo que a classe seja adicionada por engano */
+@media (pointer: coarse) {
+  body.custom-cursor-active,
+  body.custom-cursor-active * {
+    cursor: auto;
+  }
+
+  .cursor-dot,
+  .cursor-ring {
+    display: none;
+  }
+}

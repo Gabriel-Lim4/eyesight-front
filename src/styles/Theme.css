@@ -1,0 +1,712 @@
+/* ============================================================
+   TEMA GLOBAL — EYESIGHT
+   A troca fica salva no navegador e vale para o site inteiro.
+   ============================================================ */
+
+:root {
+  --app-bg: #f5f7fb;
+  --app-surface: #ffffff;
+  --app-surface-2: #f8fafc;
+  --app-border: #e2e8f0;
+  --app-text: #111827;
+  --app-muted: #64748b;
+  --app-blue: #2563eb;
+  --app-purple: #7c3aed;
+}
+
+body {
+  background: #080c15;
+  color: #f8fafc;
+  transition: background-color .25s ease, color .25s ease;
+}
+
+body.light-mode {
+  background: var(--app-bg);
+  color: var(--app-text);
+}
+
+.theme-toggle {
+  width: 40px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  border: 1px solid rgba(148, 163, 184, .28);
+  border-radius: 8px;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background .2s ease, border-color .2s ease, color .2s ease;
+}
+
+.theme-toggle:hover {
+  background: rgba(59, 130, 246, .08);
+  border-color: rgba(59, 130, 246, .45);
+  color: var(--app-blue);
+}
+
+/* ---------- APP / DASHBOARD ---------- */
+body.light-mode .dashboard-container,
+body.light-mode .dashboard-content,
+body.light-mode .ai-page,
+body.light-mode .profile-page,
+body.light-mode .account-container,
+body.light-mode .meta-campaign-workspace {
+  background: var(--app-bg) !important;
+  color: var(--app-text);
+}
+
+body.light-mode .sidebar {
+  background: #ffffff !important;
+  border-right-color: var(--app-border) !important;
+  color: var(--app-text);
+}
+
+body.light-mode .sidebar-toggle {
+  background: #ffffff;
+  border-color: var(--app-border);
+  color: #64748b;
+}
+
+body.light-mode .sidebar-brand h2,
+body.light-mode .sidebar .user-name,
+body.light-mode .sidebar .link-text,
+body.light-mode .sidebar a {
+  color: var(--app-text);
+}
+
+body.light-mode .sidebar .view-profile {
+  color: var(--app-muted);
+}
+
+body.light-mode .sidebar li a:hover,
+body.light-mode .sidebar li.active-purple a {
+  background: #f1f5f9;
+  color: var(--app-blue);
+}
+
+body.light-mode .card,
+body.light-mode .chart-card,
+body.light-mode .analytics-card,
+body.light-mode .analytics-card-header,
+body.light-mode .dash-filter-panel,
+body.light-mode .dash-kpi-card,
+body.light-mode .dash-funnel-card,
+body.light-mode .dash-insight,
+body.light-mode .dash-highlight-card,
+body.light-mode .dash-roi-card,
+body.light-mode .account-card,
+body.light-mode .available-card,
+body.light-mode .conversation-card,
+body.light-mode .action-card,
+body.light-mode .profile-card,
+body.light-mode .social-card,
+body.light-mode .plan-card,
+body.light-mode .security-banner,
+body.light-mode .meta-filter-panel,
+body.light-mode .meta-spend-card,
+body.light-mode .meta-roas-card {
+  background: var(--app-surface) !important;
+  border-color: var(--app-border) !important;
+  color: var(--app-text);
+  box-shadow: 0 8px 24px rgba(15, 23, 42, .05) !important;
+}
+
+body.light-mode .table-container,
+body.light-mode .meta-table-wrap,
+body.light-mode .chat-container,
+body.light-mode .chat-messages,
+body.light-mode .chat-input-wrapper,
+body.light-mode .account-modal,
+body.light-mode .modal-card {
+  background: var(--app-surface) !important;
+  border-color: var(--app-border) !important;
+  color: var(--app-text);
+}
+
+body.light-mode .title-section h1,
+body.light-mode .section-title,
+body.light-mode .dash-header h1,
+body.light-mode .page-header-row h1,
+body.light-mode .profile-header h1,
+body.light-mode .account-header h1,
+body.light-mode .panel-title,
+body.light-mode .card-title,
+body.light-mode .card-value,
+body.light-mode .dash-kpi-primary,
+body.light-mode .dash-roi-value,
+body.light-mode .meta-roas-value,
+body.light-mode .meta-table-heading,
+body.light-mode .team-card h3 {
+  color: var(--app-text);
+}
+
+body.light-mode .subtitle,
+body.light-mode .card-extra-info,
+body.light-mode .dash-eyebrow,
+body.light-mode .dash-filter-label,
+body.light-mode .dash-legend-name,
+body.light-mode .dash-mini-stat,
+body.light-mode .profile-eyebrow,
+body.light-mode .account-eyebrow,
+body.light-mode .panel-eyebrow,
+body.light-mode .profile-stats,
+body.light-mode .section-subtitle,
+body.light-mode .available-info,
+body.light-mode .platform-username,
+body.light-mode .ad-account-info,
+body.light-mode .message-time {
+  color: var(--app-muted);
+}
+
+body.light-mode input,
+body.light-mode select,
+body.light-mode textarea,
+body.light-mode .chat-input {
+  background: #ffffff !important;
+  color: var(--app-text) !important;
+  border-color: var(--app-border) !important;
+}
+
+body.light-mode input::placeholder,
+body.light-mode textarea::placeholder {
+  color: #94a3b8;
+}
+
+body.light-mode .table th,
+body.light-mode .table td,
+body.light-mode .meta-campaign-table th,
+body.light-mode .meta-campaign-table td {
+  border-color: var(--app-border) !important;
+  color: var(--app-text);
+}
+
+body.light-mode .table tbody tr:hover,
+body.light-mode .meta-campaign-table tbody tr:hover {
+  background: #f8fafc !important;
+}
+
+/* ---------- LOGIN ---------- */
+body.light-mode .login-container,
+body.light-mode .login-page {
+  background: #f5f7fb !important;
+  color: var(--app-text);
+}
+
+body.light-mode .login-container {
+  background: #ffffff !important;
+  border-color: var(--app-border) !important;
+  box-shadow: 0 20px 50px rgba(15, 23, 42, .08);
+}
+
+body.light-mode .left-side {
+  background: linear-gradient(160deg, #1e3a8a, #581c87) !important;
+}
+
+body.light-mode .right-side {
+  background: #ffffff !important;
+}
+
+body.light-mode .login-box {
+  background: transparent !important;
+  color: var(--app-text);
+}
+
+body.light-mode .login-box h2 {
+  color: var(--app-text);
+}
+
+body.light-mode .login-box label {
+  color: var(--app-muted);
+}
+
+body.light-mode .login-box input {
+  background: #f8fafc !important;
+  border-color: var(--app-border) !important;
+  color: var(--app-text) !important;
+}
+
+body.light-mode .login-box input::placeholder {
+  color: #94a3b8;
+}
+
+body.light-mode .login-box input:focus {
+  border-color: var(--app-blue) !important;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, .1);
+}
+
+body.light-mode .erro-msg {
+  background: rgba(239, 68, 68, 0.08) !important;
+  border-color: rgba(239, 68, 68, 0.3) !important;
+  color: #dc2626 !important;
+}
+
+body.light-mode .forgot,
+body.light-mode .register,
+body.light-mode .terms-link {
+  color: var(--app-blue);
+}
+
+body.light-mode .register {
+  color: var(--app-muted);
+}
+
+body.light-mode .divider {
+  color: var(--app-muted);
+}
+
+body.light-mode .divider::before,
+body.light-mode .divider::after {
+  border-bottom-color: var(--app-border);
+}
+
+body.light-mode .terms-checkbox-container label {
+  color: var(--app-muted);
+}
+
+body.light-mode .strength-track {
+  background-color: #e2e8f0 !important;
+}
+
+body.light-mode .modal-content {
+  background: #ffffff !important;
+  border-color: var(--app-border) !important;
+  color: var(--app-text);
+  box-shadow: 0 20px 50px rgba(15, 23, 42, .15);
+}
+
+body.light-mode .modal-content h3 {
+  color: var(--app-blue);
+}
+
+body.light-mode .modal-body {
+  color: var(--app-text);
+}
+
+body.light-mode .modal-body h4 {
+  color: var(--app-text);
+}
+
+body.light-mode .modal-body::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+body.light-mode .modal-body::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+}
+
+/* ---------- FORGOT PASSWORD ---------- */
+body.light-mode .fp-back {
+  color: var(--app-muted);
+}
+
+body.light-mode .fp-back:hover {
+  color: var(--app-text);
+}
+
+body.light-mode .fp-subtitle {
+  color: var(--app-muted);
+}
+
+body.light-mode .fp-subtitle strong {
+  color: var(--app-text);
+}
+
+body.light-mode .fp-tab-btn {
+  background: #f8fafc !important;
+  border-color: var(--app-border) !important;
+  color: var(--app-muted);
+}
+
+body.light-mode .fp-tab-btn:hover {
+  border-color: var(--app-blue);
+  color: var(--app-text);
+}
+
+body.light-mode .fp-tab-btn.active {
+  background: rgba(37, 99, 235, 0.08) !important;
+  border-color: var(--app-blue) !important;
+  color: var(--app-blue) !important;
+  box-shadow: 0 0 10px rgba(37, 99, 235, 0.1);
+}
+
+body.light-mode .fp-resend {
+  color: var(--app-blue);
+}
+
+/* Password toggle button no tema claro */
+body.light-mode .toggle-password-btn {
+  color: var(--app-muted);
+}
+
+body.light-mode .toggle-password-btn:hover {
+  color: var(--app-text);
+}
+
+/* ---------- LANDING PAGE ---------- */
+body.light-mode .home {
+  --bg: #f7f8fb;
+  --surface: #ffffff;
+  --surface-2: #f1f5f9;
+  --surface-3: #eaf0f7;
+  --border: #dfe5ed;
+  --border-strong: #cbd5e1;
+  --text: #111827;
+  --text-muted: #64748b;
+  --text-dim: #94a3b8;
+  --accent: #2563eb;
+  --accent-strong: #1d4ed8;
+  --accent-soft: rgba(37, 99, 235, .07);
+  --accent-line: rgba(37, 99, 235, .20);
+  --focus: #7c3aed;
+  --focus-soft: rgba(124, 58, 237, .07);
+  background: var(--bg) !important;
+  color: var(--text);
+}
+
+body.light-mode .home::before {
+  display: none;
+}
+
+body.light-mode .navbar {
+  background: rgba(255,255,255,.94) !important;
+  border-bottom-color: var(--border) !important;
+}
+
+body.light-mode .navbar.scrolled {
+  background: rgba(255,255,255,.98) !important;
+  box-shadow: 0 8px 25px rgba(15,23,42,.06);
+}
+
+body.light-mode .logo,
+body.light-mode .nav-links a,
+body.light-mode .btn-login,
+body.light-mode .footer-logo {
+  color: var(--text);
+}
+
+body.light-mode .nav-links a:hover,
+body.light-mode .btn-login:hover {
+  color: var(--accent);
+}
+
+body.light-mode .btn-secondary {
+  background: #ffffff;
+  color: #334155;
+  border-color: #cbd5e1;
+}
+
+body.light-mode .btn-secondary:hover {
+  background: #f8fafc;
+  color: #111827;
+}
+
+body.light-mode .dashboard-demo,
+body.light-mode .about-visual-frame {
+  background: #ffffff;
+  border-color: var(--border);
+  box-shadow: 0 18px 45px rgba(15,23,42,.08);
+}
+
+body.light-mode .demo-window-bar {
+  background: #f8fafc;
+  color: #64748b;
+}
+
+body.light-mode .nav-links.open {
+  background: #ffffff;
+}
+
+body.light-mode .nav-links a {
+  border-bottom-color: var(--border);
+}
+
+
+/* ============================================================
+   REFINO DO TEMA CLARO — EYESIGHT
+   ============================================================ */
+
+body.light-mode {
+  --app-bg: #eef2f8;
+  --app-surface: #ffffff;
+  --app-surface-2: #f7f9fc;
+  --app-border: #d9e2ef;
+  --app-text: #111827;
+  --app-muted: #64748b;
+  --app-blue: #2563eb;
+  --app-purple: #7c3aed;
+}
+
+/* Fundo das páginas internas */
+body.light-mode .dashboard-content,
+body.light-mode .dashboard-container,
+body.light-mode .account-container,
+body.light-mode .profile-page,
+body.light-mode .ai-page {
+  background:
+    radial-gradient(circle at 92% 0%, rgba(37,99,235,.10), transparent 28%),
+    radial-gradient(circle at 8% 65%, rgba(124,58,237,.08), transparent 30%),
+    var(--app-bg) !important;
+}
+
+/* Cards que ainda estavam presos às cores do modo escuro */
+body.light-mode .dash-kpi-card,
+body.light-mode .dash-funnel-card,
+body.light-mode .dash-insight,
+body.light-mode .dash-mini-stat,
+body.light-mode .dash-platform-featured,
+body.light-mode .dash-platform-list-item,
+body.light-mode .chart-card,
+body.light-mode .card,
+body.light-mode .analytics-card,
+body.light-mode .google-strip,
+body.light-mode .google-strip-item,
+body.light-mode .google-type-featured,
+body.light-mode .post-card,
+body.light-mode .stats-strip,
+body.light-mode .analytics-grid .analytics-card,
+body.light-mode .meta-strip,
+body.light-mode .meta-campaign-workspace,
+body.light-mode .meta-filter-panel,
+body.light-mode .metrics-kpi-mini,
+body.light-mode .metrics-badge,
+body.light-mode .metrics-funnel-card,
+body.light-mode .table-container,
+body.light-mode .action-card,
+body.light-mode .conversation-card,
+body.light-mode .chat-container,
+body.light-mode .profile-card,
+body.light-mode .social-card,
+body.light-mode .plan-card,
+body.light-mode .security-banner,
+body.light-mode .account-card,
+body.light-mode .available-card {
+  background: var(--app-surface) !important;
+  border-color: var(--app-border) !important;
+  color: var(--app-text);
+}
+
+/* Elementos internos de cards */
+body.light-mode .dash-donut-wrap,
+body.light-mode .dash-platform-share-bar,
+body.light-mode .post-image,
+body.light-mode .engagement-ring-inner,
+body.light-mode .meta-roas-card,
+body.light-mode .metrics-ring-card {
+  background: var(--app-surface-2) !important;
+}
+
+body.light-mode .dash-donut-center,
+body.light-mode .dash-platform-list-top h4,
+body.light-mode .dash-funnel-step strong,
+body.light-mode .dash-kpi-card strong,
+body.light-mode .dash-insight-title,
+body.light-mode .dash-platform-featured h3,
+body.light-mode .dash-platform-list-item h4,
+body.light-mode .google-type-featured h3,
+body.light-mode .card-value,
+body.light-mode .metrics-kpi-mini strong,
+body.light-mode .metrics-strip-item strong,
+body.light-mode .meta-strip-item strong,
+body.light-mode .stats-strip-item strong,
+body.light-mode .analytics-card-header h2,
+body.light-mode .metrics-ring-inner strong,
+body.light-mode .metrics-badge-ring,
+body.light-mode .table,
+body.light-mode .table td,
+body.light-mode .meta-campaign-table td {
+  color: var(--app-text) !important;
+}
+
+body.light-mode .dash-filter-panel,
+body.light-mode .dash-filter-field select,
+body.light-mode .dash-filter-field input,
+body.light-mode .meta-filter-grid select,
+body.light-mode .meta-custom-date-range input[type="date"],
+body.light-mode .dash-custom-date-range input[type="date"],
+body.light-mode .meta-refresh-btn,
+body.light-mode .dash-refresh-btn {
+  background: #ffffff !important;
+  color: var(--app-text) !important;
+  border-color: var(--app-border) !important;
+}
+
+body.light-mode .dash-filter-label,
+body.light-mode .dash-filter-field > span,
+body.light-mode .dash-period-tag,
+body.light-mode .chart-eyebrow,
+body.light-mode .dash-mini-stat p,
+body.light-mode .dash-insight-text,
+body.light-mode .dash-platform-list-item span,
+body.light-mode .card-title,
+body.light-mode .card-extra-info,
+body.light-mode .subtitle,
+body.light-mode .stats-grid p,
+body.light-mode .stats-strip-item p,
+body.light-mode .meta-strip-item p,
+body.light-mode .meta-filter-grid label span,
+body.light-mode .meta-date-separator,
+body.light-mode .dash-date-separator {
+  color: var(--app-muted) !important;
+}
+
+/* Azul + roxo mais presentes no modo claro */
+body.light-mode .dash-kpi-primary,
+body.light-mode .dash-highlight-card,
+body.light-mode .dash-roi-card,
+body.light-mode .metrics-kpi-highlight,
+body.light-mode .meta-spend-card {
+  border-top: 2px solid transparent !important;
+  border-image: linear-gradient(90deg, var(--app-blue), var(--app-purple)) 1 !important;
+}
+
+body.light-mode .dash-kpi-icon,
+body.light-mode .dash-insight-icon,
+body.light-mode .icon-box,
+body.light-mode .icon-box.metrics-accent,
+body.light-mode .icon-box.meta-accent {
+  background: linear-gradient(135deg, rgba(37,99,235,.10), rgba(124,58,237,.10)) !important;
+  border-color: rgba(124,58,237,.18) !important;
+  color: var(--app-blue) !important;
+}
+
+body.light-mode .dash-period-pill.is-active,
+body.light-mode .meta-tabs button.active {
+  color: var(--app-blue) !important;
+}
+
+body.light-mode .dash-period-pill.is-active {
+  background: rgba(37,99,235,.09) !important;
+  border-color: rgba(37,99,235,.22) !important;
+}
+
+body.light-mode .dash-section-header h2,
+body.light-mode .section-title,
+body.light-mode .page-header-row h1,
+body.light-mode .dashboard-content h1,
+body.light-mode .analytics-card-header h2 {
+  color: var(--app-text);
+}
+
+/* Fundos de tabelas, barras e divisórias */
+body.light-mode .table-container,
+body.light-mode .meta-table-wrap {
+  background: #ffffff !important;
+}
+
+body.light-mode .table th,
+body.light-mode .table td,
+body.light-mode .meta-campaign-table th,
+body.light-mode .meta-campaign-table td,
+body.light-mode .metrics-strip-vertical,
+body.light-mode .metrics-strip-item,
+body.light-mode .stats-strip-item,
+body.light-mode .meta-strip-item {
+  border-color: var(--app-border) !important;
+}
+
+body.light-mode .dash-platform-share-bar,
+body.light-mode .metrics-table-bar,
+body.light-mode .meta-spend-track,
+body.light-mode .meta-share-bar {
+  background: #e7edf5 !important;
+}
+
+/* Sidebar */
+body.light-mode .sidebar {
+  background: rgba(255,255,255,.96) !important;
+  border-right-color: var(--app-border) !important;
+  box-shadow: 8px 0 28px rgba(37,99,235,.04);
+}
+
+body.light-mode .sidebar-brand h2 {
+  background: linear-gradient(90deg, #1d4ed8, #7c3aed);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+body.light-mode .sidebar ul li {
+  color: #64748b;
+}
+
+body.light-mode .sidebar ul li:hover,
+body.light-mode .sidebar ul li.active-purple {
+  background: linear-gradient(90deg, rgba(37,99,235,.10), rgba(124,58,237,.08));
+  color: #1d4ed8 !important;
+}
+
+body.light-mode .sidebar ul li.active-purple a svg {
+  color: #7c3aed;
+  filter: none;
+}
+
+body.light-mode .sidebar-theme,
+body.light-mode .sidebar-footer {
+  border-color: var(--app-border);
+}
+
+body.light-mode .sidebar-footer .user-name {
+  color: var(--app-text);
+}
+
+body.light-mode .sidebar-toggle {
+  background: #ffffff !important;
+  border-color: var(--app-border) !important;
+  color: #64748b !important;
+}
+
+/* Instagram / Google / Meta — remove remaining dark surfaces */
+body.light-mode .dashboard-content .google-strip,
+body.light-mode .dashboard-content .stats-strip,
+body.light-mode .dashboard-content .post-card,
+body.light-mode .dashboard-content .analytics-card,
+body.light-mode .dashboard-content .meta-connect-banner,
+body.light-mode .dashboard-content .meta-campaign-workspace,
+body.light-mode .dashboard-content .meta-table-wrap {
+  background: #ffffff !important;
+  border-color: var(--app-border) !important;
+}
+
+body.light-mode .meta-connect-text strong,
+body.light-mode .meta-connect-text p,
+body.light-mode .meta-table-heading h2,
+body.light-mode .analytics-card-header h2 {
+  color: var(--app-text);
+}
+
+/* Gráficos: linhas de grade mais suaves no claro */
+body.light-mode .metrics-tooltip,
+body.light-mode .dash-tooltip {
+  background: #ffffff !important;
+  border-color: var(--app-border) !important;
+  color: var(--app-text) !important;
+  box-shadow: 0 12px 28px rgba(15,23,42,.10);
+}
+
+/* Área de fundo das telas mantém a assinatura azul/roxa */
+body.light-mode .dash-bg-mesh::before,
+body.light-mode .metrics-bg-mesh::before,
+body.light-mode .meta-bg-mesh::before,
+body.light-mode .account-bg-mesh::before,
+body.light-mode .ai-bg-mesh::before,
+body.light-mode .profile-bg-mesh::before {
+  opacity: .12;
+}
+
+body.light-mode .dash-bg-mesh::after,
+body.light-mode .metrics-bg-mesh::after,
+body.light-mode .meta-bg-mesh::after,
+body.light-mode .account-bg-mesh::after,
+body.light-mode .ai-bg-mesh::after,
+body.light-mode .profile-bg-mesh::after {
+  opacity: .10;
+}
+
+/* Responsividade: conteúdo nunca fica escondido atrás da sidebar */
+@media (max-width: 768px) {
+  body.light-mode .sidebar {
+    box-shadow: 0 8px 24px rgba(15,23,42,.05);
+  }
+}
