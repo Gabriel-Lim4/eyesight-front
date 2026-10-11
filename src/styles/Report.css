@@ -17,7 +17,7 @@
   line-height: 1.5;
 }
 .rp-sheet h2 { margin: 0; font-size: 1.7rem; }
-.rp-sheet .ov-why h2 { margin: 0 0 8px; font-size: 1.05rem; }
+.rp-sheet .ov-why :is(h2, h3) { margin: 0 0 8px; font-size: 1.05rem; }
 .rp-sheet h3 { margin: 0 0 8px; font-size: 1.05rem; }
 .rp-head { padding-bottom: 14px; border-bottom: 2px solid var(--rp-ink); margin-bottom: 20px; }
 .rp-head p { margin: 4px 0 0; color: var(--rp-muted); font-size: 0.9rem; }
@@ -61,7 +61,7 @@
   @page { margin: 14mm; }
   :root { --rp-paper: #ffffff; }
   html, body, .app-shell.dashboard-container, .app-main.dashboard-content { display: block; height: auto; min-height: 0; margin: 0; padding: 0; overflow: visible; background: var(--rp-paper); }
-  .sidebar, .demo-banner, .rp-intro, .rp-controls, .rp-screen-only { display: none; }
+  .app-shell .sidebar, .app-shell .demo-banner, .rp-page .rp-intro, .rp-page .rp-controls, .rp-page .rp-screen-only { display: none; }
   .rp-page { display: block; }
   .rp-sheet { max-width: none; padding: 2mm; border: 0; border-radius: 0; }
   .rp-sheet .rp-status { color: var(--rp-ink); }

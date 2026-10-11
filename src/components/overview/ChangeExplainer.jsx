@@ -5,11 +5,12 @@ import '../../styles/Overview.css';
 const PREFIX = { main: 'O principal motivo: ', also: 'Também contribuiu: ', offset: 'Ajudou a compensar: ' };
 
 /* "Por que mudou?": mostra qual fator moveu o custo, em linguagem simples. Some quando não há dado suficiente. */
-export default function ChangeExplainer({ explanation, ctx }) {
+export default function ChangeExplainer({ explanation, ctx, level = 2 }) {
+  const Heading = `h${level}`;
   const lines = explanationLines(explanation);
   if (!lines.length) return null;
   return <section className="ov-why" role="region" aria-labelledby="ov-why-title">
-    <h2 id="ov-why-title">{explanationTitle(explanation)}</h2>
+    <Heading id="ov-why-title">{explanationTitle(explanation)}</Heading>
     <ul>
       {lines.map(line => <li key={line.kind + line.text} className={`is-${line.kind}`}>{PREFIX[line.kind]}{line.text}</li>)}
     </ul>

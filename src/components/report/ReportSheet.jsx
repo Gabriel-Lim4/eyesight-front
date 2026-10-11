@@ -59,7 +59,7 @@ export default function ReportSheet({ data, clientName = '', platformLabel, gene
           })}
         </dl>
       </section>
-      <ChangeExplainer explanation={data.changeExplanation} ctx={ctx} />
+      <ChangeExplainer explanation={data.changeExplanation} ctx={ctx} level={3} />
       <section className="rp-section" aria-labelledby="rp-actions" role="region">
         <h3 id="rp-actions">O que fazer agora</h3>
         <ul>{verdict.actions.map(action => <li key={`${action.code}-${action.campaignId ?? ''}`}>{actionText(action, ctx)}</li>)}</ul>

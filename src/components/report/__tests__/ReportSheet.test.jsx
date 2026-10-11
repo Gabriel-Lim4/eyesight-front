@@ -64,6 +64,13 @@ describe('ReportSheet', () => {
     expect(within(without.container).queryByText(/Por que o custo/)).toBeNull();
   });
 
+  it('keeps the heading levels in order: the explanation is a section title like the others', () => {
+    mount();
+    const levels = screen.getAllByRole('heading').map(heading => heading.tagName);
+    expect(levels[0]).toBe('H2');
+    expect(levels.slice(1).every(tag => tag === 'H3')).toBe(true);
+  });
+
   it('lists what to do now', () => {
     mount();
     const actions = screen.getByRole('region', { name: 'O que fazer agora' });

@@ -142,7 +142,7 @@
   border-radius: 12px;
   color: var(--text-primary);
 }
-.ov-why h2 { margin: 0 0 8px; font-size: 1rem; }
+.ov-why :is(h2, h3) { margin: 0 0 8px; font-size: 1rem; }
 .ov-why ul { margin: 0; padding-left: 20px; }
 .ov-why li { margin-bottom: 6px; line-height: 1.45; }
 .ov-why li.is-main { font-weight: 600; }

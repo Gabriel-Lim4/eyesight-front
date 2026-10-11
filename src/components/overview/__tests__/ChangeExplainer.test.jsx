@@ -20,4 +20,11 @@ describe('ChangeExplainer', () => {
     expect(items[1]).toHaveTextContent('Também contribuiu: Seus anúncios ficaram mais caros de mostrar');
     expect(region).toHaveTextContent('Comparado com os 30 dias anteriores');
   });
+
+  it('uses the heading level it is given, h2 by default', () => {
+    const { rerender } = render(<ChangeExplainer explanation={explanation} ctx={ctx} />);
+    expect(screen.getByRole('heading', { level: 2 })).toBeInTheDocument();
+    rerender(<ChangeExplainer explanation={explanation} ctx={ctx} level={3} />);
+    expect(screen.getByRole('heading', { level: 3 })).toBeInTheDocument();
+  });
 });
