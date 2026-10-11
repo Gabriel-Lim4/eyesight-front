@@ -2,6 +2,7 @@ import ExplainerPanel from '../explainer/ExplainerPanel';
 import { STATE_COPY } from '../explainer/explainerCopy';
 import { useExplainer } from '../explainer/useExplainer';
 import { usePlans } from '../plans/usePlans';
+import ChangeExplainer from './ChangeExplainer';
 import GoalsForm from './GoalsForm';
 import HighlightCards from './HighlightCards';
 import NextActions from './NextActions';
@@ -30,6 +31,7 @@ export default function SimpleOverview({ data, filters, alertSettings, reload })
   return <>
     {explainer.available === false && <p id="ov-ai-unavailable" className="ex-note" role="status">{STATE_COPY.unavailable}</p>}
     <VerdictBanner verdict={verdict} scopeLabel={scopeLabel} ctx={ctx} explain={explain} />
+    <ChangeExplainer explanation={data.changeExplanation} ctx={ctx} />
     {data.currency === 'UNKNOWN' && <p className="ov-warning">Não conseguimos identificar a moeda da sua conta.</p>}
     <HighlightCards highlights={verdict.highlights} indicator={verdict.indicator} basis={verdict.basis} ctx={ctx} goals={{ cpaMax: alertSettings?.cpaMax }} explain={explain} />
     <NextActions actions={verdict.actions} ctx={ctx} explain={explain} plans={plans} aiAvailable={explainer.available !== false} />

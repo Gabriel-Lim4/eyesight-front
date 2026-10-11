@@ -89,6 +89,13 @@ describe('offline demo', () => {
     expect(demoAnalytics({ periodo: 'last_7d' }).verdict).toEqual(demoAnalytics({ periodo: 'last_7d' }).verdict);
     await expect(demoAdapter({ method: 'put', url: '/metricas/alertas', data: '{}' })).rejects.toMatchObject({ response: { status: 400, data: { demo: true } } });
   });
+  it('tells a story: the conversion rate drop explains the cost per result increase in the last 30 days', () => {
+    const data = demoAnalytics({ periodo: 'last_30d' });
+    expect(data.changeExplanation.indicator).toBe('cpa');
+    expect(data.changeExplanation.main).toBe('cvr');
+    expect(data.changeExplanation.costChange).toBeGreaterThan(5);
+    expect(demoAnalytics({ periodo: 'last_30d', campaignId: 1 }).changeExplanation).toBeNull();
+  });
   it('exports only filtered demo rows to a CSV blob', async () => {
     const response = await demoAdapter({ method: 'get', url: '/metricas/exportar', params: { campaignId: 4 } });
     expect(response.data).toBeInstanceOf(Blob); expect(response.data.type).toContain('text/csv');

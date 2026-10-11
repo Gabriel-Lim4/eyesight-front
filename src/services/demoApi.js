@@ -1,6 +1,9 @@
 import { AxiosError } from 'axios';
+import { explainCostChange } from '../utils/changeMath';
 
 const DAY = 86400000;
+const RECENT_DROP_DAYS = 15;
+const CONVERSION_DROP = 0.45;
 const campaigns = [
   { id: 1, name: 'Demonstração · Coleção primavera', platform: 'meta' },
   { id: 2, name: 'Demonstração · Remarketing catálogo', platform: 'meta' },
@@ -45,7 +48,10 @@ function values(id, date) {
   const wave = ((day * 17 + id * 29) % 23) / 23;
   const impressions = Math.round(1100 + id * 370 + wave * 850);
   const clicks = Math.round(impressions * (0.012 + id * 0.003 + wave * 0.005));
-  const conversions = Math.max(1, Math.round(clicks * (0.04 + id * 0.006)));
+  // História da demonstração: nos últimos dias, duas campanhas perdem taxa de conversão (o painel explica por quê).
+  const dropping = id === 2 || id === 3;
+  const recent = parseDate(today()) - parseDate(date) < RECENT_DROP_DAYS * DAY;
+  const conversions = Math.max(1, Math.round(clicks * (0.04 + id * 0.006) * (dropping && recent ? CONVERSION_DROP : 1)));
   return { impressions, clicks, spend: Math.round(clicks * (0.9 + id * 0.16 + wave * 0.3) * 100) / 100, conversions, revenue: conversions * (95 + id * 15) };
 }
 export function demoAnalytics(query = {}) {
@@ -76,7 +82,9 @@ export function demoAnalytics(query = {}) {
     campaigns: detailed, daily, platforms: [...new Set(selected.map(c => c.platform))].map(platform => ({ platform, metrics: aggregate(current.filter(row => selected.find(c => c.id === row.campaignId)?.platform === platform)) })),
     warnings, alerts: [], alertSettings: { ctrMin: 1, cpaMax: 80, budgetMax: 15000 }, availableCampaigns: platformCampaigns,
     source: current.length ? 'daily' : 'empty', currentComplete, previousComplete, hasData: current.length > 0, lastSyncedAt: timestamp(), demo: true };
-  return { ...result, verdict: demoVerdict(result) };
+  const verdict = demoVerdict(result);
+  const changeExplanation = verdict.status !== 'insufficient' && currentComplete && previousComplete ? explainCostChange(totals, previousTotals, verdict.indicator) : null;
+  return { ...result, verdict, changeExplanation };
 }
 /* Versão reduzida do veredito do back (a demo não importa código do servidor): custo por resultado contra a meta ou o período anterior. */
 const DEMO_BAND = 5;

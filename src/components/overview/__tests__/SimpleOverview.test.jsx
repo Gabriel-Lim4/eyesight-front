@@ -35,6 +35,15 @@ describe('SimpleOverview', () => {
     expect(screen.queryByText(/dentro da meta|acima da meta/)).toBeNull();
   });
 
+  it('explains why the cost changed only when the server sent an explanation', () => {
+    const explanation = { indicator: 'cpa', costChange: 25, main: 'cvr', factors: [{ key: 'cvr', change: -20, share: 1 }] };
+    const { unmount } = mount({ data: data({ changeExplanation: explanation }) });
+    expect(screen.getByRole('region', { name: 'Por que o custo por resultado subiu 25%?' })).toBeInTheDocument();
+    unmount();
+    mount({ data: data({ changeExplanation: null }) });
+    expect(screen.queryByText(/Por que o custo/)).toBeNull();
+  });
+
   it('shows whether the cost is within the goal when the verdict judged by goal', () => {
     mount({ data: data({ verdict: verdict({ basis: 'goal', reasons: [{ code: 'cost_within_goal', params: { value: 40, goal: 50 } }] }) }) });
     expect(screen.getByText(/dentro da meta/)).toBeInTheDocument();
