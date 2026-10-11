@@ -407,6 +407,11 @@ body.light-mode .lp {
   font-size: 0.95rem;
 }
 
+.lp-hero-note {
+  color: var(--lp-muted);
+  font-size: 0.9rem;
+}
+
 .lp-verdict-note {
   color: var(--lp-muted);
   font-size: 0.85rem;

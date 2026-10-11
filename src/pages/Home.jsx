@@ -117,6 +117,11 @@ const faqItems = [
       "Não. Você conecta só as que já usa hoje e pode adicionar as outras depois, sem precisar refazer nada.",
   },
   {
+    question: "Preciso criar conta para ver como funciona?",
+    answer:
+      "Não. A demonstração abre sem cadastro e usa dados de exemplo, então você vê o painel antes de conectar qualquer conta.",
+  },
+  {
     question: "Os dados são atualizados em tempo real?",
     answer:
       "Você solicita a sincronização no painel e escolhe o período. Os números dependem da atualização e das permissões de cada plataforma; não são dados em tempo real.",
@@ -240,6 +245,9 @@ function Home() {
                   Criar conta
                 </Link>
               </div>
+              <p className="lp-hero-note">
+                A demonstração abre sem cadastro e usa dados de exemplo.
+              </p>
             </div>
 
             <div className="lp-verdict" data-status={veredicto.id}>
