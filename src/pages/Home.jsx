@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { FiArrowRight, FiMenu, FiPlus, FiX } from "react-icons/fi";
 
@@ -166,12 +166,26 @@ function Home() {
 
   const veredicto = veredictos.find((item) => item.id === veredictoId);
   const closeMenu = () => setMenuOpen(false);
+  const menuButton = useRef(null);
+
+  // Esc fecha o menu de celular e devolve o foco ao botão que o abriu.
+  useEffect(() => {
+    if (!menuOpen) return undefined;
+    const onKey = (event) => {
+      if (event.key !== "Escape") return;
+      setMenuOpen(false);
+      menuButton.current?.focus();
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [menuOpen]);
 
   const moveTab = (event, index) => {
-    const step = { ArrowRight: 1, ArrowLeft: -1 }[event.key];
-    if (!step) return;
+    const last = veredictos.length - 1;
+    const target = { ArrowRight: (index + 1) % veredictos.length, ArrowLeft: (index + last) % veredictos.length, Home: 0, End: last }[event.key];
+    if (target === undefined) return;
     event.preventDefault();
-    const next = veredictos[(index + step + veredictos.length) % veredictos.length];
+    const next = veredictos[target];
     setVeredictoId(next.id);
     document.getElementById(`lp-tab-${next.id}`)?.focus();
   };
@@ -214,6 +228,7 @@ function Home() {
             <button
               type="button"
               className="lp-menu-toggle"
+              ref={menuButton}
               onClick={() => setMenuOpen((v) => !v)}
               aria-label={menuOpen ? "Fechar menu" : "Abrir menu"}
               aria-expanded={menuOpen}

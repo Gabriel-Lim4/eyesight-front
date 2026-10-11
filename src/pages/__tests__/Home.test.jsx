@@ -69,4 +69,34 @@ describe('Home (landing)', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Abrir menu' }));
     expect(screen.getByRole('button', { name: 'Fechar menu' })).toHaveAttribute('aria-expanded', 'true');
   });
+
+  it('as abas do veredito respondem a Home e End, e o foco acompanha', () => {
+    renderHome();
+    const [primeira, , ultima] = screen.getAllByRole('tab');
+    primeira.focus();
+    fireEvent.keyDown(primeira, { key: 'End' });
+    expect(ultima).toHaveAttribute('aria-selected', 'true');
+    expect(ultima).toHaveFocus();
+    fireEvent.keyDown(ultima, { key: 'Home' });
+    expect(primeira).toHaveAttribute('aria-selected', 'true');
+    expect(primeira).toHaveFocus();
+  });
+
+  it('Esc fecha o menu de celular e devolve o foco ao botão', () => {
+    renderHome();
+    const botao = screen.getByRole('button', { name: 'Abrir menu' });
+    fireEvent.click(botao);
+    const aberto = screen.getByRole('button', { name: 'Fechar menu' });
+    expect(aberto).toHaveAttribute('aria-expanded', 'true');
+    fireEvent.keyDown(document, { key: 'Escape' });
+    const fechado = screen.getByRole('button', { name: 'Abrir menu' });
+    expect(fechado).toHaveAttribute('aria-expanded', 'false');
+    expect(fechado).toHaveFocus();
+  });
+
+  it('Esc sem menu aberto não faz nada', () => {
+    renderHome();
+    fireEvent.keyDown(document, { key: 'Escape' });
+    expect(screen.getByRole('button', { name: 'Abrir menu' })).toHaveAttribute('aria-expanded', 'false');
+  });
 });
