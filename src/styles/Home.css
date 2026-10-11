@@ -500,7 +500,7 @@ body.light-mode .lp {
 
 /* ---------- passos ---------- */
 
-.lp-steps {
+.lp .lp-steps {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: clamp(24px, 4vw, 56px);
@@ -558,7 +558,7 @@ body.light-mode .lp {
   color: var(--lp-muted);
 }
 
-.lp-features {
+.lp .lp-features {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 0 clamp(32px, 6vw, 96px);
@@ -568,6 +568,7 @@ body.light-mode .lp {
 .lp-features li {
   display: grid;
   gap: 8px;
+  align-content: start;
   padding: 24px 0;
   border-top: 1px solid var(--lp-line);
 }
@@ -630,8 +631,14 @@ body.light-mode .lp {
 
 .lp-cta .lp-wrap {
   display: grid;
-  gap: 20px;
-  justify-items: start;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: 20px clamp(32px, 6vw, 96px);
+  align-items: center;
+}
+
+.lp-cta .lp-cta-copy {
+  display: grid;
+  gap: 16px;
 }
 
 .lp-cta p {
@@ -640,7 +647,7 @@ body.light-mode .lp {
 }
 
 .lp-cta .lp-actions {
-  margin-top: 12px;
+  justify-content: flex-end;
 }
 
 /* ---------- equipe e rodapé ---------- */
@@ -686,13 +693,18 @@ body.light-mode .lp {
 
 @media (max-width: 900px) {
   .lp-hero-grid,
-  .lp-split {
+  .lp-split,
+  .lp-cta .lp-wrap {
     grid-template-columns: minmax(0, 1fr);
   }
 
-  .lp-steps,
-  .lp-features {
+  .lp .lp-steps,
+  .lp .lp-features {
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  .lp-cta .lp-actions {
+    justify-content: flex-start;
   }
 
   .lp-rows > div {

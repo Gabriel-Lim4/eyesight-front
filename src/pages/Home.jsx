@@ -441,11 +441,13 @@ function Home() {
         {/* CTA */}
         <section className="lp-section lp-cta">
           <div className="lp-wrap">
-            <h2>Curioso pra ver seus números num lugar só?</h2>
-            <p>
-              Explore uma demonstração identificada, com dados de exemplo, sem
-              criar conta.
-            </p>
+            <div className="lp-cta-copy">
+              <h2>Curioso pra ver seus números num lugar só?</h2>
+              <p>
+                Explore uma demonstração identificada, com dados de exemplo,
+                sem criar conta.
+              </p>
+            </div>
             <div className="lp-actions">
               <Link to="/demo" className="lp-btn lp-btn-solid">
                 Explorar demonstração
