@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
 /* Importando ícones */
-import { FiHome, FiInstagram, FiTrendingUp, FiUsers, FiLogOut } from "react-icons/fi";
+import { FiHome, FiInstagram, FiTrendingUp, FiUsers, FiLogOut, FiFileText } from "react-icons/fi";
 import { SiGoogleads } from "react-icons/si";
 import { MdOutlineDoubleArrow, MdOutlineSettings, MdAndroid } from "react-icons/md";
 import logo from "../assets/Logo.png";
@@ -132,6 +132,12 @@ function Sidebar() {
           <li className={isActive("/app/metrics")} title={collapsed ? "Métricas" : undefined}>
             <Link to="/app/metrics" aria-current={location.pathname === "/app/metrics" ? "page" : undefined}>
               <FiTrendingUp /> <span className="link-text">Métricas</span>
+            </Link>
+          </li>
+
+          <li className={isActive("/app/relatorio")} title={collapsed ? "Relatório" : undefined}>
+            <Link to="/app/relatorio" aria-current={location.pathname === "/app/relatorio" ? "page" : undefined}>
+              <FiFileText aria-hidden="true" /> <span className="link-text">Relatório</span>
             </Link>
           </li>
 

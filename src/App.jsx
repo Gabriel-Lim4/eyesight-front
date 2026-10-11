@@ -24,6 +24,7 @@ const Metrics = lazy(() => import("./pages/Metrics"));
 const Account = lazy(() => import("./pages/Account"));
 const Assistant = lazy(() => import("./pages/Assistant"));
 const Profile = lazy(() => import("./pages/Profile"));
+const Report = lazy(() => import("./pages/Report"));
 
 /* Componente de fallback para carregamento */
 function PageLoader() {
@@ -152,6 +153,14 @@ function App() {
             element={
               <Suspense fallback={<PageLoader />}>
                 <Assistant />
+              </Suspense>
+            }
+          />
+          <Route
+            path="relatorio"
+            element={
+              <Suspense fallback={<PageLoader />}>
+                <Report />
               </Suspense>
             }
           />

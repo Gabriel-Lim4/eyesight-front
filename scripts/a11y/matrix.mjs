@@ -12,6 +12,7 @@ export const APP_SCREENS = [
   screen('app', 'app-account', '/app/account'),
   screen('app', 'app-assistant', '/app/assistant'),
   screen('app', 'app-profile', '/app/profile'),
+  screen('app', 'app-report', '/app/relatorio'),
 ];
 
 export const AUTH_SCREENS = [
