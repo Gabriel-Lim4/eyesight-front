@@ -2,6 +2,7 @@ import { AxiosError } from 'axios';
 import { explainCostChange } from '../utils/changeMath';
 
 const DAY = 86400000;
+const DEMO_CPA_GOAL = 32;
 const RECENT_DROP_DAYS = 15;
 const CONVERSION_DROP = 0.45;
 const campaigns = [
@@ -80,7 +81,7 @@ export function demoAnalytics(query = {}) {
   const result = { period, currency: query.currency || 'BRL', currencies: ['BRL'], totals, previousTotals,
     changes: previousTotals ? Object.fromEntries(Object.keys(totals).map(key => [key, totals[key] == null || !previousTotals[key] ? null : (totals[key] - previousTotals[key]) / Math.abs(previousTotals[key]) * 100])) : {},
     campaigns: detailed, daily, platforms: [...new Set(selected.map(c => c.platform))].map(platform => ({ platform, metrics: aggregate(current.filter(row => selected.find(c => c.id === row.campaignId)?.platform === platform)) })),
-    warnings, alerts: [], alertSettings: { ctrMin: 1, cpaMax: 80, budgetMax: 15000 }, availableCampaigns: platformCampaigns,
+    warnings, alerts: [], alertSettings: { ctrMin: 1, cpaMax: DEMO_CPA_GOAL, budgetMax: 15000 }, availableCampaigns: platformCampaigns,
     source: current.length ? 'daily' : 'empty', currentComplete, previousComplete, hasData: current.length > 0, lastSyncedAt: timestamp(), demo: true };
   const verdict = demoVerdict(result);
   const changeExplanation = verdict.status !== 'insufficient' && currentComplete && previousComplete ? explainCostChange(totals, previousTotals, verdict.indicator) : null;
@@ -93,6 +94,16 @@ const trendOf = (change, higherIsBetter) => {
   if (Math.abs(change) < DEMO_BAND) return 'stable';
   return (change > 0) === higherIsBetter ? 'better' : 'worse';
 };
+/* Como no servidor: a campanha mais acima da meta de custo por resultado vira uma ação (com passo a passo). */
+function demoActions(analytics) {
+  const goal = Number(analytics.alertSettings?.cpaMax);
+  const over = goal > 0 ? (analytics.campaigns || [])
+    .filter(campaign => campaign.hasData && Number.isFinite(campaign.metrics?.cpa) && campaign.metrics.cpa > goal)
+    .sort((a, b) => b.metrics.cpa - a.metrics.cpa)[0] : null;
+  return over
+    ? [{ code: 'campaign_over_goal', params: { campaign: over.name.slice(0, 80), value: over.metrics.cpa, goal }, campaignId: over.id }]
+    : [{ code: 'nothing_urgent', params: {} }];
+}
 export function demoVerdict(analytics) {
   const { totals, changes } = analytics;
   const comparable = Boolean(analytics.currentComplete && analytics.previousComplete);
@@ -103,7 +114,7 @@ export function demoVerdict(analytics) {
     { key: 'conversions', value: totals.conversions, change: change('conversions'), trend: trendOf(change('conversions'), true), available: totals.conversions != null },
     { key: 'cost', value: totals.cpa, change: change('cpa'), trend: trendOf(change('cpa'), false), available: true },
   ];
-  const base = { indicator: 'cpa', highlights, actions: [{ code: 'nothing_urgent', params: {} }] };
+  const base = { indicator: 'cpa', highlights, actions: demoActions(analytics) };
   const blocked = !analytics.hasData ? 'no_data' : !analytics.currentComplete ? 'incomplete_period' : !(totals.spend > 0) ? 'zero_spend' : !(totals.clicks >= 30) ? 'low_volume' : null;
   if (blocked) return { ...base, status: 'insufficient', basis: 'none', insufficientReason: blocked, reasons: [] };
   const compare = change('cpa') == null ? [] : [{ code: change('cpa') <= -DEMO_BAND ? 'cost_better' : change('cpa') >= DEMO_BAND ? 'cost_worse' : 'cost_stable', params: { indicator: 'cpa', change: change('cpa'), value: totals.cpa } }];
@@ -137,20 +148,28 @@ function demoChat(body) {
 
 const DEMO_PLAN_STEPS = ['Exemplo da demonstração: abra o gerenciador de anúncios da plataforma.', 'Revise a campanha indicada neste aviso.', 'Anote o que mudou e confira de novo em alguns dias.'];
 const demoPlans = new Map();
+const DEMO_FOLLOW_UP = () => ({ status: 'ready', metric: 'cpa', since: iso(parseDate(today()) - 4 * DAY), daysBefore: 7, daysAfter: 4, before: 58, after: 41.5, changePct: -28.4, result: 'better' });
 function demoPlanRequest(method, path, body) {
   const parse = () => { try { return typeof body === 'string' ? JSON.parse(body) : body || {}; } catch { return {}; } };
-  if (method === 'get') return { planos: [] };
+  if (method === 'get') return { planos: [...demoPlans.values()] };
   if (method === 'post') {
     const action = parse().action || {};
     const key = `${action.code}:${action.campaignId ?? '-'}`;
-    const plano = { id: `demo-${key}`, actionKey: key, actionCode: action.code, campaignId: action.campaignId ?? null, steps: DEMO_PLAN_STEPS.map((text, index) => ({ id: `s${index + 1}`, text, done: false })), generatedAt: timestamp() };
+    const plano = { id: `demo-${key}`, actionKey: key, actionCode: action.code, campaignId: action.campaignId ?? null, steps: DEMO_PLAN_STEPS.map((text, index) => ({ id: `s${index + 1}`, text, done: false })), generatedAt: timestamp(), followUp: null };
     demoPlans.set(plano.id, plano);
     return { plano, demo: true };
   }
   const [, id, stepId] = /^\/ia\/planos\/([^/]+)\/passos\/([^/]+)$/.exec(path) || [];
   const found = demoPlans.get(id);
   if (!found || !found.steps.some(step => step.id === stepId)) fail('Plano de demonstração não encontrado.');
-  found.steps = found.steps.map(step => (step.id === stepId ? { ...step, done: Boolean(parse().done) } : step));
+  const done = Boolean(parse().done);
+  found.steps = found.steps.map(step => {
+    if (step.id !== stepId) return step;
+    const { doneAt, ...rest } = step;
+    return done ? { ...rest, done, doneAt: timestamp() } : { ...rest, done };
+  });
+  // Ilustrativo: a demo não tem como medir "depois de agir", então mostra um resultado de exemplo.
+  found.followUp = found.steps.some(step => step.done) ? DEMO_FOLLOW_UP() : null;
   return { plano: found, demo: true };
 }
 

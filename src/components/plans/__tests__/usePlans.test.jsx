@@ -106,6 +106,22 @@ describe('usePlans', () => {
     expect(result.current.saveError).toBe('Não foi possível salvar. Tente de novo.');
   });
 
+  it('rereads the list when a concluded step has a date, to bring the follow-up, and keeps the old one meanwhile', async () => {
+    const followUp = { status: 'waiting', since: '2026-10-09', daysAfter: 0, daysNeeded: 3 };
+    api.get.mockResolvedValue({ data: { planos: [plan({ followUp })] } });
+    api.patch.mockResolvedValueOnce({ data: { plano: plan({ steps: [{ id: 's1', text: 'Um', done: true, doneAt: '2026-10-09T10:00:00Z' }, ...steps(false).slice(1)], followUp: null }) } });
+    const { result } = setup(); await ready(result);
+    await act(async () => { await result.current.toggle('p1', 's1', true); });
+    expect(result.current.planFor(ACTION).followUp).toEqual(followUp);
+    await waitFor(() => expect(api.get).toHaveBeenCalledTimes(2));
+  });
+
+  it('does not reread the list when the answer carries no concluded date', async () => {
+    const { result } = setup(); await ready(result);
+    await act(async () => { await result.current.toggle('p1', 's1', true); });
+    expect(api.get).toHaveBeenCalledTimes(1);
+  });
+
   it('keeps the last choice when the same step is toggled twice quickly', async () => {
     const { result } = setup(); await ready(result);
     await act(async () => { await Promise.all([result.current.toggle('p1', 's1', true), result.current.toggle('p1', 's1', false)]); });

@@ -13,7 +13,7 @@ export default function NextActions({ actions, ctx, explain, plans, aiAvailable 
         {explain
           ? <ExplainButton label={actionText(action, ctx)} onClick={() => explain.open({ kind: 'action', code: action.code, ...(action.campaignId != null ? { campaignId: action.campaignId } : {}) })} disabled={explain.disabled} describedBy={explain.describedBy} />
           : action.campaignId != null && <Link to="/app/assistant">Perguntar ao assistente</Link>}
-        {plans && <ActionPlan action={{ code: action.code, ...(action.campaignId != null ? { campaignId: action.campaignId } : {}) }} plans={plans} available={aiAvailable} describedBy={explain?.describedBy} />}
+        {plans && <ActionPlan action={{ code: action.code, ...(action.campaignId != null ? { campaignId: action.campaignId } : {}) }} plans={plans} available={aiAvailable} describedBy={explain?.describedBy} currency={ctx.currency} />}
       </li>)}
     </ul>
   </section>;

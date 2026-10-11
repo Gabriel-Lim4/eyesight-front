@@ -117,4 +117,16 @@ describe('ActionPlan', () => {
     mount(makePlans({ planFor: () => plan([false, false, false]) }));
     expect(screen.getByRole('checkbox', { name: 'Passo 1' })).not.toHaveFocus();
   });
+
+  it('shows the follow-up under the steps when the plan has one', () => {
+    const followUp = { status: 'ready', metric: 'cpa', since: '2026-10-03', daysBefore: 7, daysAfter: 6, before: 50, after: 40, changePct: -20, result: 'better' };
+    mount(makePlans({ planFor: () => ({ ...plan([true, false, false]), followUp }) }), { currency: 'BRL' });
+    expect(screen.getByText(/O custo por resultado foi de R\$\s50,00 para R\$\s40,00/)).toBeInTheDocument();
+    expect(screen.getByText('Outros fatores também podem ter influenciado o resultado.')).toBeInTheDocument();
+  });
+
+  it('shows nothing about follow-up when the plan has none', () => {
+    mount(makePlans({ planFor: () => ({ ...plan([false, false, false]), followUp: null }) }), { currency: 'BRL' });
+    expect(screen.queryByText(/Acompanhando|Outros fatores/)).toBeNull();
+  });
 });

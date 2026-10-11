@@ -76,7 +76,11 @@ export function usePlans(filters, version = '') {
       try {
         const { data: body } = await api.patch(`/ia/planos/${planId}/passos/${stepId}`, { done });
         pending.current.set(key, pending.current.get(key) - 1);
-        if (pending.current.get(key) === 0) setData(value => (value.scopeKey === base ? { ...value, plans: value.plans.map(plan => (plan.id === planId ? body.plano : plan)) } : value));
+        if (pending.current.get(key) === 0) {
+          setData(value => (value.scopeKey === base ? { ...value, plans: value.plans.map(plan => (plan.id === planId ? { ...body.plano, followUp: plan.followUp ?? null } : plan)) } : value));
+          // O acompanhamento depende da data do primeiro passo concluído: a lista é relida para trazê-lo atualizado.
+          if (body.plano?.steps?.some(step => step.done && step.doneAt)) reload();
+        }
         return true;
       } catch {
         pending.current.set(key, pending.current.get(key) - 1);

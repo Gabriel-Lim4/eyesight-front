@@ -62,7 +62,8 @@ describe('offline demo', () => {
     expect(['good', 'stable', 'attention']).toContain(verdict.status);
     expect(verdict.basis).not.toBe('none');
     expect(verdict.insufficientReason).toBeNull();
-    expect(verdict.actions).toEqual([{ code: 'nothing_urgent', params: {} }]);
+    expect(verdict.actions).toHaveLength(1);
+    expect(['nothing_urgent', 'campaign_over_goal']).toContain(verdict.actions[0].code);
     expect(verdict.reasons.every(reason => typeof reason.code === 'string' && typeof reason.params === 'object')).toBe(true);
   });
   it('judges the demo cost per result against the demo goal', () => {
@@ -95,6 +96,20 @@ describe('offline demo', () => {
     expect(data.changeExplanation.main).toBe('cvr');
     expect(data.changeExplanation.costChange).toBeGreaterThan(5);
     expect(demoAnalytics({ periodo: 'last_30d', campaignId: 1 }).changeExplanation).toBeNull();
+  });
+  it('points at the campaigns that lost conversion as the action over the goal, and follows the plan up', async () => {
+    const { verdict } = demoAnalytics({ periodo: 'last_30d' });
+    expect(verdict.actions[0].code).toBe('campaign_over_goal');
+    expect([2, 3]).toContain(verdict.actions[0].campaignId);
+    const { data } = await demoAdapter({ method: 'post', url: '/ia/planos', data: JSON.stringify({ action: { code: 'campaign_over_goal', campaignId: verdict.actions[0].campaignId } }) });
+    expect(data.plano.followUp).toBeNull();
+    const toggled = await demoAdapter({ method: 'patch', url: `/ia/planos/${data.plano.id}/passos/s1`, data: JSON.stringify({ done: true }) });
+    expect(toggled.data.plano.steps[0].doneAt).toBeTruthy();
+    expect(toggled.data.plano.followUp).toMatchObject({ status: 'ready', result: 'better' });
+    const list = await demoAdapter({ method: 'get', url: '/ia/planos' });
+    expect(list.data.planos.map(plan => plan.id)).toContain(data.plano.id);
+    const undone = await demoAdapter({ method: 'patch', url: `/ia/planos/${data.plano.id}/passos/s1`, data: JSON.stringify({ done: false }) });
+    expect(undone.data.plano.followUp).toBeNull();
   });
   it('exports only filtered demo rows to a CSV blob', async () => {
     const response = await demoAdapter({ method: 'get', url: '/metricas/exportar', params: { campaignId: 4 } });

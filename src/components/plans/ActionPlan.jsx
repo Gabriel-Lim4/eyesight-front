@@ -1,11 +1,12 @@
 import { ListChecks } from 'lucide-react';
 import { useEffect, useRef } from 'react';
+import { followUpView } from './followUpCopy';
 import { PLAN_CODES } from './usePlans';
 import '../../styles/Plans.css';
 
 const formatDay = value => new Date(value).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' });
 
-export default function ActionPlan({ action, plans, available, describedBy }) {
+export default function ActionPlan({ action, plans, available, describedBy, currency }) {
   const plan = plans.planFor(action);
   const hasPlan = Boolean(plan);
   const hadPlan = useRef(hasPlan);
@@ -22,6 +23,7 @@ export default function ActionPlan({ action, plans, available, describedBy }) {
   const generate = options => { if (blocked) return; if (options) plans.generate(action, options); else plans.generate(action); };
   const failed = state === 'error' || state === 'limit';
   const done = plan ? plan.steps.filter(step => step.done).length : 0;
+  const followUp = plan ? followUpView(plan.followUp, currency) : null;
 
   return <div className="pl-plan">
     {!plan && <button type="button" className="pl-button" disabled={!available} aria-disabled={blocked} aria-describedby={available ? undefined : describedBy} onClick={() => generate()}>
@@ -35,6 +37,10 @@ export default function ActionPlan({ action, plans, available, describedBy }) {
           <label><input ref={index === 0 ? firstStep : undefined} type="checkbox" checked={step.done} onChange={event => plans.toggle(plan.id, step.id, event.target.checked)} /><span>{step.text}</span></label>
         </li>)}
       </ul>
+      {followUp && <div className={`pl-follow is-${followUp.tone}`} aria-live="polite">
+        <p>{followUp.text}</p>
+        {followUp.note && <p className="pl-follow-note">{followUp.note}</p>}
+      </div>}
       {done === plan.steps.length && <p className="pl-done">Tudo feito. Veja nos próximos dias se o resultado melhorou.</p>}
       <p className="pl-meta">
         <span>Gerado em {formatDay(plan.generatedAt)}</span>
