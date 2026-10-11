@@ -30,9 +30,12 @@ it('lets the demo user open the explainer and read the fixed example answer', as
   expect(await within(dialog).findByText(/texto de exemplo da demonstração/)).toBeInTheDocument();
 });
 
-it('shows no step by step button in the demo, whose only action is "nothing urgent"', async () => {
+it('walks the whole story in the demo: why it changed, the action over the goal, the plan and its follow-up', async () => {
   render(<MemoryRouter><Dashboard /></MemoryRouter>);
-  await screen.findByRole('region', { name: 'Como estão seus anúncios' });
-  expect(screen.getByRole('heading', { name: 'O que fazer agora' })).toBeInTheDocument();
-  expect(screen.queryByRole('button', { name: 'Ver passo a passo' })).toBeNull();
+  expect(await screen.findByRole('region', { name: /Por que o custo por resultado subiu/ })).toHaveTextContent('taxa de conversão caiu');
+  fireEvent.click(await screen.findByRole('button', { name: 'Ver passo a passo' }));
+  const [firstStep] = await screen.findAllByRole('checkbox');
+  fireEvent.click(firstStep);
+  expect(await screen.findByText(/O custo por resultado foi de R\$\s58,00 para R\$\s41,50/)).toBeInTheDocument();
+  expect(screen.getByText('Outros fatores também podem ter influenciado o resultado.')).toBeInTheDocument();
 });

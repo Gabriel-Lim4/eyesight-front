@@ -165,8 +165,9 @@ function demoPlanRequest(method, path, body) {
   const done = Boolean(parse().done);
   found.steps = found.steps.map(step => {
     if (step.id !== stepId) return step;
-    const { doneAt, ...rest } = step;
-    return done ? { ...rest, done, doneAt: timestamp() } : { ...rest, done };
+    const next = { ...step, done };
+    if (done) next.doneAt = timestamp(); else delete next.doneAt;
+    return next;
   });
   // Ilustrativo: a demo não tem como medir "depois de agir", então mostra um resultado de exemplo.
   found.followUp = found.steps.some(step => step.done) ? DEMO_FOLLOW_UP() : null;
