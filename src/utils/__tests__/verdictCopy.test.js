@@ -110,3 +110,12 @@ describe('robustness', () => {
     expect(CARD_COPY.costCpc.hint).toBe('Quanto você paga, em média, cada vez que alguém clica.');
   });
 });
+
+describe('spend without results', () => {
+  it('has a reason, an action and an attention headline', () => {
+    const params = { spend: 800, goal: 40 };
+    expect(plain(reasonText({ code: 'spend_without_results', params }, ctx))).toBe('Você gastou R$ 800,00 e ainda não teve nenhum resultado, mais que o dobro da sua meta de R$ 40,00 por resultado.');
+    expect(plain(actionText({ code: 'spend_without_results', params }, ctx))).toBe('Seus anúncios gastaram R$ 800,00 sem nenhum resultado. Confira o acompanhamento de conversões e pause o que não está funcionando.');
+    expect(headline(verdict('attention', 'comparison', [{ code: 'spend_without_results', params }]), ctx)).toBe('Atenção: você está gastando sem ter resultados.');
+  });
+});

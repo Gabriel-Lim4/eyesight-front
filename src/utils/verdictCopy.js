@@ -23,6 +23,7 @@ const REASONS = {
   cost_stable: (p, c) => `O custo por ${costNoun(p.indicator)} ficou em ${money(p.value, c)} (variação de ${formatPercent(Math.abs(p.change))}).`,
   budget_exceeded: (p, c) => `Você já gastou ${money(p.spend, c)}, acima do seu limite de ${money(p.limit, c)}.`,
   budget_near: p => `Você já usou ${p.percent}% do seu limite de gasto.`,
+  spend_without_results: (p, c) => `Você gastou ${money(p.spend, c)} e ainda não teve nenhum resultado, mais que o dobro da sua meta de ${money(p.goal, c)} por resultado.`,
   ctr_below_min: p => `Só ${formatPercent(p.ctr)} de quem viu seus anúncios clicou; sua meta é ${formatPercent(p.min)}.`,
   no_conversion_tracking: () => 'Sua conta não registra vendas ou contatos, então avaliei pelo custo por clique.',
   no_results_yet: () => 'Seus anúncios ainda não geraram resultados registrados; avaliei pelo custo por clique.',
@@ -30,6 +31,7 @@ const REASONS = {
 
 const ACTIONS = {
   budget_exceeded: REASONS.budget_exceeded,
+  spend_without_results: (p, c) => `Seus anúncios gastaram ${money(p.spend, c)} sem nenhum resultado. Confira o acompanhamento de conversões e pause o que não está funcionando.`,
   campaign_over_goal: (p, c) => `A campanha '${p.campaign}' está custando ${money(p.value, c)} por resultado, acima da sua meta de ${money(p.goal, c)}.`,
   campaign_low_ctr: p => `Poucas pessoas clicam na campanha '${p.campaign}' (${formatPercent(p.ctr)}; sua meta é ${formatPercent(p.min)}).`,
   campaign_without_results: (p, c) => `A campanha '${p.campaign}' gastou ${money(p.spend, c)} e não gerou resultados.`,
@@ -54,6 +56,7 @@ const INSUFFICIENT = {
 
 const ATTENTION = [
   ['budget_exceeded', () => 'Atenção: você passou do seu limite de gasto.'],
+  ['spend_without_results', () => 'Atenção: você está gastando sem ter resultados.'],
   ['cost_above_goal', () => 'Atenção: o custo por resultado está acima da sua meta.'],
   ['cost_worse', ctx => `Atenção: seus anúncios pioraram em relação ${previousLabelTo(ctx.period)}.`],
   ['ctr_below_min', () => 'Atenção: poucas pessoas estão clicando nos seus anúncios.'],
