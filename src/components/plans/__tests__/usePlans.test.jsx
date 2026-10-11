@@ -116,6 +116,16 @@ describe('usePlans', () => {
     await waitFor(() => expect(api.get).toHaveBeenCalledTimes(2));
   });
 
+  it('drops the follow-up when the last concluded step is unchecked', async () => {
+    const followUp = { status: 'ready', metric: 'cpa', since: '2026-10-03', daysBefore: 7, daysAfter: 6, before: 50, after: 40, changePct: -20, result: 'better' };
+    api.get.mockResolvedValue({ data: { planos: [plan({ steps: [{ id: 's1', text: 'Um', done: true, doneAt: '2026-10-03T10:00:00Z' }, ...steps(false).slice(1)], followUp })] } });
+    api.patch.mockResolvedValueOnce({ data: { plano: plan({ steps: steps(false), followUp: null }) } });
+    const { result } = setup(); await ready(result);
+    expect(result.current.planFor(ACTION).followUp).toEqual(followUp);
+    await act(async () => { await result.current.toggle('p1', 's1', false); });
+    expect(result.current.planFor(ACTION).followUp).toBeNull();
+  });
+
   it('does not reread the list when the answer carries no concluded date', async () => {
     const { result } = setup(); await ready(result);
     await act(async () => { await result.current.toggle('p1', 's1', true); });

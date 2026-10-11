@@ -37,10 +37,12 @@ export default function ActionPlan({ action, plans, available, describedBy, curr
           <label><input ref={index === 0 ? firstStep : undefined} type="checkbox" checked={step.done} onChange={event => plans.toggle(plan.id, step.id, event.target.checked)} /><span>{step.text}</span></label>
         </li>)}
       </ul>
-      {followUp && <div className={`pl-follow is-${followUp.tone}`} aria-live="polite">
-        <p>{followUp.text}</p>
-        {followUp.note && <p className="pl-follow-note">{followUp.note}</p>}
-      </div>}
+      <div className={`pl-follow${followUp ? ` has-follow is-${followUp.tone}` : ''}`} aria-live="polite">
+        {followUp && <>
+          <p>{followUp.text}</p>
+          {followUp.note && <p className="pl-follow-note">{followUp.note}</p>}
+        </>}
+      </div>
       {done === plan.steps.length && <p className="pl-done">Tudo feito. Veja nos próximos dias se o resultado melhorou.</p>}
       <p className="pl-meta">
         <span>Gerado em {formatDay(plan.generatedAt)}</span>

@@ -125,6 +125,16 @@ describe('ActionPlan', () => {
     expect(screen.getByText('Outros fatores também podem ter influenciado o resultado.')).toBeInTheDocument();
   });
 
+  it('keeps the live region mounted so a late follow-up is announced', () => {
+    const { container, rerender } = mount(makePlans({ planFor: () => ({ ...plan([false, false, false]), followUp: null }) }), { currency: 'BRL' });
+    const live = container.querySelector('[aria-live="polite"].pl-follow');
+    expect(live).not.toBeNull();
+    expect(live).toBeEmptyDOMElement();
+    rerender(<ActionPlan action={ACTION} plans={makePlans({ planFor: () => ({ ...plan([true, false, false]), followUp: { status: 'waiting', since: '2026-10-09', daysAfter: 0, daysNeeded: 3 } }) })} available currency="BRL" />);
+    expect(container.querySelector('[aria-live="polite"].pl-follow')).toBe(live);
+    expect(live).toHaveTextContent('Acompanhando');
+  });
+
   it('shows nothing about follow-up when the plan has none', () => {
     mount(makePlans({ planFor: () => ({ ...plan([false, false, false]), followUp: null }) }), { currency: 'BRL' });
     expect(screen.queryByText(/Acompanhando|Outros fatores/)).toBeNull();

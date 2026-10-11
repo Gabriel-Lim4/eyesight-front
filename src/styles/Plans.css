@@ -42,7 +42,7 @@ body.light-mode .pl-link { color: var(--c-1d4ed8); }
 body.light-mode .pl-error { border-color: var(--c-b45309); color: var(--c-b45309); }
 
 /* Acompanhamento: melhorou depois de agir? */
-.pl-follow { margin: 8px 0 0; padding: 10px 12px; border: 1px solid var(--border-color); border-left-width: 4px; border-radius: 10px; font-size: 0.9rem; }
+.pl-follow.has-follow { margin: 8px 0 0; padding: 10px 12px; border: 1px solid var(--border-color); border-left-width: 4px; border-radius: 10px; font-size: 0.9rem; }
 .pl-follow p { margin: 0; }
 .pl-follow-note { margin-top: 4px; color: var(--text-secondary); font-size: 0.8rem; }
 .pl-follow.is-better { border-left-color: var(--status-good); }
