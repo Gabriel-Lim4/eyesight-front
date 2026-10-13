@@ -1,9 +1,38 @@
+import { copyFileSync, mkdirSync, readFileSync } from 'node:fs'
+import { resolve } from 'node:path'
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
+// O rewrite de SPA do Render entrega um arquivo vazio nas rotas internas (tela
+// branca ao voltar do OAuth ou ao dar F5). Arquivos reais têm prioridade sobre o
+// rewrite, então cada rota do App.jsx ganha sua cópia do index.html.
+// Caminhos com "/" são de topo; os demais são filhos de /app.
+export function rotasDoApp(source) {
+  const paths = [...source.matchAll(/\bpath="([^"]+)"/g)].map(match => match[1])
+  return paths
+    .filter(path => path !== '/' && !path.includes('*') && !path.includes(':'))
+    .map(path => (path.startsWith('/') ? path.slice(1) : `app/${path}`))
+}
+
+function copiarIndexParaRotas() {
+  let root, outDir
+  return {
+    name: 'copiar-index-para-rotas',
+    apply: 'build',
+    configResolved(config) { root = config.root; outDir = resolve(root, config.build.outDir) },
+    closeBundle() {
+      const rotas = rotasDoApp(readFileSync(resolve(root, 'src/App.jsx'), 'utf8'))
+      for (const rota of rotas) {
+        mkdirSync(resolve(outDir, rota), { recursive: true })
+        copyFileSync(resolve(outDir, 'index.html'), resolve(outDir, rota, 'index.html'))
+      }
+    },
+  }
+}
+
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), copiarIndexParaRotas()],
   test: {
     globals: true,
     testTimeout: 15000,
