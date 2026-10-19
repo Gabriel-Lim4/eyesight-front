@@ -1,6 +1,6 @@
 # Diário de bordo — Eyesight (melhorias com apoio de IA)
 
-Período: 08/10/2026 a 11/10/2026 · Autor do registro: Gabriel Oliveira (Desenvolvimento Back-end), com o assistente de IA (Claude Code)
+Período: 08/10/2026 a 19/10/2026 · Autor do registro: Gabriel Oliveira (Desenvolvimento Back-end), com o assistente de IA (Claude Code)
 como parceiro de desenvolvimento · Horários no fuso de Brasília.
 
 > Este diário resume o que foi feito desde o primeiro pedido de melhoria até a última entrega. Cada dia lista o que foi
@@ -163,6 +163,62 @@ O usuário foi dormir deixando carta branca. O assistente manteve as salvaguarda
 
 ---
 
+## 19/10 (segunda) — front e back atualizados, revisão e publicação
+
+Período curto, mas com uma mudança de rumo: o usuário apontou que a pasta `eyesight` (monorrepo de 17/10) tinha o TCC mais atual e o front mais bem acabado, e pediu para **revisar e publicar**. O trabalho foi comparar o antigo com o novo, corrigir o que a revisão achasse e publicar nos repositórios certos.
+
+### Comparação: antes × depois
+
+| Área | Antes (versão publicada) | Depois (esta entrega) |
+|---|---|---|
+| Painel | Cartões de KPI fixos | **Quadro de KPIs personalizável**: o usuário escolhe, ordena e restaura; salvo no perfil (`dashboardCards`) |
+| Termos de uso | Não existiam | **Janela de termos** com texto próprio (`terms.txt`, atualizado em 14/10), aberta pelo cadastro |
+| Assistente de IA | "Assistente de campanhas" | **Argos**, com textos e visual reescritos |
+| Landing | Versão anterior | Refeita: herói, comparação, personas, demonstração, como funciona e sobre |
+| Telas | Login, Perfil, barra lateral anteriores | Login e cadastro, **Meu perfil** (dados, tema, segurança) e barra lateral recolhível refeitos; ícones novos |
+| Endereço da API (front) | `localhost:3333` quando faltava a variável | Em produção usa o mesmo endereço do site; em desenvolvimento, `localhost:3333` |
+| Backend | Sem KPIs, sem seed, sem TikTok, sem servir o site | Com tudo isso; um serviço só entrega site e API |
+| Tamanho | 386 testes no front e 269 no back (11/10) | **410 no front e 290 no back**, lint e build ok |
+
+### Revisão independente (`/code-review`, nível alto)
+Achou 10 pontos. O `/security-review` não rodou porque a pasta não era repositório git.
+
+**Corrigidos no front**
+1. As rotas `/app` estavam **sem proteção de login** nessa cópia (a `RotaProtegida` havia sido removida). Restaurada, mantendo a entrada pelo modo demonstração.
+2. O **logout** deixava a sessão no navegador se o servidor falhasse. Agora a sessão é sempre apagada.
+3. **Login**: rótulos ligados aos campos, links "Esqueceu a senha?", "Cadastre-se" e "Entrar" acessíveis por teclado, erro anunciado por leitor de tela, medidor de força da senha só no cadastro.
+
+**Corrigidos no backend**
+1. **Sem limite de tentativas** em login, cadastro e e-mails: agora há limite (20 falhas a cada 15 min no login; 10 pedidos de e-mail por hora). O `refresh` e as consultas do painel ganharam contadores próprios, porque dividiam um limite rígido com ações raras e davam erro 429 a quem trocava filtros.
+2. **Redefinir senha** aceitava qualquer token de sessão e pulava a senha atual. Agora só vale o token do link de recuperação.
+3. **Preferências** (KPIs, resumo, alertas) se sobrescreviam quando salvas quase juntas. A mesclagem passou a ser um único comando no banco.
+4. **Reconectar Meta/Google** comparava a conta salva só com a primeira da lista e podia bloquear a reconexão, deixando como única saída apagar todos os dados. Agora mantém a conta já vinculada se ela ainda existir.
+5. **CSP** estava desligada. Foi configurada para o próprio domínio, fontes do Google e animações.
+6. Aviso no log, em produção, se faltar `TOKEN_ENCRYPTION_KEY`.
+7. Perfil criado sob demanda se faltar. **Correção honesta:** o banco já tem o gatilho `on_auth_user_created`, então esse caso era raro e a correção é só uma segunda proteção.
+
+**Adiados (registrados)**
+- Trocar a senha ainda não encerra as outras sessões (exige a chave de serviço do Supabase).
+- O front envia o nome em cache a cada salvamento de KPI e pode sobrescrever um nome alterado em outro lugar.
+- Tokens antigos em texto puro seguem assim até a conta ser reconectada.
+
+### O que deu errado
+- O `/security-review` exigia um repositório git e a pasta nova não era um. A revisão geral cobriu a segurança do backend.
+- Dois testes antigos assumiam a mesclagem de preferências em JavaScript. Foram reescritos para a mesclagem no banco e ganharam um teste novo de redefinição de senha.
+- O primeiro push do backend falhou: a pasta local não tinha remoto e o repositório que supus não existia. O usuário informou o correto.
+
+### Publicação
+- **Front:** `Gabriel-Lim4/eyesight-front`, branch `main`, commit `d9c2992`, sem force.
+- **Backend:** `Gabriel-Lim4/TCC-`, branch `main`, commit `081e0c3`, sem force, em cima do histórico existente (pasta `eyesight-backend/`).
+- Nenhum `.env` ou segredo foi enviado; houve varredura por padrões de chave antes de cada commit.
+
+### Conferência do Supabase (somente leitura)
+- Os dois jobs do `pg_cron` rodam todos os dias com sucesso, o `jobs_secret` está no Vault e a rotina responde `202`.
+- Há 6 usuários, nenhum com o resumo semanal ligado e nenhum e-mail de resumo enviado. O e-mail está pronto, mas ninguém optou por recebê-lo.
+- Avisos de segurança: proteção contra senhas vazadas desligada; `handle_new_user` pode ser chamada por qualquer pessoa pela API (inofensiva, mas vale revogar); 8 tabelas com RLS e sem política (seguro, pois o acesso passa só pelo backend).
+
+---
+
 ## Balanço
 
 | Sub-projeto | Entrega | Testes ao final |
@@ -189,5 +245,5 @@ O usuário foi dormir deixando carta branca. O assistente manteve as salvaguarda
 - **Do usuário:** variáveis secretas no Render, chave e domínio verificado do Resend, ligar e testar o resumo semanal e os alertas, apagar o backup do `.env` na raiz do projeto depois de conferido, conferir à mão o contraste (verificações "indecisas"), leitor de tela e zoom de 200%.
 - **Para a banca:** aplicar o roteiro de usabilidade com 3 a 5 pessoas e registrar os resultados.
 - **Trabalhos futuros:** várias contas de clientes, relatório em PDF, novos canais (TikTok, LinkedIn), ações dentro das plataformas, ritmo do orçamento, teste A/B de campanhas, plano pago.
-- **Backend:** agora há um repositório git **local** (sem remoto); crie o repositório no GitHub e publique pelo seu terminal quando quiser.
+- **Backend:** publicado em `Gabriel-Lim4/TCC-` (pasta `eyesight-backend/`) em 19/10.
 - **Segurança:** definir `TOKEN_ENCRYPTION_KEY` no Render para ligar a criptografia dos tokens (guarde a chave: perdê-la obriga a reconectar as contas) e restringir o CORS ao endereço do front.
