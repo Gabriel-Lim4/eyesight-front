@@ -3,6 +3,7 @@ import { Bot, Send, Plus, Trash2, Sparkles } from 'lucide-react';
 import api from '../services/api';
 import '../styles/variables.css';
 import '../styles/Assistant.css';
+import '../styles/AssistantRefresh.css';
 
 const suggestions = ['Quais campanhas merecem atenção?', 'Como testar novos criativos?', 'Quais dados faltam para avaliar meu ROAS?'];
 const periodLabel = value => {
@@ -84,23 +85,23 @@ export default function Assistant() {
   }
   const unavailable = busy || loading || !status?.configured;
   return <div className="eyesight-assistant">
-    <header className="assistant-heading"><div><h1><Bot size={26} /> Assistente de campanhas</h1><p>Transforme as métricas sincronizadas em próximos passos.</p></div>
+    <header className="assistant-heading"><div><h1><Bot size={26} /> Argos</h1><p>Seu analista de campanhas: lê as métricas sincronizadas e aponta os próximos passos.</p></div>
       <label>Período<select value={period} onChange={e => setPeriod(e.target.value)} disabled={busy}><option value="last_7d">Últimos 7 dias</option><option value="last_30d">Últimos 30 dias</option><option value="last_90d">Últimos 90 dias</option></select></label>
     </header>
     {error && <div className="assistant-error" role="alert">{error} <button type="button" disabled={busy} onClick={() => { setError(''); setLoading(true); setReload(value => value + 1); }}>Recarregar</button></div>}
-    {loading && <p role="status">Carregando assistente e histórico…</p>}
-    {status && !status.configured && <p className="assistant-notice">{demo ? 'Demonstração: abra a análise de exemplo abaixo. Novas análises e conversas estão desativadas.' : 'O assistente aguarda configuração pelo administrador. Suas análises salvas continuam disponíveis.'}</p>}
+    {loading && <p role="status">Acordando o Argos e carregando o histórico…</p>}
+    {status && !status.configured && <p className="assistant-notice">{demo ? 'Demonstração: abra a análise de exemplo abaixo. Novas análises e conversas estão desativadas.' : 'O Argos aguarda configuração pelo administrador. Suas análises salvas continuam disponíveis.'}</p>}
     {status?.configured && <p className="assistant-caption">Modelo: {status.model} · Análise após sincronização: {status.automatic ? 'ativada' : 'desativada'}. As respostas são sugestões; revise antes de alterar campanhas.</p>}
     <div className="assistant-layout">
-      <section className="assistant-chat" aria-label="Conversa com o assistente">
-        <div className="assistant-section-heading"><h2>Converse sobre os resultados</h2><button type="button" disabled={busy} onClick={() => { setMessages([]); setConversationId(null); setInput(''); setError(''); }}><Plus size={16} /> Nova conversa</button></div>
+      <section className="assistant-chat" aria-label="Conversa com o Argos">
+        <div className="assistant-section-heading"><h2>Converse com o Argos</h2><button type="button" disabled={busy} onClick={() => { setMessages([]); setConversationId(null); setInput(''); setError(''); }}><Plus size={16} /> Nova conversa</button></div>
         <div className="assistant-messages" role="log" aria-live="polite" aria-busy={busy}>
-          {!messages.length && <div className="assistant-welcome"><Sparkles size={30} /><h3>Qual é sua próxima decisão?</h3><p>Posso analisar desempenho e sugerir testes com base nos dados do período selecionado. Quando faltarem dados, vou indicar a limitação.</p></div>}
-          {messages.map((message, index) => <article key={`${message.created_at}-${index}`} className={`assistant-message ${message.role}`}><strong>{message.role === 'user' ? 'Você' : 'Eyesight'}</strong><p>{message.content}</p></article>)}
+          {!messages.length && <div className="assistant-welcome"><Sparkles size={30} /><h3>Qual é sua próxima decisão?</h3><p>Sou o Argos. Analiso o desempenho e sugiro testes com base nos dados do período selecionado. Quando faltarem dados, aviso a limitação.</p></div>}
+          {messages.map((message, index) => <article key={`${message.created_at}-${index}`} className={`assistant-message ${message.role}`}><strong>{message.role === 'user' ? 'Você' : 'Argos'}</strong><p>{message.content}</p></article>)}
           {busy && <p role="status">Processando solicitação…</p>}<div ref={bottom} />
         </div>
         <div className="assistant-suggestions">{suggestions.map(text => <button key={text} type="button" disabled={unavailable} onClick={() => send(text)}>{text}</button>)}</div>
-        <form className="assistant-composer" onSubmit={e => { e.preventDefault(); send(); }}><label htmlFor="assistant-message">Sua pergunta</label><textarea id="assistant-message" value={input} onChange={e => setInput(e.target.value)} maxLength={2000} rows={3} disabled={unavailable} placeholder="Pergunte sobre suas campanhas…" onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey && !e.nativeEvent.isComposing) { e.preventDefault(); send(); } }} /><div><small>Enter envia · Shift + Enter quebra a linha · {input.length}/2000</small><button type="submit" disabled={unavailable || !input.trim()}><Send size={16} /> Enviar</button></div></form>
+        <form className="assistant-composer" onSubmit={e => { e.preventDefault(); send(); }}><label htmlFor="assistant-message">Sua pergunta</label><textarea id="assistant-message" value={input} onChange={e => setInput(e.target.value)} maxLength={2000} rows={3} disabled={unavailable} placeholder="Pergunte algo ao Argos sobre suas campanhas…" onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey && !e.nativeEvent.isComposing) { e.preventDefault(); send(); } }} /><div><small>Enter envia · Shift + Enter quebra a linha · {input.length}/2000</small><button type="submit" disabled={unavailable || !input.trim()}><Send size={16} /> Enviar</button></div></form>
       </section>
       <aside className="assistant-sidebar">
         <section className="assistant-panel"><h2>Analisar campanha</h2><label htmlFor="assistant-campaign">Campanha</label><select id="assistant-campaign" value={campaignId} onChange={e => setCampaignId(e.target.value)} disabled={busy}><option value="">Selecione uma campanha</option>{campaigns.map(campaign => <option key={campaign.pk_id_campanha} value={campaign.pk_id_campanha}>{campaign.nome_campanha}</option>)}</select>{!loading && !campaigns.length && <p>Conecte uma conta e sincronize suas campanhas em Integrações.</p>}<button className="assistant-primary" type="button" disabled={unavailable || !campaignId} onClick={generate}><Sparkles size={16} /> Gerar análise</button><small>Usa o período selecionado. O score é indicativo, não uma garantia de resultado.</small></section>

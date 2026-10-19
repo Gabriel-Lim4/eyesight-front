@@ -1,0 +1,224 @@
+/* ============================================================
+   PERFIL — layout em duas colunas: resumo da conta à esquerda,
+   formulários em cartões à direita. Interruptores no lugar dos
+   checkboxes. Tudo usa os tokens de tema (claro e escuro).
+   ============================================================ */
+.identity-page.pf-page { max-width: 1120px; padding: 32px 28px 56px; }
+
+.pf-header { margin-bottom: 28px; }
+.identity-page .pf-header h1 { margin: 0 0 6px; font-size: 1.9rem; letter-spacing: -0.02em; }
+.identity-page .pf-header p { margin: 0; }
+
+.pf-layout {
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+
+.pf-aside {
+  display: grid;
+  gap: 16px;
+  position: sticky;
+  top: 24px;
+}
+
+.pf-main { display: grid; gap: 20px; min-width: 0; }
+.pf-main > .identity-panel, .pf-aside > .pf-id { margin: 0; }
+
+/* ---------- resumo da conta ---------- */
+.pf-id {
+  padding: 28px 24px;
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  background: var(--bg-container);
+  text-align: left;
+}
+
+.pf-avatar {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  margin-bottom: 18px;
+  border-radius: 16px;
+  background: var(--gradient-btn);
+  color: #ffffff;
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.identity-page .pf-id h2 { margin: 0 0 4px; font-size: 1.25rem; letter-spacing: -0.01em; }
+.identity-page .pf-id .pf-email { margin: 0 0 16px; font-size: 0.92rem; word-break: break-word; }
+.pf-badges { display: flex; flex-wrap: wrap; gap: 8px; }
+
+.pf-facts {
+  display: grid;
+  gap: 14px;
+  margin: 22px 0 0;
+  padding-top: 20px;
+  border-top: 1px solid var(--border-color);
+}
+.pf-facts dt { font-size: 0.74rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-secondary); }
+.pf-facts dd { margin: 3px 0 0; font-size: 0.95rem; color: var(--text-primary); }
+
+.identity-page a.pf-connect {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 14px;
+  min-height: 0;
+  padding: 18px 20px;
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  background: var(--bg-container);
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+.identity-page a.pf-connect:hover { border-color: var(--accent-blue); transform: translateY(-1px); }
+.pf-connect-text { display: grid; gap: 3px; text-align: left; }
+.pf-connect-text strong { font-size: 0.95rem; font-weight: 600; }
+.pf-connect-text small { font-size: 0.82rem; line-height: 1.45; color: var(--text-secondary); }
+.pf-connect-arrow { color: var(--text-secondary); }
+
+/* ---------- cartões de formulário ---------- */
+.identity-page .pf-card { padding: 28px; border-radius: 16px; }
+
+.pf-card-head { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 24px; }
+.identity-page .pf-card-head h2 { margin: 0 0 4px; font-size: 1.1rem; letter-spacing: -0.01em; }
+.identity-page .pf-card-head p { margin: 0; font-size: 0.92rem; line-height: 1.5; }
+
+.pf-card-icon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+  background: color-mix(in srgb, var(--accent-blue) 10%, transparent);
+  color: var(--accent-blue);
+}
+
+.identity-page .pf-fields { gap: 18px 20px; }
+.identity-page .pf-page label { gap: 7px; font-weight: 500; color: var(--text-secondary); }
+.identity-page .pf-fields label { font-size: 0.84rem; }
+.identity-page .pf-fields input { min-height: 46px; font-size: 0.95rem; color: var(--text-primary); }
+.identity-page .pf-fields input[readonly] { opacity: 0.75; cursor: default; }
+.identity-page .pf-fields input:disabled { opacity: 0.7; cursor: not-allowed; }
+.identity-page .pf-fields input:focus { border-color: var(--accent-blue); outline: none; box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-blue) 25%, transparent); }
+
+.identity-page .pf-help { margin: 12px 0 0; font-size: 0.84rem; line-height: 1.5; }
+
+.pf-divider { height: 1px; margin: 24px 0; background: var(--border-color); }
+
+.pf-row { display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+.identity-page .pf-row-text h3 { display: flex; align-items: center; gap: 8px; margin: 0 0 4px; font-size: 0.98rem; font-weight: 600; color: var(--text-primary); }
+.identity-page .pf-row-text p { margin: 0; font-size: 0.86rem; }
+
+.pf-segment {
+  display: inline-flex;
+  padding: 4px;
+  gap: 4px;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  background: var(--bg-input);
+}
+.identity-page .pf-segment button {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 38px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+.identity-page .pf-segment button[aria-pressed="true"] {
+  background: var(--bg-container);
+  color: var(--text-primary);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25), 0 0 0 1px var(--border-color);
+}
+
+.pf-card-foot {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 26px;
+  padding-top: 22px;
+  border-top: 1px solid var(--border-color);
+}
+.identity-page .pf-card-foot button { min-height: 44px; padding: 0 22px; font-weight: 600; }
+.pf-foot-note { font-size: 0.84rem; color: var(--text-secondary); }
+
+/* ---------- interruptores (resumo por e-mail) ---------- */
+.identity-page .pf-switch {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 18px 0;
+  border-top: 1px solid var(--border-color);
+  cursor: pointer;
+}
+.pf-switch-text { display: grid; gap: 4px; min-width: 0; text-align: left; }
+.pf-switch-text strong { font-size: 0.97rem; font-weight: 600; line-height: 1.35; color: var(--text-primary); }
+.pf-switch-text small { font-size: 0.86rem; font-weight: 400; line-height: 1.5; color: var(--text-secondary); }
+
+.identity-page .pf-switch input {
+  appearance: none;
+  -webkit-appearance: none;
+  flex: none;
+  position: relative;
+  width: 46px;
+  height: 26px;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--text-secondary) 38%, transparent);
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.identity-page .pf-switch input::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+  transition: transform 0.2s ease;
+}
+.identity-page .pf-switch input:checked { background: var(--gradient-btn); }
+.identity-page .pf-switch input:checked::after { transform: translateX(20px); }
+.identity-page .pf-switch input:disabled { opacity: 0.45; cursor: not-allowed; }
+.identity-page .pf-switch:has(input:disabled) { cursor: not-allowed; }
+.identity-page .pf-switch input:focus-visible { outline: 3px solid var(--accent-blue); outline-offset: 3px; }
+
+.summary-settings .summary-note { margin: 4px 0 0; font-size: 0.84rem; }
+.summary-settings .summary-actions { margin-top: 14px; padding-top: 22px; border-top: 1px solid var(--border-color); }
+.summary-settings .summary-button { min-height: 44px; }
+
+@media (max-width: 900px) {
+  .pf-layout { grid-template-columns: minmax(0, 1fr); }
+  .pf-aside { position: static; }
+}
+
+@media (max-width: 560px) {
+  .identity-page.pf-page { padding: 24px 14px 40px; }
+  .identity-page .pf-card { padding: 20px; }
+  .identity-page .pf-fields { grid-template-columns: minmax(0, 1fr); }
+}
+
+body.light-mode .identity-page a.pf-connect { color: var(--text-primary); }

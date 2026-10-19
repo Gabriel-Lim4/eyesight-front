@@ -52,7 +52,7 @@
 .analytics-alert-form label { flex:1; min-width:150px; }
 .analytics-alerts li { display:flex; flex-wrap:wrap; gap:12px; padding:12px 0; font-size:13px; border-bottom:1px solid var(--border-color); }
 .analytics-alerts li span { color:var(--text-secondary); }
-.analytics-detail { padding:20px; margin-top:20px; border:1px solid var(--border-color); border-radius:8px; }
+.analytics-detail { padding:20px; margin-top:20px; border:1px solid var(--border-color); border-radius:var(--radius-sm); }
 .analytics-detail>div { display:flex; justify-content:space-between; align-items:center; gap:12px; }
 .analytics-detail p { margin:12px 0; font-size:13px; }
 .analytics-spin { animation:analytics-spin 1.2s linear infinite; }
@@ -60,7 +60,42 @@
 @media(max-width:1100px) { .analytics-heading,.analytics-panel-heading { align-items:start; flex-direction:column; } .analytics-kpis { grid-template-columns:repeat(2,minmax(0,1fr)); } }
 @media(max-width:600px) { .analytics-workspace h1 { font-size:27px; } .analytics-panel { padding:16px; } .analytics-kpi { padding:16px; } .analytics-kpi strong { font-size:23px; } .analytics-kpi span { font-size:10px; } .analytics-filters { padding:14px; gap:12px; } .analytics-actions { width:100%; } .analytics-actions>label { flex:1; } .analytics-chart { height:230px; } .analytics-detail>div { align-items:start; flex-direction:column; } }
 .analytics-workspace .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
-.app-main .analytics-workspace h1 { color:var(--text-primary); -webkit-text-fill-color:var(--text-primary); background:none; }
+.app-main .analytics-workspace h1 { background:var(--gradient-btn); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
+
+/* ============================================================
+   ANALYTICS WORKSPACE — REFINO DE KPIS E TABELA
+   ============================================================ */
+
+.analytics-kpi { border-radius: var(--radius); box-shadow: var(--shadow-sm); }
+.analytics-kpi strong {
+  font-family: 'IBM Plex Mono', 'JetBrains Mono', ui-monospace, monospace;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+
+.analytics-filters {
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-color);
+}
+
+.analytics-workspace table { border-radius: var(--radius); overflow: hidden; }
+.analytics-workspace th {
+  background: color-mix(in srgb, var(--text-primary) 6%, transparent);
+  color: var(--text-secondary);
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.analytics-panel { border-radius: var(--radius); box-shadow: var(--shadow-sm); }
+
+.analytics-primary { background: var(--accent-blue); border: none; box-shadow: var(--shadow-sm); }
+.analytics-primary:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px -10px var(--c-rgba-59-130-246-0_35);
+}
 
 /* --- Bloco "Ver análise completa" (visão geral simples) --- */
 .analytics-advanced {
@@ -95,4 +130,31 @@
   gap: 12px 16px;
   align-items: end;
   justify-content: space-between;
+}
+
+/* Visão geral: só há o filtro de período, então ele não precisa ocupar a linha inteira */
+.analytics-filters.is-compact {
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  max-width: 100%;
+  padding: 10px 14px;
+  gap: 14px;
+}
+.analytics-filters.is-compact label {
+  flex: 0 1 auto;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+.analytics-filters.is-compact select {
+  width: 210px;
+  max-width: 100%;
+  min-height: 40px;
+  padding: 0 12px;
+  font-weight: 500;
 }

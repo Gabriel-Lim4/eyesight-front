@@ -1,0 +1,249 @@
+TERMOS DE USO DO EYESIGHT
+
+Última atualização: 14 de outubro de 2026
+
+O Eyesight é um projeto acadêmico, desenvolvido como Trabalho de Conclusão de Curso (TCC) do curso de Desenvolvimento de Sistemas. Estes Termos descrevem o que o sistema realmente faz e quais são os direitos e deveres de quem o utiliza.
+
+
+1. QUEM SOMOS E O QUE É O EYESIGHT
+
+1.1. O Eyesight é um painel web que reúne, em um só lugar, métricas de campanhas de marketing digital, para facilitar a consulta e a comparação de resultados.
+
+1.2. O serviço é mantido pela equipe do TCC ([nomes dos integrantes]), vinculada a [nome da instituição de ensino], doravante "Equipe". Para falar conosco: [e-mail de contato do projeto].
+
+1.3. Por ser um projeto acadêmico, o Eyesight não é um produto comercial. O acesso é voltado a testes, avaliação e demonstração, e não há cobrança pelo uso.
+
+
+2. ACEITE DESTES TERMOS
+
+2.1. Ao criar uma conta, conectar uma conta de anúncios ou usar o Eyesight, você declara que leu e concorda com estes Termos. Se não concordar, não utilize o serviço.
+
+2.2. O uso é permitido a pessoas maiores de 18 anos ou com capacidade legal para aceitar estes Termos. Quem usa o Eyesight em nome de uma empresa declara ter autorização para isso.
+
+
+3. CADASTRO E CONTA
+
+3.1. Para criar uma conta você informa nome, e-mail e senha. O e-mail precisa ser confirmado por meio de uma mensagem de verificação enviada ao endereço cadastrado.
+
+3.2. A autenticação (cadastro, login e redefinição de senha) é feita por um provedor de autenticação contratado pela Equipe. A Equipe não tem acesso à sua senha em texto legível.
+
+3.3. Você pode recuperar o acesso pelo fluxo "Esqueci minha senha", que envia um link ao seu e-mail.
+
+3.4. Você é responsável por manter sua senha em sigilo e por tudo o que for feito com a sua conta. Avise-nos caso suspeite de uso indevido.
+
+3.5. Você pode editar o seu nome no perfil. O sistema também comporta telefone e localização, que são opcionais.
+
+
+4. O QUE O SERVIÇO OFERECE
+
+4.1. Conexão com a Meta (Meta Ads). Você pode autorizar o Eyesight a acessar sua conta de anúncios da Meta por meio do login oficial da Meta (OAuth). O Eyesight não recebe nem guarda a sua senha da Meta.
+
+4.2. Leitura de campanhas e métricas. Depois da autorização, o Eyesight consulta suas campanhas e métricas, como impressões, cliques, investimento, alcance, CTR, CPC, CPM e frequência, e as exibe no painel por período (por exemplo, hoje, 7 dias e 30 dias).
+
+4.3. Somente leitura. Na versão atual, o Eyesight apenas consulta dados na Meta. Ele não cria, edita, pausa nem exclui campanhas, anúncios ou orçamentos. A autorização da Meta pode listar permissões mais amplas do que as efetivamente usadas (ads_read, ads_management e business_management); mesmo assim, o sistema utiliza esse acesso apenas para leitura.
+
+4.4. Exportação. O sistema permite exportar métricas em arquivo, para uso por você.
+
+4.5. Análises automáticas. Veja a seção 6.
+
+4.6. Modo demonstração. Quando disponível, o modo demonstração usa dados fictícios, não consulta nenhuma conta real e é somente leitura.
+
+4.7. Funcionalidades ainda em desenvolvimento. As telas de Google Ads e de Instagram existem na interface, mas, na versão atual, ainda não estão ligadas a dados reais dessas plataformas e podem exibir valores zerados ou de exemplo. Não use essas telas como fonte de informação sobre suas contas.
+
+
+5. DADOS VINDOS DE TERCEIROS
+
+5.1. Os números exibidos dependem das informações, das permissões e da disponibilidade das APIs da Meta. Eles são sincronizados sob demanda e não são dados em tempo real; podem ter atraso, diferenças de atribuição ou arredondamento em relação ao painel oficial da plataforma.
+
+5.2. Em caso de divergência, vale o painel oficial da plataforma de anúncios. Mudanças feitas pela Meta em suas regras ou APIs podem limitar ou interromper funcionalidades sem aviso prévio.
+
+5.3. Meta, Facebook, Instagram e Google são marcas de seus respectivos titulares. O Eyesight não é afiliado, patrocinado nem endossado por essas empresas.
+
+
+6. ANÁLISES E SUGESTÕES AUTOMÁTICAS
+
+6.1. As análises do Eyesight são geradas por regras e cálculos internos do próprio sistema, a partir das métricas da campanha selecionada e do período escolhido. Na versão atual, o sistema não envia seus dados a um serviço externo de inteligência artificial.
+
+6.2. As análises e sugestões têm caráter informativo e orientativo. Elas não constituem consultoria profissional, promessa ou garantia de resultado, e podem não considerar o contexto completo do seu negócio.
+
+6.3. A decisão de alterar orçamento, públicos, criativos ou qualquer configuração de campanha é sempre sua. A Equipe não responde por decisões tomadas com base nas análises.
+
+6.4. As análises geradas ficam salvas no seu histórico, e você pode excluí-las.
+
+
+7. PRIVACIDADE E DADOS PESSOAIS
+
+7.1. O tratamento de dados pessoais no Eyesight (quais dados coletamos, para que usamos, com quem compartilhamos, por quanto tempo guardamos e como exercer seus direitos) está descrito na Política de Privacidade do Eyesight, que faz parte destes Termos.
+
+7.2. Em resumo: não vendemos seus dados, o token da Meta nunca é enviado ao seu navegador, e você pode desconectar a Meta no sistema ou pedir a exclusão da conta pelo e-mail [e-mail de contato do projeto].
+
+
+8. REGRAS DE USO
+
+8.1. Você se compromete a:
+- conectar apenas contas de anúncios que você administra ou para as quais tenha autorização expressa;
+- fornecer informações verdadeiras no cadastro;
+- cumprir os termos e políticas da Meta ao usar dados obtidos por ela;
+- usar o Eyesight de forma lícita e de boa-fé.
+
+8.2. É proibido:
+- tentar acessar contas, dados ou áreas de outras pessoas;
+- explorar falhas, sobrecarregar o sistema, fazer varreduras automatizadas ou engenharia reversa para fins de abuso;
+- usar o serviço para fraude, spam ou qualquer atividade ilegal;
+- compartilhar sua conta ou revender o acesso.
+
+
+9. PROPRIEDADE INTELECTUAL
+
+9.1. O código, o design, o nome e a marca Eyesight pertencem à Equipe (e, quando aplicável, à instituição de ensino, conforme as regras do TCC). Estes Termos não transferem a você nenhum direito sobre eles, além do direito de usar o serviço.
+
+9.2. Os dados das suas campanhas continuam sendo seus (ou da empresa que você representa). Você autoriza o Eyesight a tratá-los apenas para prestar o serviço descrito aqui.
+
+
+10. DISPONIBILIDADE E LIMITES DE RESPONSABILIDADE
+
+10.1. Por ser um projeto acadêmico, o serviço é oferecido "no estado em que se encontra", sem garantia de disponibilidade contínua, de ausência de erros ou de adequação a uma finalidade específica. Podem ocorrer instabilidades, manutenções, alterações e a eventual desativação do serviço.
+
+10.2. Dentro do que a lei permite, a Equipe não responde por prejuízos indiretos, lucros cessantes, perda de oportunidades ou decisões de negócio tomadas com base nos dados e análises exibidos. Nada nestes Termos exclui direitos que a legislação, inclusive a de defesa do consumidor, não permita afastar.
+
+10.3. Recomendamos que você mantenha cópia dos dados importantes, como exportações e relatórios.
+
+
+11. SUSPENSÃO E ENCERRAMENTO
+
+11.1. Você pode parar de usar o Eyesight e pedir a exclusão da sua conta a qualquer momento.
+
+11.2. A Equipe pode suspender ou encerrar contas que violem estes Termos, coloquem o sistema ou terceiros em risco ou sejam usadas de forma fraudulenta. Também pode encerrar o serviço ao final do projeto acadêmico; nesse caso, avisaremos com antecedência razoável e eliminaremos os dados conforme a Política de Privacidade.
+
+
+12. ALTERAÇÕES DESTES TERMOS
+
+Podemos atualizar estes Termos para refletir mudanças no sistema ou na lei. A data da última atualização fica no topo do documento e, em mudanças relevantes, avisaremos por e-mail ou dentro do sistema. Continuar usando o Eyesight depois do aviso significa que você concorda com a nova versão.
+
+
+13. LEI APLICÁVEL E FORO
+
+Estes Termos são regidos pelas leis da República Federativa do Brasil. Fica eleito o foro da comarca de [cidade/UF], salvo se a lei garantir ao consumidor o direito de litigar no foro do seu domicílio.
+
+
+14. CONTATO
+
+Dúvidas, solicitações sobre dados pessoais ou denúncias de uso indevido: [e-mail de contato do projeto].
+
+
+
+========================================================================
+
+
+
+POLÍTICA DE PRIVACIDADE DO EYESIGHT
+
+Última atualização: 14 de outubro de 2026
+
+Esta Política explica quais dados pessoais o Eyesight trata, para que, com quem os compartilha e como você pode exercer seus direitos, conforme a Lei Geral de Proteção de Dados (LGPD, Lei nº 13.709/2018). Ela complementa os Termos de Uso.
+
+
+1. QUEM É RESPONSÁVEL PELOS SEUS DADOS
+
+1.1. O Eyesight é um projeto acadêmico (TCC do curso de Desenvolvimento de Sistemas), mantido pela equipe [nomes dos integrantes], vinculada a [nome da instituição de ensino]. A equipe é a controladora dos dados tratados no sistema.
+
+1.2. Contato para qualquer assunto de privacidade, incluindo o exercício dos seus direitos: [e-mail de contato do projeto].
+
+
+2. QUAIS DADOS TRATAMOS
+
+- Nome, e-mail e senha. Vêm de você, no cadastro. Servem para criar e proteger sua conta, confirmar o e-mail e permitir login e recuperação de acesso.
+- Telefone e localização (opcionais). Vêm de você, no perfil. Servem para completar o perfil, se você os informar.
+- Código da conta de anúncios e token de acesso da Meta. Vêm da Meta, após a sua autorização. Servem para consultar suas campanhas e métricas em seu nome, enquanto a conta estiver conectada.
+- Campanhas e métricas (impressões, cliques, investimento, alcance, CTR, CPC, CPM, frequência). Vêm da Meta. Servem para exibir o painel, exportar dados e gerar análises.
+- Análises geradas. Vêm do próprio sistema, a partir das suas métricas. Servem para manter o seu histórico de análises.
+- Dados de sessão e preferências no navegador. Ficam no seu navegador. Servem para manter você conectado e lembrar tema e menu (veja a seção 7).
+
+2.1. O Eyesight não recebe a sua senha da Meta: a autorização é feita no login oficial da Meta, que entrega ao sistema apenas um token de acesso.
+
+2.2. Não pedimos dados sensíveis (como saúde, religião ou biometria) nem dados de pagamento.
+
+
+3. PARA QUE USAMOS E EM QUE BASE LEGAL
+
+3.1. Prestar o serviço que você pediu: criar a conta, mostrar o painel, exportar métricas e gerar análises. Base legal: execução de contrato ou de procedimentos preliminares a pedido do titular (art. 7º, V, da LGPD).
+
+3.2. Conectar sua conta da Meta: base legal: seu consentimento (art. 7º, I), que você pode retirar a qualquer momento desconectando a conta.
+
+3.3. Enviar e-mails do sistema (confirmação de cadastro e redefinição de senha): base legal: execução de contrato.
+
+3.4. Segurança e cumprimento de obrigações legais: base legal: cumprimento de obrigação legal ou regulatória e exercício regular de direitos (art. 7º, II e VI).
+
+3.5. Não vendemos seus dados, não os usamos para publicidade e não fazemos perfilamento comercial.
+
+
+4. COM QUEM COMPARTILHAMOS
+
+4.1. Os dados são tratados por prestadores que viabilizam o serviço, que atuam como operadores:
+- Supabase: autenticação de usuários e banco de dados.
+- Resend: envio dos e-mails do sistema.
+- Provedor de hospedagem do site e do servidor: colocar o sistema no ar.
+- Meta: fonte dos dados de campanha; recebe apenas os pedidos de consulta feitos em seu nome.
+
+4.2. Esses prestadores podem processar dados em servidores fora do Brasil. Quando isso ocorrer, a transferência segue as hipóteses do art. 33 da LGPD.
+
+4.3. Também podemos compartilhar dados se houver obrigação legal ou ordem de autoridade competente.
+
+
+5. POR QUANTO TEMPO GUARDAMOS
+
+5.1. Mantemos os dados enquanto a sua conta existir.
+
+5.2. Ao usar "Desconectar" na conta da Meta, o vínculo é removido e as campanhas, métricas e análises ligadas a ele são apagadas do nosso banco de dados.
+
+5.3. Você pode excluir análises individuais do seu histórico a qualquer momento.
+
+5.4. Na versão atual não há botão de exclusão total da conta. Para apagar tudo (cadastro, perfil e demais registros), envie o pedido para [e-mail de contato do projeto]. Atenderemos em prazo razoável, ressalvados dados que precisemos guardar por obrigação legal.
+
+5.5. Se o projeto for encerrado ao fim do TCC, os dados serão eliminados, e avisaremos antes com antecedência razoável.
+
+
+6. SEUS DIREITOS
+
+6.1. Nos termos do art. 18 da LGPD, você pode pedir:
+- confirmação de que tratamos seus dados e acesso a eles;
+- correção de dados incompletos, inexatos ou desatualizados;
+- anonimização, bloqueio ou eliminação de dados desnecessários ou tratados em desconformidade;
+- portabilidade dos dados;
+- eliminação dos dados tratados com base no consentimento;
+- informação sobre com quem compartilhamos seus dados;
+- informação sobre a possibilidade de não consentir e suas consequências;
+- revogação do consentimento.
+
+6.2. Você mesmo pode editar seu nome no perfil, desconectar a Meta e excluir análises direto no sistema. Para os demais pedidos, escreva para [e-mail de contato do projeto]. Se não ficar satisfeito com a resposta, você pode reclamar à Autoridade Nacional de Proteção de Dados (ANPD).
+
+6.3. Para remover o acesso do Eyesight pelo lado da Meta, vá às configurações da sua conta Meta/Facebook, em "Integrações comerciais".
+
+
+7. ARMAZENAMENTO NO NAVEGADOR
+
+7.1. O Eyesight usa o armazenamento local do seu navegador, e não cookies de publicidade, para: manter sua sessão (token de login e seu nome), lembrar o tema claro ou escuro e lembrar se o menu lateral está recolhido.
+
+7.2. Não usamos ferramentas de análise de audiência nem rastreadores de terceiros. Ao sair da conta ou limpar os dados do navegador, essas informações são removidas do seu aparelho.
+
+
+8. SEGURANÇA
+
+8.1. Adotamos medidas razoáveis para proteger os dados: rotas protegidas por login, acesso restrito aos dados da própria conta e token da Meta usado só no servidor, sem ser enviado de volta ao navegador.
+
+8.2. Nenhum sistema é totalmente imune a falhas, e não podemos garantir segurança absoluta. Se ocorrer um incidente que possa causar risco ou dano relevante, comunicaremos os afetados e a ANPD, conforme a lei.
+
+
+9. MENORES DE IDADE
+
+O Eyesight não é destinado a menores de 18 anos. Se soubermos que uma conta pertence a um menor sem a devida autorização, poderemos excluí-la.
+
+
+10. ALTERAÇÕES DESTA POLÍTICA
+
+Podemos atualizar esta Política para refletir mudanças no sistema ou na lei. A data da última atualização fica no topo e, em mudanças relevantes, avisaremos por e-mail ou dentro do sistema.
+
+
+11. CONTATO
+
+Dúvidas ou pedidos sobre seus dados pessoais: [e-mail de contato do projeto].

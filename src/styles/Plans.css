@@ -49,3 +49,35 @@ body.light-mode .pl-error { border-color: var(--c-b45309); color: var(--c-b45309
 .pl-follow.is-worse { border-left-color: var(--status-attention); }
 .pl-follow.is-same { border-left-color: var(--status-stable); }
 .pl-follow.is-waiting { border-left-color: var(--status-unknown); color: var(--text-secondary); }
+
+/* ============================================================
+   PLANS — REFINO DE PASSOS E AÇÕES
+   ============================================================ */
+
+.pl-plan { border-radius: var(--radius); padding: var(--space-6); }
+
+.pl-button, .pl-link {
+  border-radius: var(--radius-sm);
+  min-height: 44px;
+}
+
+.pl-button {
+  background: var(--gradient-btn);
+  border: none;
+  box-shadow: var(--shadow-sm);
+}
+.pl-button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px -10px var(--c-rgba-59-130-246-0_35);
+}
+
+.pl-steps label {
+  border-radius: var(--radius-sm);
+  min-height: 44px;
+  padding: var(--space-3) 0;
+}
+
+.pl-follow {
+  border-radius: var(--radius-sm);
+  padding: var(--space-4) var(--space-6);
+}

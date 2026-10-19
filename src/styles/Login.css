@@ -39,9 +39,9 @@ body {
 .login-container {
   position: relative;
   z-index: 1;
-  width: min(920px, 100%);
-  height: 600px;
-  max-height: 88vh;
+  width: min(1020px, 100%);
+  height: 680px;
+  max-height: 90vh;
   border-radius: 24px;
   overflow: hidden;
   background: var(--bg-container);
@@ -112,21 +112,11 @@ body {
 }
 
 /* LOGO */
-.logo-box {
-  width: 76px;
-  height: 76px;
-  border-radius: 20px;
-  background: var(--c-rgba-59-130-246-0_1);
-  border: 1px solid var(--c-rgba-59-130-246-0_25);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.logo-box img {
-  width: 46px;
-  height: 46px;
+.login-logo {
+  width: 104px;
+  height: 104px;
   object-fit: contain;
+  filter: drop-shadow(0 10px 24px var(--c-rgba-59-130-246-0_35));
 }
 
 /* TÍTULO */
@@ -161,7 +151,7 @@ body {
 /* CARD do formulário — sem fundo próprio, só respira dentro do painel */
 .login-box {
   width: 100%;
-  max-width: 340px;
+  max-width: 380px;
   padding: 20px;
   color: white;
 }
@@ -351,173 +341,18 @@ body {
 }
 
 /* --- MODAL DE TERMOS --- */
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: var(--c-rgba-0-0-0-0_75);
-  backdrop-filter: blur(4px);
-  z-index: 999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-}
 
-.modal-content {
-  background: var(--bg-container);
-  border: 1px solid var(--c-1e293b--d9e2ef);
-  border-radius: 16px;
-  max-width: 500px;
-  width: 100%;
-  padding: 24px;
-  color: white;
-  box-shadow: 0 20px 50px var(--c-rgba-0-0-0-0_6);
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
 
-.modal-content h3 {
-  font-family: 'Tomorrow', sans-serif;
-  font-size: 1.2rem;
-  color: var(--accent-blue);
-}
 
-.modal-body {
-  max-height: 250px;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  padding-right: 8px;
-  font-size: 0.88rem;
-  color: var(--c-cbd5e1);
-  line-height: 1.5;
-}
 
-.modal-body h4 {
-  color: white;
-  margin-top: 4px;
-}
 
 /* Custom Scrollbar do Modal */
-.modal-body::-webkit-scrollbar {
-  width: 6px;
-}
-
-.modal-body::-webkit-scrollbar-track {
-  background: var(--c-020617);
-}
-
-.modal-body::-webkit-scrollbar-thumb {
-  background: var(--c-1e293b);
-  border-radius: 4px;
-}
-
-.modal-footer {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 8px;
-}
-
-.btn-modal-close {
-  background: linear-gradient(90deg, var(--accent-blue), var(--c-9333ea));
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: opacity 0.2s;
-}
-
-.btn-modal-close:hover {
-  opacity: 0.9;
-}
 
 
-/* =========================================================
-   BOTÃO VOLTAR PARA LANDING PAGE
-   ========================================================= */
-
-.btn-voltar-home {
-    position: absolute;
-
-    top: 28px;
-    left: 32px;
-
-    display: flex;
-    align-items: center;
-    gap: 8px;
-
-    padding: 10px 16px;
-
-    border: 1px solid var(--c-rgba-59-130-246-0_25);
-    border-radius: 8px;
-
-    background: transparent;
-
-    color: var(--c-9ca3af);
-
-    font-family: inherit;
-    font-size: 14px;
-    font-weight: 500;
-
-    cursor: pointer;
-
-    transition:
-        color .2s ease,
-        border-color .2s ease,
-        background .2s ease,
-        transform .2s ease;
-}
-
-.btn-voltar-home:hover {
-    color: var(--c-ffffff);
-
-    border-color: var(--c-rgba-59-130-246-0_55);
-
-    background: var(--c-rgba-59-130-246-0_08);
-
-    transform: translateX(-2px);
-}
 
 
-/* =========================================================
-   MODO CLARO
-   ========================================================= */
-
-body.light-mode .btn-voltar-home {
-    color: var(--c-475569);
-
-    border-color: var(--c-rgba-59-130-246-0_25);
-}
-
-body.light-mode .btn-voltar-home:hover {
-    color: var(--c-1e3a8a);
-
-    border-color: var(--c-rgba-59-130-246-0_45);
-
-    background: var(--c-rgba-59-130-246-0_07);
-}
 
 
-/* =========================================================
-   CELULAR
-   ========================================================= */
-
-@media (max-width: 600px) {
-
-    .btn-voltar-home {
-        top: 18px;
-        left: 18px;
-
-        padding: 8px 12px;
-
-        font-size: 13px;
-    }
-
-}
 
 /* --- RESPONSIVO: empilha em vez de dividir 50/50 --- */
 @media (max-width: 760px) {
@@ -552,4 +387,54 @@ body.light-mode .btn-voltar-home:hover {
   .login-box {
     max-width: 100%;
   }
+}
+
+/* ============================================================
+   LOGIN — REFINO DE CARTÃO, CAMPOS E BOTÃO
+   ============================================================ */
+
+/* Cartão: brilho no topo, sombra em camadas */
+.login-container {
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--c-1e293b--d9e2ef);
+  overflow: hidden;
+}
+
+/* Inputs: foco com anel azul suave */
+.login-box input {
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  font-size: 0.95rem;
+}
+.login-box input:focus {
+  outline: none;
+  border-color: var(--accent-blue);
+  box-shadow: 0 0 0 3px var(--c-rgba-59-130-246-0_1);
+}
+
+/* Botão principal: gradiente azul→roxo, hover elevado */
+.btn-login {
+  background: var(--gradient-btn);
+  border: none;
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-sm);
+  font-weight: 600;
+}
+.btn-login:hover:not(:disabled) {
+  opacity: 1;
+  transform: translateY(-1px);
+  box-shadow: 0 12px 28px -10px var(--c-rgba-59-130-246-0_35);
+}
+.btn-login:active:not(:disabled) { transform: translateY(0); }
+
+/* Divisor e links */
+.divider { color: var(--text-secondary); font-size: 0.8rem; }
+.forgot, .register span, .terms-link {
+  color: var(--accent-blue);
+  font-size: 0.85rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-login:hover:not(:disabled) { transform: none; }
 }

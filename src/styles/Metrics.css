@@ -102,7 +102,7 @@ body {
   margin-bottom: 6px;
   font-family: 'Tomorrow', sans-serif;
   letter-spacing: -0.01em;
-  background: linear-gradient(90deg, var(--c-ffffff) 45%, var(--c-cdeffc) 100%);
+  background: var(--gradient-btn);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -750,4 +750,38 @@ body {
   .metrics-strip-item:last-child {
     border-bottom: none;
   }
+}
+
+/* ============================================================
+   METRICS — REFINO DE HIERARQUIA E MÉTRICAS
+   ============================================================ */
+
+/* Cabeçalho com mais espaço */
+.metrics-header-row { margin-bottom: var(--space-8); }
+
+/* Número em destaque com fonte mono */
+.card-value, .metrics-kpi-mini strong, .metrics-strip-item strong, .metrics-badge-ring, .metrics-ring-inner strong {
+  font-family: 'IBM Plex Mono', 'JetBrains Mono', ui-monospace, monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+/* KPI mini: número destacado */
+.metrics-kpi-mini strong {
+  font-size: 1.35rem;
+}
+
+/* Cards de gráfico e badge: reforça o ícone em chip */
+.icon-box.metrics-accent {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-sm);
+  font-size: 1.1rem;
+}
+
+/* Tabela: zebrado suave já global */
+.table-container { border-radius: var(--radius); }
+
+@media (max-width: 768px) {
+  .metrics-kpi-row { gap: var(--space-6); }
+  .metrics-conversion-row { gap: var(--space-6); }
 }

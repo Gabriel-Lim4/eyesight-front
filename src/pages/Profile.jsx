@@ -1,14 +1,20 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { User, Shield, Sun } from 'lucide-react';
+import { User, Shield, Sun, Moon, Link2, ArrowUpRight } from 'lucide-react';
 import api from '../services/api';
 import { saveSession } from '../services/session';
 import { useTheme } from '../hooks/useTheme';
 import SummarySettings from '../components/summary/SummarySettings';
 import '../styles/Profile.css';
 import '../styles/Identity.css';
+import '../styles/ProfilePro.css';
 
-export default function Profile() {
+function getInitials(nameOrEmail) {
+  if (!nameOrEmail) return '?';
+  return String(nameOrEmail).trim().split(/[\s@._-]+/).slice(0, 2).map(part => part[0]?.toUpperCase()).filter(Boolean).join('') || '?';
+}
+
+function Profile() {
   const [profile, setProfile] = useState(null);
   const [message, setMessage] = useState(null);
   const [busy, setBusy] = useState(false);
@@ -57,35 +63,83 @@ export default function Profile() {
     } finally { setBusy(false); }
   }
 
-  return <div className="identity-page">
-    <header><h1>Meu perfil</h1><p>Seus dados, aparência e segurança da conta.</p></header>
+  const themeValue = lightMode ? 'light' : 'dark';
+  return <div className="identity-page pf-page">
+    <header className="pf-header"><h1>Meu perfil</h1><p>Seus dados, aparência e segurança da conta.</p></header>
     {message && <div className={`identity-message ${message.error ? 'error' : ''}`} role={message.error ? 'alert' : 'status'}>{message.text}</div>}
-    {!profile ? <section className="identity-panel">{message ? <button onClick={load}>Tentar novamente</button> : <p role="status">Carregando perfil…</p>}</section> : <>
-      <form className="identity-panel" onSubmit={save}>
-        <h2><User size={20} /> Dados pessoais</h2>
-        <div className="identity-fields">
-          <label>Nome<input required maxLength={100} autoComplete="name" value={profile.nome || ''} onChange={e => setProfile({ ...profile, nome: e.target.value })} disabled={demo} /></label>
-          <label>E-mail<input value={profile.email || ''} type="email" readOnly aria-describedby="profile-email-note" /></label>
-          <label>Telefone<input type="tel" maxLength={30} autoComplete="tel" value={profile.telefone || ''} onChange={e => setProfile({ ...profile, telefone: e.target.value })} disabled={demo} /></label>
-          <label>Localização<input maxLength={150} autoComplete="address-level2" placeholder="Cidade, estado" value={profile.localizacao || ''} onChange={e => setProfile({ ...profile, localizacao: e.target.value })} disabled={demo} /></label>
-        </div>
-        <p id="profile-email-note">O e-mail identifica seu acesso e não pode ser alterado nesta tela.</p>
-        <h2><Sun size={20} /> Aparência</h2>
-        <label>Tema<select value={lightMode ? 'light' : 'dark'} onChange={e => setLightMode(e.target.value === 'light')}><option value="dark">Escuro</option><option value="light">Claro</option></select></label>
-        <p>O tema muda imediatamente neste navegador. Salve para guardar a preferência no seu perfil.</p>
-        <button className="identity-primary" disabled={busy || demo}>{busy ? 'Salvando…' : 'Salvar perfil'}</button>
-      </form>
-      <form className="identity-panel" onSubmit={changePassword}>
-        <h2><Shield size={20} /> Alterar senha</h2>
-        <p>Confirme a senha atual para proteger sua conta.</p>
-        <div className="identity-fields">
-          {[['senhaAtual', 'Senha atual', 'current-password'], ['novaSenha', 'Nova senha', 'new-password'], ['confirmarSenha', 'Confirmar nova senha', 'new-password']].map(([key, label, complete]) => <label key={key}>{label}<input type="password" required minLength={key === 'senhaAtual' ? 1 : 8} maxLength={256} autoComplete={complete} value={passwords[key]} onChange={e => setPasswords({ ...passwords, [key]: e.target.value })} disabled={demo} /></label>)}
-        </div>
-        <p>Use pelo menos 8 caracteres.</p>
-        <button className="identity-primary" disabled={busy || demo}>{busy ? 'Aguarde…' : 'Alterar senha'}</button>
-      </form>
-      <SummarySettings weekly={profile.preferences?.summary?.weekly === true} alerts={profile.preferences?.summary?.alerts === true} nome={profile.nome} />
-      <section className="identity-panel"><h2>Contas conectadas</h2><p>Gerencie suas integrações e confira o status de autorização das plataformas.</p><Link to="/app/account">Gerenciar contas</Link></section>
-    </>}
+    {!profile ? <section className="identity-panel">{message ? <button onClick={load}>Tentar novamente</button> : <p role="status">Carregando perfil…</p>}</section> : <div className="pf-layout">
+      <aside className="pf-aside">
+        <section className="pf-id" aria-label="Resumo da conta">
+          <div className="pf-avatar" aria-hidden="true">{getInitials(profile.nome || profile.email)}</div>
+          <h2>{profile.nome || 'Usuário'}</h2>
+          <p className="pf-email">{profile.email}</p>
+          <div className="pf-badges">
+            <span className="profile-badge">{lightMode ? 'Tema claro' : 'Tema escuro'}</span>
+            {demo && <span className="profile-badge profile-badge-demo">Demonstração</span>}
+          </div>
+          <dl className="pf-facts">
+            <div><dt>Telefone</dt><dd>{profile.telefone || 'Não informado'}</dd></div>
+            <div><dt>Localização</dt><dd>{profile.localizacao || 'Não informada'}</dd></div>
+          </dl>
+        </section>
+        <Link to="/app/account" className="pf-connect">
+          <span className="pf-card-icon" aria-hidden="true"><Link2 size={18} /></span>
+          <span className="pf-connect-text"><strong>Contas conectadas</strong><small>Gerencie suas integrações e o status de autorização das plataformas.</small></span>
+          <ArrowUpRight size={18} aria-hidden="true" className="pf-connect-arrow" />
+        </Link>
+      </aside>
+
+      <div className="pf-main">
+        <form className="identity-panel pf-card" onSubmit={save}>
+          <div className="pf-card-head">
+            <span className="pf-card-icon" aria-hidden="true"><User size={18} /></span>
+            <div><h2>Dados pessoais</h2><p>Como você aparece no Eyesight.</p></div>
+          </div>
+          <div className="identity-fields pf-fields">
+            <label>Nome<input required maxLength={100} autoComplete="name" value={profile.nome || ''} onChange={e => setProfile({ ...profile, nome: e.target.value })} disabled={demo} /></label>
+            <label>E-mail<input value={profile.email || ''} type="email" readOnly aria-describedby="profile-email-note" /></label>
+            <label>Telefone<input type="tel" maxLength={30} autoComplete="tel" value={profile.telefone || ''} onChange={e => setProfile({ ...profile, telefone: e.target.value })} disabled={demo} /></label>
+            <label>Localização<input maxLength={150} autoComplete="address-level2" placeholder="Cidade, estado" value={profile.localizacao || ''} onChange={e => setProfile({ ...profile, localizacao: e.target.value })} disabled={demo} /></label>
+          </div>
+          <p id="profile-email-note" className="pf-help">O e-mail identifica seu acesso e não pode ser alterado nesta tela.</p>
+
+          <div className="pf-divider" role="presentation" />
+
+          <div className="pf-row">
+            <div className="pf-row-text">
+              <h3 id="pf-theme-label"><Sun size={16} aria-hidden="true" /> Tema</h3>
+              <p>Muda na hora neste navegador. Salve para guardar no seu perfil.</p>
+            </div>
+            <div className="pf-segment" role="group" aria-labelledby="pf-theme-label">
+              <button type="button" aria-pressed={themeValue === 'dark'} onClick={() => setLightMode(false)}><Moon size={15} aria-hidden="true" /> Escuro</button>
+              <button type="button" aria-pressed={themeValue === 'light'} onClick={() => setLightMode(true)}><Sun size={15} aria-hidden="true" /> Claro</button>
+            </div>
+          </div>
+
+          <div className="pf-card-foot">
+            <button className="identity-primary" disabled={busy || demo}>{busy ? 'Salvando…' : 'Salvar perfil'}</button>
+            {demo && <span className="pf-foot-note">Edição indisponível na demonstração.</span>}
+          </div>
+        </form>
+
+        <form className="identity-panel pf-card" onSubmit={changePassword}>
+          <div className="pf-card-head">
+            <span className="pf-card-icon" aria-hidden="true"><Shield size={18} /></span>
+            <div><h2>Alterar senha</h2><p>Confirme a senha atual para proteger sua conta.</p></div>
+          </div>
+          <div className="identity-fields pf-fields">
+            {[['senhaAtual', 'Senha atual', 'current-password'], ['novaSenha', 'Nova senha', 'new-password'], ['confirmarSenha', 'Confirmar nova senha', 'new-password']].map(([key, label, complete]) => <label key={key}>{label}<input type="password" required minLength={key === 'senhaAtual' ? 1 : 8} maxLength={256} autoComplete={complete} value={passwords[key]} onChange={e => setPasswords({ ...passwords, [key]: e.target.value })} disabled={demo} /></label>)}
+          </div>
+          <p className="pf-help">Use pelo menos 8 caracteres.</p>
+          <div className="pf-card-foot">
+            <button className="identity-primary" disabled={busy || demo}>{busy ? 'Aguarde…' : 'Alterar senha'}</button>
+          </div>
+        </form>
+
+        <SummarySettings weekly={profile.preferences?.summary?.weekly === true} alerts={profile.preferences?.summary?.alerts === true} nome={profile.nome} />
+      </div>
+    </div>}
   </div>;
 }
+
+export default Profile;

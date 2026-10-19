@@ -9,7 +9,7 @@
 .identity-page input,.identity-page select { box-sizing:border-box; width:100%; background:var(--bg-input); color:var(--text-primary); border:1px solid var(--border-color); border-radius:8px; padding:12px; min-height:44px; }
 .identity-page button,.identity-page a { min-height:44px; }
 .identity-page button { cursor:pointer; border:1px solid var(--border-color); border-radius:8px; padding:10px 18px; background:var(--bg-input); color:var(--text-primary); }
-.identity-page button.identity-primary { background:var(--c-2563eb); color:white; }
+.identity-page button.identity-primary { background:var(--gradient-btn); color:white; border:none; }
 .identity-page button:disabled { opacity:.55; cursor:not-allowed; }
 .identity-page a { color:var(--accent-blue); display:inline-flex; align-items:center; }
 body.light-mode .identity-page a { color:var(--c-1d4ed8); } /* o azul de destaque mede 3,67:1 sobre branco; este mede 6,7:1 */
@@ -22,3 +22,60 @@ body.light-mode .identity-page a { color:var(--c-1d4ed8); } /* o azul de destaqu
 .identity-page dialog { color:var(--text-primary); background:var(--bg-container); border:1px solid var(--border-color); border-radius:16px; padding:24px; max-width:480px; width:calc(100% - 48px); }
 .identity-page dialog::backdrop { background:var(--c-rgba-0-0-0-0_65); }
 @media(max-width:768px) { .identity-page { padding:20px 14px; } .identity-fields,.identity-account-grid { grid-template-columns:1fr; } .identity-panel { padding:20px; } }
+.profile-hero { display:flex; gap:20px; align-items:center; flex-wrap:wrap; }
+.profile-hero-avatar { width:76px; height:76px; border-radius:22px; background:var(--gradient-btn); color:var(--c-ffffff); display:flex; align-items:center; justify-content:center; font-size:28px; font-weight:800; box-shadow:0 14px 30px -16px var(--c-rgba-59-130-246-0_45); flex-shrink:0; }
+.profile-hero-info h2 { margin:0 0 4px; font-size:22px; }
+.profile-hero-info p { margin:0 0 12px; }
+.profile-hero-badges { display:flex; gap:8px; flex-wrap:wrap; }
+.profile-badge { padding:5px 12px; border-radius:999px; border:1px solid var(--border-color); background:var(--bg-input); color:var(--text-secondary); font-size:12px; font-weight:600; }
+.profile-badge-demo { background:var(--c-rgba-59-130-246-0_12); border-color:var(--c-rgba-59-130-246-0_25); color:var(--accent-blue); }
+
+/* ============================================================
+   IDENTIDADE — REFINO DE FORMULÁRIO E PAINÉIS
+   ============================================================ */
+
+.identity-panel, .identity-page dialog {
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-color);
+}
+
+.identity-page input, .identity-page select {
+  border-radius: var(--radius-sm);
+  min-height: 48px;
+  padding: 12px 14px;
+}
+
+.identity-page button {
+  border-radius: var(--radius-sm);
+  min-height: 48px;
+  padding: 10px 20px;
+}
+
+.identity-page button.identity-primary {
+  background: var(--gradient-btn);
+  border: none;
+  box-shadow: var(--shadow-sm);
+}
+.identity-page button.identity-primary:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px -10px var(--c-rgba-59-130-246-0_35);
+}
+
+.identity-fields { gap: var(--space-6); }
+.identity-account-grid { gap: var(--space-6); }
+
+.profile-hero-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: var(--radius-sm);
+  font-size: 30px;
+  box-shadow: var(--shadow-md);
+}
+
+.profile-badge {
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-color);
+  padding: 6px 14px;
+  font-size: 0.8rem;
+}

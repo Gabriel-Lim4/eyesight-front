@@ -32,6 +32,17 @@ describe('Assistant', () => {
     await screen.findByText('Análise válida');
     expect(api.post).toHaveBeenCalledWith('/ia/analisar/42', { periodo: 'last_30d' }, expect.anything());
   });
+  it('apresenta a IA pelo nome Argos e assina as respostas com ele', async () => {
+    api.post.mockResolvedValue({ data: { conversation: { id: 'c1', title: 'Oi', messages: [{ role: 'user', content: 'Oi' }, { role: 'assistant', content: 'Olá!' }] } } });
+    render(<Assistant />);
+    expect(screen.getByRole('heading', { level: 1, name: 'Argos' })).toBeInTheDocument();
+    expect(screen.getByRole('region', { name: 'Conversa com o Argos' })).toBeInTheDocument();
+    await waitFor(() => expect(screen.getByLabelText('Sua pergunta')).not.toBeDisabled());
+    fireEvent.change(screen.getByLabelText('Sua pergunta'), { target: { value: 'Oi' } });
+    fireEvent.click(screen.getByRole('button', { name: 'Enviar' }));
+    await screen.findByText('Olá!');
+    expect(screen.getByText('Argos', { selector: 'strong' })).toBeInTheDocument();
+  });
   it('shows missing configuration honestly', async () => {
     api.get.mockResolvedValue({ data: { configured: false } });
     render(<Assistant />);

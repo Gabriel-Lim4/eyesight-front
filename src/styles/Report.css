@@ -1,10 +1,10 @@
-/* --- Relatório para o cliente: documento em papel (claro nos dois temas) --- */
+/* --- Relatório para o cliente: acompanha o tema na tela e sai sempre em papel branco na impressão --- */
 .rp-sheet {
-  --rp-paper: #ffffff;
-  --rp-ink: #0f172a;
-  --rp-muted: #475569;
-  --rp-line: #cbd5e1;
-  --rp-accent: #1d4ed8;
+  --rp-paper: var(--bg-container);
+  --rp-ink: var(--text-primary);
+  --rp-muted: var(--text-secondary);
+  --rp-line: var(--border-color);
+  --rp-accent: var(--accent-blue);
   width: 100%;
   box-sizing: border-box;
   max-width: 820px;
@@ -13,7 +13,7 @@
   background: var(--rp-paper);
   color: var(--rp-ink);
   border: 1px solid var(--rp-line);
-  border-radius: 6px;
+  border-radius: 16px;
   line-height: 1.5;
 }
 .rp-sheet h2 { margin: 0; font-size: 1.7rem; }
@@ -59,7 +59,7 @@
 
 @media print {
   @page { margin: 14mm; }
-  :root { --rp-paper: #ffffff; }
+  :root, .rp-sheet { --rp-paper: #ffffff; --rp-ink: #0f172a; --rp-muted: #475569; --rp-line: #cbd5e1; --rp-accent: #1d4ed8; }
   html, body, .app-shell.dashboard-container, .app-main.dashboard-content { display: block; height: auto; min-height: 0; margin: 0; padding: 0; overflow: visible; background: var(--rp-paper); }
   .app-shell .sidebar, .app-shell .demo-banner, .rp-page .rp-intro, .rp-page .rp-controls, .rp-page .rp-screen-only { display: none; }
   .rp-page { display: block; }

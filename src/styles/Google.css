@@ -27,6 +27,10 @@ body {
   margin-bottom: 8px;
   font-family: 'Tomorrow', sans-serif;
   letter-spacing: -0.01em;
+  background: var(--gradient-btn);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .subtitle {
@@ -272,4 +276,35 @@ body {
   .dashboard-content {
     padding: 20px;
   }
+}
+
+/* ============================================================
+   GOOGLE — REFINO DE MÉTRICAS E TABELA
+   ============================================================ */
+
+/* Número em destaque com fonte mono */
+.card-value, .google-strip-item strong {
+  font-family: 'IBM Plex Mono', 'JetBrains Mono', ui-monospace, monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Cards com raio consistente e ícone em chip */
+.card, .google-strip {
+  border-radius: var(--radius);
+}
+
+.icon-box.google-accent {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-sm);
+  font-size: 1.1rem;
+}
+
+/* Tabela: cabeçalho discreto e zebrado suave */
+.table-container { border-radius: var(--radius); }
+.table th { background: color-mix(in srgb, var(--text-primary) 6%, transparent); }
+
+@media (max-width: 640px) {
+  .google-overview-row { gap: var(--space-6); }
+  .google-type-row { gap: var(--space-6); }
 }

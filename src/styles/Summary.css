@@ -35,3 +35,35 @@ body.light-mode .summary-error { border-color: var(--c-b45309); color: var(--c-b
 .summary-cancel h1 { margin: 0 0 16px; font-size: 1.5rem; }
 .summary-cancel a { display: inline-flex; align-items: center; min-height: 44px; color: var(--accent-blue); }
 body.light-mode .summary-cancel a { color: var(--c-1d4ed8); }
+
+/* ============================================================
+   SUMMARY — REFINO DE CANCELAMENTO E CONFIGURAÇÃO
+   ============================================================ */
+
+.summary-check {
+  border-radius: var(--radius-sm);
+  padding: var(--space-2) var(--space-4);
+}
+
+.summary-button, .summary-link {
+  border-radius: var(--radius-sm);
+  min-height: 44px;
+}
+
+.summary-button {
+  background: var(--gradient-btn);
+  border: none;
+  box-shadow: var(--shadow-sm);
+}
+.summary-button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px -10px var(--c-rgba-59-130-246-0_35);
+}
+
+.summary-error {
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  font-size: 0.88rem;
+}
+
+.summary-cancel { max-width: 560px; padding: var(--space-10) var(--space-6); }

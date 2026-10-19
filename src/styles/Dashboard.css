@@ -33,366 +33,6 @@ body {
 }
 
 /* ==================================================================== */
-/* SIDEBAR RECOLHÍVEL E RESPONSIVA                                       */
-/* A base (cor, position:sticky, largura fixa de 260px) está no          */
-/* Dashboard.css. Aqui a gente torna essa largura fluida e cobre as      */
-/* faixas de tela que a base sozinha não trata: ultrawide, notebook      */
-/* pequeno, tablet (retrato e paisagem), celular pequeno e celular       */
-/* deitado (altura curta). Usamos !important pra garantir que essas      */
-/* regras sempre vençam, independente da ordem em que o Vite concatena   */
-/* os CSS das duas páginas.                                              */
-/* ==================================================================== */
-
-.sidebar {
-  transition: width 0.25s ease, min-width 0.25s ease, padding 0.25s ease;
-  /* largura fluida: nunca menor que 220px, nunca maior que 280px,        */
-  /* variando com a viewport — assim uma tela 4K não fica com uma faixa   */
-  /* fina e desproporcional, e um notebook de 13" não fica espremido.     */
-  width: clamp(220px, 17vw, 280px) !important;
-  min-width: clamp(220px, 17vw, 280px) !important;
-}
-
-.sidebar-collapsed {
-  width: clamp(76px, 6vw, 92px) !important;
-  min-width: clamp(76px, 6vw, 92px) !important;
-}
-
-/* Alça de recolher/expandir, encostada na borda direita da sidebar.
-   position:sticky no .sidebar (definido no Dashboard.css) já funciona
-   como contexto de posicionamento pra essa alça. */
-.sidebar-toggle {
-  position: absolute;
-  top: 28px;
-  right: -14px;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background: var(--c-1e293b);
-  border: 1px solid var(--c-334155);
-  color: var(--c-cbd5e1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  font-size: 0.85rem;
-  z-index: 5;
-  transition: transform 0.25s ease, background 0.2s, color 0.2s;
-}
-
-.sidebar-toggle:hover {
-  background: var(--c-334155);
-  color: var(--c-ffffff);
-}
-
-.sidebar-collapsed .sidebar-toggle {
-  transform: rotate(180deg);
-}
-
-/* Logo + título — sempre na mesma linha, em qualquer tamanho de tela */
-.sidebar-brand {
-  display: flex;
-  align-items: center;
-  flex-wrap: nowrap;
-  gap: 12px;
-  margin-bottom: 40px;
-  min-width: 0;
-}
-
-.sidebar-brand h2 {
-  margin: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  font-family: 'Tomorrow', sans-serif;
-  font-size: clamp(1.15rem, 0.9rem + 0.6vw, 1.5rem) !important;
-  color: var(--text-body);
-}
-
-.sidebar-logo {
-  flex-shrink: 0;
-  width: clamp(38px, 2.6vw, 50px) !important;
-  height: clamp(38px, 2.6vw, 50px) !important;
-  object-fit: contain;
-}
-
-.sidebar-collapsed .sidebar-brand {
-  justify-content: center;
-  cursor: pointer;
-}
-
-.sidebar-collapsed .sidebar-brand h2 {
-  display: none;
-}
-
-/* Itens do menu — texto e ícone com tamanho mínimo garantido,           */
-/* independente da resolução ou do zoom do sistema operacional.          */
-.link-text {
-  white-space: nowrap;
-  font-size: clamp(0.88rem, 0.8rem + 0.25vw, 1rem) !important;
-}
-
-.sidebar ul li a {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.sidebar ul li a svg {
-  font-size: clamp(1.05rem, 0.95rem + 0.3vw, 1.3rem) !important;
-  flex-shrink: 0;
-}
-
-.sidebar-collapsed ul li a {
-  justify-content: center;
-}
-
-.sidebar-collapsed .link-text {
-  display: none;
-}
-
-/* Rodapé (avatar + nome) no modo recolhido */
-.sidebar-collapsed .sidebar-footer {
-  justify-content: center;
-}
-
-.sidebar-collapsed .sidebar-footer .user-info {
-  display: none;
-}
-
-/* --- SEÇÃO DO PERFIL DO USUÁRIO (FOOTER) --- */
-.sidebar-footer {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding-top: 20px;
-  border-top: 1px solid var(--c-1e293b);
-  margin-top: 20px;
-}
-
-.sidebar-footer .avatar {
-  width: clamp(36px, 2.6vw, 42px);
-  height: clamp(36px, 2.6vw, 42px);
-  flex-shrink: 0;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--c-6366f1), var(--c-a855f7));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-weight: bold;
-  font-size: 0.9rem;
-}
-
-.sidebar-footer .user-info {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-}
-
-.sidebar-footer .user-name {
-  color: var(--c-ffffff);
-  font-size: clamp(0.88rem, 0.8rem + 0.2vw, 0.95rem);
-  font-weight: 600;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.sidebar-footer .view-profile {
-  color: var(--c-94a3b8); /* contraste 6,5:1 sobre o fundo escuro da lateral */
-  font-size: 0.8rem;
-  transition: 0.2s;
-}
-
-.sidebar-footer .view-profile:hover {
-  color: var(--c-e2e8f0);
-}
-
-/* ==================================================================== */
-/* >= 1920px — monitores grandes / ultrawide                             */
-/* ==================================================================== */
-@media (min-width: 1920px) {
-  .sidebar {
-    width: 300px !important;
-    min-width: 300px !important;
-    padding: 36px 26px !important;
-  }
-
-  .sidebar-collapsed {
-    width: 100px !important;
-    min-width: 100px !important;
-  }
-}
-
-/* ==================================================================== */
-/* 1025px – 1366px — notebooks de 13"-14"                                */
-/* ==================================================================== */
-@media (max-width: 1366px) {
-  .sidebar-brand {
-    margin-bottom: 32px;
-  }
-
-  .sidebar ul li a {
-    padding-top: 10px;
-    padding-bottom: 10px;
-  }
-}
-
-/* ==================================================================== */
-/* 769px – 1024px — tablets em pé/deitado e janelas divididas.           */
-/* ==================================================================== */
-@media (min-width: 769px) and (max-width: 1024px) {
-  .sidebar {
-    width: 210px !important;
-    min-width: 210px !important;
-    padding: 24px 16px !important;
-  }
-
-  .sidebar-collapsed {
-    width: 72px !important;
-    min-width: 72px !important;
-  }
-
-  .sidebar-brand {
-    margin-bottom: 28px;
-  }
-
-  .sidebar ul li a {
-    padding-top: 9px;
-    padding-bottom: 9px;
-    gap: 10px;
-  }
-}
-
-/* ==================================================================== */
-/* <= 768px — celular/tablet estreito.                                   */
-/* ==================================================================== */
-@media (max-width: 768px) {
-  .sidebar-toggle {
-    display: none;
-  }
-
-  .sidebar-collapsed {
-    width: 100% !important;
-    min-width: 100% !important;
-  }
-
-  .sidebar-collapsed .link-text {
-    display: inline;
-  }
-
-  .sidebar-collapsed .sidebar-footer .user-info {
-    display: flex;
-  }
-
-  .link-text,
-  .sidebar ul li a svg {
-    font-size: 0.95rem !important;
-  }
-
-  .sidebar ul {
-    scrollbar-width: none;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  .sidebar ul::-webkit-scrollbar {
-    display: none;
-  }
-}
-
-/* ==================================================================== */
-/* <= 480px — celulares pequenos.                                        */
-/* ==================================================================== */
-@media (max-width: 480px) {
-  .sidebar {
-    padding: 16px 14px !important;
-  }
-
-  .sidebar-brand {
-    gap: 8px;
-    margin-bottom: 16px;
-  }
-
-  .sidebar-brand h2 {
-    font-size: 1rem !important;
-  }
-
-  .sidebar-logo {
-    width: 32px !important;
-    height: 32px !important;
-  }
-
-  .sidebar ul li a {
-    gap: 8px;
-    padding: 8px 10px;
-  }
-
-  .link-text,
-  .sidebar ul li a svg {
-    font-size: 0.85rem !important;
-  }
-
-  .sidebar-footer .avatar {
-    width: 32px;
-    height: 32px;
-    font-size: 0.78rem;
-  }
-
-  .sidebar-footer .user-name {
-    font-size: 0.82rem;
-  }
-
-  .sidebar-footer .view-profile {
-    font-size: 0.72rem;
-  }
-}
-
-/* ==================================================================== */
-/* Celular deitado (altura curta).                                       */
-/* ==================================================================== */
-@media (max-height: 500px) and (orientation: landscape) {
-  .dashboard-container {
-    flex-direction: column !important;
-  }
-
-  .sidebar {
-    width: 100% !important;
-    min-width: 100% !important;
-    height: auto !important;
-    position: relative !important;
-    padding: 12px 16px !important;
-  }
-
-  .sidebar-collapsed {
-    width: 100% !important;
-    min-width: 100% !important;
-  }
-
-  .sidebar ul {
-    display: flex;
-    overflow-x: auto;
-    padding-bottom: 6px;
-    scrollbar-width: none;
-  }
-
-  .sidebar ul::-webkit-scrollbar {
-    display: none;
-  }
-
-  .sidebar ul li a {
-    white-space: nowrap;
-  }
-
-  .sidebar-brand {
-    margin-bottom: 12px;
-  }
-
-  .sidebar-toggle {
-    display: none;
-  }
-}
-
-/* ==================================================================== */
 /* CONTEÚDO PRINCIPAL                                                    */
 /* ==================================================================== */
 
@@ -473,7 +113,7 @@ body {
   margin-bottom: 6px;
   font-family: 'Tomorrow', sans-serif;
   letter-spacing: -0.01em;
-  background: linear-gradient(90deg, var(--c-ffffff) 45%, var(--c-c7d5f5) 100%);
+  background: var(--gradient-btn);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -1046,7 +686,6 @@ body {
 
 /* --- CORES PERSONALIZADAS PARA CADA REDE SOCIAL --- */
 
-
 /* Instagram (Fundo Rosa/Roxo sutil) */
 .icon-instagram {
   background-color: var(--c-rgba-225-48-108-0_1) !important;
@@ -1084,23 +723,6 @@ body {
 @media (max-width: 768px) {
   .dashboard-container {
     flex-direction: column;
-  }
-
-  .sidebar {
-    width: 100%;
-    height: auto;
-    position: relative;
-    padding: 20px;
-  }
-
-  .sidebar ul {
-    display: flex;
-    overflow-x: auto;
-    padding-bottom: 10px;
-  }
-
-  .sidebar ul li {
-    white-space: nowrap; /* impede quebra */
   }
 
   .dashboard-content {
@@ -1335,7 +957,6 @@ body {
   .dash-funnel-step:last-child { border-bottom: none; }
 }
 
-
 /* ============================================================
    PERÍODO PERSONALIZADO
    ============================================================ */
@@ -1476,4 +1097,45 @@ body {
 @keyframes dash-skeleton-pulse {
   0%, 100% { opacity: 0.6; }
   50% { opacity: 1; }
+}
+
+/* ============================================================
+   DASHBOARD — REFINO DE HIERARQUIA E MÉTRICAS
+   ============================================================ */
+
+/* Espaço extra entre os blocos principais da página */
+.dash-header { margin-bottom: var(--space-8); }
+
+/* Cartão de métrica: ícone já vem em chip (.icon-box); reforça o número
+   e a variação semântica (verde/âmbar/vermelho via classes existentes) */
+.card .card-value {
+  font-family: 'IBM Plex Mono', 'JetBrains Mono', ui-monospace, monospace;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.025em;
+}
+
+/* Variação semântica de mudança — mais legível nos dois temas */
+.change-good   { color: var(--status-good); }
+.change-attention { color: var(--status-attention); }
+.change-bad    { color: var(--c-ef4444); }
+
+/* KPI mini: número em destaque, fonte mono */
+.dash-kpi-card strong {
+  font-family: 'IBM Plex Mono', 'JetBrains Mono', ui-monospace, monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Filtros: inputs/selects já herdam o foco global do Theme.css */
+.dash-filter-field select:focus,
+.dash-custom-date-range input[type="date"]:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--c-rgba-59-130-246-0_1);
+}
+
+/* Tabelas: zebrado suave e hover já estão globais; reforça aqui se necessário */
+.table-container { border-radius: var(--radius); }
+
+@media (max-width: 768px) {
+  .dash-overview-row { grid-template-columns: 1fr; gap: var(--space-6); }
+  .dash-kpi-section { gap: var(--space-4); }
 }

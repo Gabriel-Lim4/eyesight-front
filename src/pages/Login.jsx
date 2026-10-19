@@ -1,6 +1,10 @@
 import { saveSession } from '../services/session';
 import "../styles/Login.css";
 import "../styles/variables.css";
+import "../styles/AuthRefresh.css";
+import TermsModal from "../components/TermsModal";
+import ThemeToggle from "../components/ThemeToggle";
+import { FiArrowLeft } from "react-icons/fi";
 import { useState } from "react";
 import logo from "../assets/Logo.png";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -234,26 +238,25 @@ function Login() {
   return (
 
     <div className="login-page">
-    <button
-  type="button"
-  className="btn-voltar-home"
-  onClick={() => navigate("/")}
->
-  ← Voltar
-</button>
 
       <div className={`login-container ${isCadastro ? "cadastro-mode" : ""}`}>
 
         {/* PAINEL ESQUERDO */}
         <div className="left-side">
+          <div className="auth-topbar">
+            <button type="button" className="auth-back" onClick={() => navigate("/")}>
+              <FiArrowLeft aria-hidden="true" />
+              Voltar
+            </button>
+            <ThemeToggle />
+          </div>
+
           <span className="brand-circle brand-circle-1" aria-hidden="true" />
           <span className="brand-circle brand-circle-2" aria-hidden="true" />
           <span className="brand-circle brand-circle-3" aria-hidden="true" />
 
           <div className="login-header">
-            <div className="logo-box">
-              <img src={logo} alt="logo" />
-            </div>
+            <img src={logo} alt="Eyesight Logo" className="login-logo" />
             <h1>EYESIGHT</h1>
             <p>Marketing Metrics</p>
           </div>
@@ -282,13 +285,13 @@ function Login() {
                 }
               }}>Reenviar confirmação</button>
             )}
-            {erro && <p className="erro-msg">{erro}</p>}
+            {erro && <p className="erro-msg" role="alert">{erro}</p>}
 
             {/* Campo Nome — só no cadastro */}
             {isCadastro && (
               <>
-                <label>Nome</label>
-<input
+                <label htmlFor="login-nome">Nome</label>
+<input id="login-nome"
               type="text"
               placeholder="Seu nome..."
               value={nome}
@@ -301,8 +304,8 @@ function Login() {
             )}
 
             {/* E-mail */}
-            <label>E-mail</label>
-            <input
+            <label htmlFor="login-email">E-mail</label>
+            <input id="login-email"
               type="email"
               placeholder="seu@email.com..."
               value={email}
@@ -313,9 +316,9 @@ function Login() {
             />
 
             {/* Senha */}
-            <label>Senha</label>
+            <label htmlFor="login-senha">Senha</label>
             <div className="password-input-wrapper">
-              <input
+              <input id="login-senha"
                 type={mostrarSenha ? "text" : "password"}
                 placeholder="••••••••"
                 value={senha}
@@ -335,7 +338,7 @@ function Login() {
             </div>
 
             {/* Medidor de Força da Senha */}
-            {senha && (
+            {isCadastro && senha && (
               <div className="strength-meter" style={{ marginTop: "8px", marginBottom: "8px" }}>
                 <div
                   className="strength-track"
@@ -371,9 +374,9 @@ style={{
             {/* Confirmar Senha — só no cadastro */}
             {isCadastro && (
               <>
-                <label>Confirmar Senha</label>
+                <label htmlFor="login-confirmar">Confirmar Senha</label>
                 <div className="password-input-wrapper">
-                  <input
+                  <input id="login-confirmar"
                     type={mostrarConfirmarSenha ? "text" : "password"}
                     placeholder="••••••••"
                     value={confirmarSenha}
@@ -419,7 +422,7 @@ style={{
 
             {/* Esqueceu a senha — só no login */}
             {!isCadastro && (
-              <span className="forgot" onClick={() => navigate("/esqueci-senha")}>
+              <span className="forgot" role="button" tabIndex={0} onClick={() => navigate("/esqueci-senha")} onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && (e.preventDefault(), (() => navigate("/esqueci-senha"))())}>
                 Esqueceu a senha?
               </span>
             )}
@@ -445,12 +448,12 @@ style={{
             {!isCadastro ? (
               <p className="register">
                 Não tem uma conta?{" "}
-                <span onClick={() => trocarModo(true)}>Cadastre-se</span>
+                <span role="button" tabIndex={0} onClick={() => trocarModo(true)} onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && (e.preventDefault(), (() => trocarModo(true))())}>Cadastre-se</span>
               </p>
             ) : (
               <p className="register">
                 Já possui conta?{" "}
-                <span onClick={() => trocarModo(false)}>Entrar</span>
+                <span role="button" tabIndex={0} onClick={() => trocarModo(false)} onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && (e.preventDefault(), (() => trocarModo(false))())}>Entrar</span>
               </p>
             )}
 
@@ -461,39 +464,13 @@ style={{
 
       {/* MODAL DE TERMOS DE USO E PRIVACIDADE */}
       {showModalTermos && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <h3>Termos de Uso e Política de Privacidade</h3>
-            <div className="modal-body">
-              <h4>1. Termos de Uso</h4>
-              <p>
-                Ao utilizar a plataforma <strong>EYESIGHT - Marketing Metrics</strong>,
-                você concorda com a coleta e processamento de dados para fins de análise e visualização de métricas de marketing.
-              </p>
-              <h4>2. Privacidade e Proteção de Dados (LGPD)</h4>
-              <p>
-                Garantimos a privacidade dos seus dados pessoais. Informações como nome e e-mail
-                são utilizadas exclusivamente para autenticação, controle de acesso e segurança da sua conta na plataforma.
-              </p>
-              <h4>3. Responsabilidade do Usuário</h4>
-              <p>
-                O usuário é responsável pela veracidade dos dados informados e pela guarda
-                de sua senha de acesso.
-              </p>
-            </div>
-            <div className="modal-footer">
-              <button
-                className="btn-modal-close"
-                onClick={() => {
-                  setAceitouTermos(true);
-                  setShowModalTermos(false);
-                }}
-              >
-                Li e Concordo
-              </button>
-            </div>
-          </div>
-        </div>
+        <TermsModal
+          onClose={() => setShowModalTermos(false)}
+          onAccept={() => {
+            setAceitouTermos(true);
+            setShowModalTermos(false);
+          }}
+        />
       )}
     </div>
   );

@@ -100,7 +100,7 @@ body {
   margin-bottom: 6px;
   font-family: 'Tomorrow', sans-serif;
   letter-spacing: -0.01em;
-  background: linear-gradient(90deg, var(--c-ffffff) 45%, var(--c-cfeaff) 100%);
+  background: var(--gradient-btn);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -962,4 +962,47 @@ body.light-mode .analytics-card {
     padding: 0;
     text-align: center;
   }
+}
+
+/* ============================================================
+   META — REFINO DE ESPAÇAMENTO, SOMBRAS E TABELAS
+   ============================================================ */
+
+/* Mais respiro entre os blocos principais */
+.page-header-row { margin-bottom: var(--space-8); }
+.meta-connect-banner { margin-bottom: var(--space-8); }
+.meta-filter-panel { margin-bottom: var(--space-8); }
+.meta-campaign-workspace { margin-top: var(--space-8); margin-bottom: var(--space-10); }
+
+/* Cartões: brilho no topo já existe (.card::before); reforça o ícone em chip */
+.icon-box.meta-accent {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-sm);
+  font-size: 1.1rem;
+}
+
+/* Número de destaque em fonte mono e tabular-nums */
+.card-value, .meta-roas-value, .meta-strip-item strong, .stats-grid h1 {
+  font-family: 'IBM Plex Mono', 'JetBrains Mono', ui-monospace, monospace;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.03em;
+}
+
+/* Tabela de campanhas: zebrado suave já global; reforça cabeçalho discreto */
+.meta-campaign-table th {
+  background: color-mix(in srgb, var(--text-primary) 6%, transparent);
+  border-bottom: 1px solid var(--border-color);
+}
+
+/* Linha vazia mais acolhedora */
+.meta-empty-tab {
+  border-style: dashed;
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--text-primary) 4%, transparent);
+}
+
+@media (max-width: 768px) {
+  .meta-overview-row { gap: var(--space-6); }
+  .analytics-grid { gap: var(--space-6); }
 }

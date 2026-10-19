@@ -117,3 +117,44 @@ body.light-mode .onboarding-step.is-error .onboarding-icon { color: var(--c-b453
 .onboarding-offer { margin-top: 12px; }
 .onboarding-offer > p { margin: 0 0 8px; font-weight: 400; }
 .onboarding-offer button[aria-disabled="true"] { opacity: 0.6; cursor: not-allowed; }
+
+/* ============================================================
+   ONBOARDING — REFINO DE CARD E PASSOS
+   ============================================================ */
+
+.onboarding-card {
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+}
+
+.onboarding-step {
+  border-radius: var(--radius-sm);
+  padding: var(--space-4);
+  background: color-mix(in srgb, var(--text-primary) 3%, transparent);
+}
+
+.onboarding-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-sm);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+}
+
+.onboarding-actions button, .onboarding-actions a {
+  border-radius: var(--radius-sm);
+  min-height: 44px;
+}
+
+.onboarding-actions .onboarding-primary {
+  background: var(--gradient-btn);
+  border: none;
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-sm);
+}
+.onboarding-actions .onboarding-primary:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px -10px var(--c-rgba-59-130-246-0_35);
+}

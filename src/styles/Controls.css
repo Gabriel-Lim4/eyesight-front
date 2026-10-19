@@ -1,0 +1,65 @@
+/* Caixa de seleção do passo a passo ("O que fazer agora"): tamanho fixo e visual do tema */
+/* a regra genérica de "label" do painel (coluna, texto pequeno) não vale para os passos */
+.analytics-workspace .pl-steps label,
+.pl-steps label {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+.pl-steps label > span { flex: 1 1 auto; min-width: 0; line-height: 1.45; }
+
+.pl-steps label input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  flex: none;
+  position: relative;
+  box-sizing: border-box;
+  width: 22px;
+  height: 22px;
+  min-width: 22px;
+  min-height: 22px;
+  padding: 0;
+  margin: 1px 0 0;
+  border: 1.5px solid color-mix(in srgb, var(--text-secondary) 60%, transparent);
+  border-radius: 6px;
+  background: var(--bg-input);
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+.pl-steps label input[type="checkbox"]:hover { border-color: var(--accent-blue); }
+.pl-steps label input[type="checkbox"]:checked {
+  border-color: transparent;
+  background: var(--gradient-btn);
+}
+.pl-steps label input[type="checkbox"]:checked::after {
+  content: "";
+  position: absolute;
+  left: 6.5px;
+  top: 2.5px;
+  width: 5px;
+  height: 10px;
+  border: solid #ffffff;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+.pl-steps label input[type="checkbox"]:focus-visible { outline: 2px solid var(--accent-blue); outline-offset: 2px; }
+
+/* Tema claro: botões principais desabilitados viravam um degradê quase transparente e "sumiam".
+   Agora ficam em cinza sólido, com texto legível, e claramente indisponíveis. */
+body.light-mode :is(.ex-send, .assistant-primary, .assistant-composer button[type="submit"], .identity-primary, .summary-button, .analytics-primary, .btn-login):is(:disabled, [aria-disabled="true"]) {
+  background: #e2e8f0;
+  background-image: none;
+  color: #475569;
+  border: 1px solid #cbd5e1;
+  box-shadow: none;
+  opacity: 1;
+  cursor: not-allowed;
+}
+body.light-mode :is(.ex-send, .assistant-primary, .assistant-composer button[type="submit"], .identity-primary, .analytics-primary):is(:disabled, [aria-disabled="true"]) svg {
+  opacity: 0.8;
+}
+body.light-mode .pl-steps label input[type="checkbox"] { border-color: #94a3b8; background: #ffffff; }

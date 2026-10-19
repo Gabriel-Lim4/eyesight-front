@@ -28,6 +28,10 @@ body {
   font-family: 'Inter', sans-serif;
   font-weight: 700;
   letter-spacing: -0.01em;
+  background: var(--gradient-btn);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .subtitle {
@@ -335,3 +339,34 @@ body {
 .instagram-overview .card-value { color:var(--text-primary); font-size:26px; overflow-wrap:anywhere; }
 .instagram-overview .card-title,.instagram-overview .card-note { color:var(--text-secondary); }
 @media(max-width:768px) { .instagram-overview { grid-template-columns:1fr; } }
+
+/* ============================================================
+   INSTAGRAM — REFINO DE MÉTRICAS E POSTS
+   ============================================================ */
+
+/* Número em destaque com fonte mono */
+.card-value, .stats-strip-item strong, .stats-grid h1 {
+  font-family: 'IBM Plex Mono', 'JetBrains Mono', ui-monospace, monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Cards e posts com raio consistente */
+.card, .post-card, .analytics-card, .stats-strip {
+  border-radius: var(--radius);
+}
+
+.icon-box.instagram-accent {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-sm);
+  font-size: 1.1rem;
+}
+
+/* Tabela/faixa de estatísticas: cabeçalho discreto */
+.stats-strip-item { border-right: 1px solid var(--c-1f2937); }
+
+@media (max-width: 640px) {
+  .overview-row { gap: var(--space-6); }
+  .posts-grid { gap: var(--space-6); }
+  .analytics-grid { gap: var(--space-6); }
+}

@@ -148,3 +148,38 @@
 .ov-why li.is-main { font-weight: 600; }
 .ov-why-note { margin: 8px 0 0; color: var(--text-secondary); font-size: 0.8rem; }
 @media (max-width: 640px) { .ov-why { padding: 14px 16px; } }
+
+/* ============================================================
+   OVERVIEW — REFINO DE CARTÕES E MÉTRICAS
+   ============================================================ */
+
+/* Cartões: ícone em chip, número destacado */
+.ov-card {
+  border-radius: var(--radius);
+  border: 1px solid var(--border-color);
+  background: var(--bg-container);
+  box-shadow: var(--shadow-sm);
+}
+
+.ov-value {
+  font-family: 'IBM Plex Mono', 'JetBrains Mono', ui-monospace, monospace;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+
+/* Botões de ação: primário sutil */
+.ov-actions a, .ov-goals button {
+  border-radius: var(--radius-sm);
+  min-height: 44px;
+}
+
+/* Veredito: borda esquerda mais presente */
+.ov-verdict {
+  border-radius: var(--radius);
+  border-left-width: 4px;
+  box-shadow: var(--shadow-sm);
+}
+
+@media (max-width: 600px) {
+  .ov-cards { gap: var(--space-6); }
+}

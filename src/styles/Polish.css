@@ -1,0 +1,554 @@
+/* ============================================================
+   Acabamento visual no padrão do TCC (só aparência — nenhum
+   componente alterado). Fundo em malha com halos, cartões com
+   linha de gradiente no topo, robô com anel girando na IA.
+   ============================================================ */
+
+@property --ring-angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@keyframes ring-turn {
+  to { --ring-angle: 360deg; }
+}
+
+/* ---------- fundo do app: degradê + halos desfocados ---------- */
+.app-shell .app-main.dashboard-content {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 8% 0%, rgba(59, 130, 246, 0.05), transparent 42%),
+    linear-gradient(180deg, #031127 0%, #120222 100%);
+}
+
+body.light-mode .app-shell .app-main.dashboard-content {
+  background:
+    radial-gradient(circle at 8% 0%, rgba(37, 99, 235, 0.06), transparent 42%),
+    linear-gradient(180deg, #f5f7fb 0%, #eef2f8 100%);
+}
+
+.app-shell .app-main.dashboard-content::before,
+.app-shell .app-main.dashboard-content::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  width: 560px;
+  height: 560px;
+  border-radius: 50%;
+  filter: blur(170px);
+  pointer-events: none;
+  animation: orb-float 14s ease-in-out infinite;
+}
+
+.app-shell .app-main.dashboard-content::before {
+  top: -180px;
+  right: -140px;
+  background: #3b82f6;
+  opacity: 0.10;
+  animation-delay: 0s;
+}
+
+.app-shell .app-main.dashboard-content::after {
+  top: 460px;
+  left: -200px;
+  background: #8b5cf6;
+  opacity: 0.07;
+  animation-delay: -7s;
+}
+
+body.light-mode .app-shell .app-main.dashboard-content::before { opacity: 0.06; }
+body.light-mode .app-shell .app-main.dashboard-content::after { opacity: 0.04; }
+
+/* Grade/ruído muito sutil por trás para dar textura (apenas decorative) */
+.app-shell .app-main.dashboard-content::before {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    #3b82f6;
+  background-size: 40px 40px;
+}
+
+@keyframes orb-float {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  33% { transform: translate3d(12px, -16px, 0); }
+  66% { transform: translate3d(-8px, 12px, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-shell .app-main.dashboard-content::before,
+  .app-shell .app-main.dashboard-content::after {
+    animation: none;
+  }
+  .eyesight-assistant .assistant-heading h1 > svg { animation: none; }
+  .app-shell .ov-card:hover,
+  .app-shell .ov-why:hover,
+  .app-shell .ov-actions:hover,
+  .app-shell .ov-goals:hover,
+  .app-shell .pl-plan:hover { transform: none; }
+}
+
+/* ---------- cartões: linha de gradiente no topo ao passar o mouse ---------- */
+.app-shell .ov-card,
+.app-shell .ov-why,
+.app-shell .ov-actions,
+.app-shell .ov-goals,
+.app-shell .onboarding-card,
+.app-shell .pl-plan {
+  position: relative;
+  overflow: hidden;
+  border-radius: 14px;
+  transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+
+.app-shell .ov-card::before,
+.app-shell .ov-why::before,
+.app-shell .ov-actions::before,
+.app-shell .ov-goals::before,
+.app-shell .onboarding-card::before,
+.app-shell .pl-plan::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 2px;
+  background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+
+.app-shell .ov-card:hover,
+.app-shell .ov-why:hover,
+.app-shell .ov-actions:hover,
+.app-shell .ov-goals:hover,
+.app-shell .pl-plan:hover {
+  border-color: color-mix(in srgb, var(--accent-blue) 30%, var(--border-color));
+  transform: translateY(-2px);
+  box-shadow: 0 16px 32px -18px rgba(59, 130, 246, 0.35);
+}
+
+.app-shell .ov-card:hover::before,
+.app-shell .ov-why:hover::before,
+.app-shell .ov-actions:hover::before,
+.app-shell .ov-goals:hover::before,
+.app-shell .onboarding-card:hover::before,
+.app-shell .pl-plan:hover::before {
+  opacity: 1;
+}
+
+/* números em destaque, na fonte mono do painel */
+.app-shell .ov-value {
+  font-family: 'IBM Plex Mono', 'Tomorrow', ui-monospace, monospace;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+/* ---------- veredito: faixa e brilho na cor do status ---------- */
+.app-shell .ov-verdict {
+  position: relative;
+  overflow: hidden;
+  border-radius: 14px;
+  border-left-width: 1px;
+  padding-left: 28px;
+}
+
+.app-shell .ov-verdict::before {
+  content: '';
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 5px;
+  background: var(--ov-status, var(--border-color));
+}
+
+.app-shell .ov-verdict::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at 0% 0%, color-mix(in srgb, var(--ov-status, transparent) 14%, transparent), transparent 48%);
+}
+
+.app-shell .ov-verdict > * { position: relative; z-index: 1; }
+.app-shell .ov-verdict.is-good { --ov-status: var(--status-good); }
+.app-shell .ov-verdict.is-stable { --ov-status: var(--status-stable); }
+.app-shell .ov-verdict.is-attention { --ov-status: var(--status-attention); }
+.app-shell .ov-verdict.is-insufficient { --ov-status: var(--status-unknown); }
+
+.app-shell .ov-verdict-icon {
+  filter: drop-shadow(0 0 8px color-mix(in srgb, var(--ov-status, transparent) 55%, transparent));
+}
+
+/* ---------- botões ---------- */
+.app-shell .ov-actions a,
+.app-shell .ov-goals button,
+.app-shell .pl-button {
+  border-radius: 10px;
+  transition: border-color 0.22s ease, background 0.22s ease, transform 0.22s ease;
+}
+
+.app-shell .ov-actions a:hover,
+.app-shell .ov-goals button:hover,
+.app-shell .pl-button:hover {
+  border-color: var(--accent-blue);
+  background: color-mix(in srgb, var(--accent-blue) 10%, transparent);
+  transform: translateY(-1px);
+}
+
+/* ---------- sidebar: a logo abre e fecha o menu ---------- */
+.sidebar .sidebar-brand {
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+  color: inherit;
+  font: inherit;
+}
+
+.sidebar .sidebar-logo-ring {
+  transition: transform 0.35s ease, filter 0.35s ease;
+}
+
+.sidebar .sidebar-brand:hover .sidebar-logo-ring {
+  transform: scale(1.06);
+  filter: drop-shadow(0 0 14px color-mix(in srgb, var(--accent-blue) 55%, transparent));
+}
+
+.sidebar .sidebar-brand:hover .sidebar-logo-ring::before { opacity: 1; }
+
+.sidebar .sidebar-brand:focus-visible {
+  outline: 2px solid var(--accent-blue);
+  outline-offset: 6px;
+  border-radius: 14px;
+}
+
+/* ---------- assistente: grade técnica + halo roxo + robô com luz girando ---------- */
+.app-shell .app-main.dashboard-content .eyesight-assistant {
+  position: relative;
+  isolation: isolate;
+}
+
+.eyesight-assistant::before,
+.eyesight-assistant::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.eyesight-assistant::before {
+  inset: -32px;
+  background-image:
+    linear-gradient(rgba(148, 163, 184, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(148, 163, 184, 0.05) 1px, transparent 1px);
+  background-size: 44px 44px;
+  -webkit-mask-image: radial-gradient(ellipse 65% 55% at 50% 0%, black 35%, transparent 100%);
+  mask-image: radial-gradient(ellipse 65% 55% at 50% 0%, black 35%, transparent 100%);
+}
+
+.eyesight-assistant::after {
+  width: 560px;
+  height: 560px;
+  top: -220px;
+  right: -140px;
+  border-radius: 50%;
+  background: #8b5cf6;
+  filter: blur(150px);
+  opacity: 0.1;
+}
+
+.eyesight-assistant .assistant-heading h1 > svg {
+  box-sizing: content-box;
+  width: 22px;
+  height: 22px;
+  padding: 11px;
+  border: 1.5px solid transparent;
+  border-radius: 14px;
+  color: var(--accent-blue);
+  background:
+    linear-gradient(var(--bg-input), var(--bg-input)) padding-box,
+    conic-gradient(from var(--ring-angle), #3b82f6, #8b5cf6, #06b6d4, #3b82f6) border-box;
+  animation: ring-turn 6s linear infinite;
+  filter: drop-shadow(0 0 12px color-mix(in srgb, var(--accent-blue) 40%, transparent));
+}
+
+.eyesight-assistant .assistant-heading h1 {
+  font-family: 'Tomorrow', 'Inter', sans-serif;
+  letter-spacing: -0.01em;
+}
+
+.eyesight-assistant .assistant-welcome svg {
+  filter: drop-shadow(0 0 14px color-mix(in srgb, var(--accent-blue) 55%, transparent));
+}
+
+.eyesight-assistant .assistant-chat,
+.eyesight-assistant .assistant-panel {
+  border-radius: 20px;
+  box-shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.5);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .eyesight-assistant .assistant-heading h1 > svg { animation: none; }
+  .app-shell .ov-card:hover,
+  .app-shell .ov-why:hover,
+  .app-shell .ov-actions:hover,
+  .app-shell .ov-goals:hover,
+  .app-shell .pl-plan:hover { transform: none; }
+}
+
+/* ============================================================
+   DASHBOARD — padrão único para todas as páginas
+   Mesmo contêiner, mesmo cabeçalho, mesmos painéis, campos e botões.
+   ============================================================ */
+
+/* 1) contêiner e aviso de demonstração alinhados na mesma coluna */
+.app-shell .app-main > .analytics-workspace,
+.app-shell .app-main > .identity-page,
+.app-shell .app-main > .eyesight-assistant,
+.app-shell .app-main > .rp-page,
+.app-shell .app-main > .demo-banner {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 1240px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.app-shell .app-main > .analytics-workspace,
+.app-shell .app-main > .identity-page,
+.app-shell .app-main > .eyesight-assistant,
+.app-shell .app-main > .rp-page {
+  padding: 0;
+}
+
+.app-shell .app-main > .demo-banner {
+  margin-bottom: 32px;
+  border-radius: 14px;
+  border-color: color-mix(in srgb, var(--accent-blue) 45%, var(--border-color));
+  background: linear-gradient(120deg, color-mix(in srgb, var(--accent-blue) 9%, var(--bg-container)), var(--bg-container));
+}
+
+/* 2) cabeçalho de página: título sólido, subtítulo legível */
+.app-shell .app-main .analytics-heading,
+.app-shell .app-main .identity-page > header,
+.app-shell .app-main .assistant-heading,
+.app-shell .app-main .rp-intro {
+  margin: 0 0 28px;
+}
+
+.app-shell .app-main .analytics-heading h1,
+.app-shell .app-main .identity-page > header h1,
+.app-shell .app-main .assistant-heading h1,
+.app-shell .app-main .rp-intro h1 {
+  margin: 0;
+  font-family: 'Tomorrow', 'Inter', sans-serif;
+  font-size: clamp(1.75rem, 2.6vw, 2.25rem);
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  background: none;
+  -webkit-background-clip: border-box;
+  background-clip: border-box;
+  -webkit-text-fill-color: currentColor;
+}
+
+.app-shell .app-main .analytics-heading p,
+.app-shell .app-main .identity-page > header p,
+.app-shell .app-main .assistant-heading p,
+.app-shell .app-main .rp-intro p {
+  max-width: 680px;
+  margin: 10px 0 0;
+  font-size: 0.98rem;
+  line-height: 1.55;
+  color: var(--text-secondary);
+}
+
+/* 3) painéis: mesma superfície em todas as páginas */
+.app-shell .identity-panel,
+.app-shell .rp-controls,
+.app-shell .analytics-filters,
+.app-shell .assistant-notice,
+.app-shell .instagram-overview .card,
+.app-shell .assistant-chat,
+.app-shell .assistant-panel {
+  background: linear-gradient(150deg, color-mix(in srgb, var(--bg-container) 94%, var(--accent-blue)), var(--bg-container) 70%);
+  border: 1px solid color-mix(in srgb, var(--border-color) 88%, var(--accent-blue));
+  border-radius: 16px;
+  box-shadow: 0 18px 40px -26px rgba(0, 0, 0, 0.55);
+}
+
+.app-shell .identity-panel {
+  padding: 26px;
+  margin-bottom: 20px;
+}
+
+.app-shell .identity-panel h2,
+.app-shell .ov-why h2,
+.app-shell .ov-actions h2 {
+  margin: 0 0 14px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+/* 4) campos e botões: mesmo tamanho, raio e foco */
+.app-shell .app-main select,
+.app-shell .app-main input:not([type='checkbox']):not([type='radio']):not([type='range']),
+.app-shell .app-main textarea {
+  box-sizing: border-box;
+  border-radius: 10px;
+  min-height: 44px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.app-shell .app-main select:hover,
+.app-shell .app-main input:not([type='checkbox']):not([type='radio']):hover {
+  border-color: color-mix(in srgb, var(--accent-blue) 40%, var(--border-color));
+}
+
+.app-shell .app-main select:focus-visible,
+.app-shell .app-main input:focus-visible,
+.app-shell .app-main textarea:focus-visible {
+  outline: none;
+  border-color: var(--accent-blue);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-blue) 22%, transparent);
+}
+
+.app-shell .app-main button:not(.sidebar-brand):not(.ov-explain) {
+  border-radius: 10px;
+  font-weight: 600;
+  transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.app-shell .identity-page button:not(.identity-primary):hover:not(:disabled),
+.app-shell .rp-controls button:hover:not(:disabled) {
+  border-color: var(--accent-blue);
+  background: color-mix(in srgb, var(--accent-blue) 10%, var(--bg-input));
+}
+
+.app-shell .identity-page button.identity-primary,
+.app-shell .rp-controls button[type='submit'],
+.app-shell .rp-controls button:last-child {
+  box-shadow: 0 10px 24px -12px rgba(59, 130, 246, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.app-shell .identity-page button.identity-primary:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+/* 5) relatório: folha de papel com sombra e raio */
+.app-shell .rp-sheet {
+  border-radius: 14px;
+  box-shadow: 0 40px 90px -40px rgba(0, 0, 0, 0.7);
+}
+
+/* 6) rolagem discreta */
+.app-shell .app-main {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--text-secondary) 35%, transparent) transparent;
+}
+
+@media (max-width: 760px) {
+  .app-shell .identity-panel { padding: 20px; }
+}
+
+@media print {
+  .app-shell .app-main > .rp-page { max-width: none; }
+  .app-shell .rp-sheet { box-shadow: none; border-radius: 0; }
+}
+
+/* barra de controles do Instagram: campos e botão alinhados pela base */
+.app-shell .app-main .identity-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+.app-shell .app-main .identity-actions label {
+  flex: 0 1 260px;
+}
+
+/* ===== Login e Cadastro: bolhas do painel da marca ===== */
+/* Bolhas do painel da marca: visíveis, com anel e preenchimento suave, flutuando devagar */
+.login-container .left-side .brand-circle {
+  filter: none;
+  opacity: 1;
+  border: 1px solid rgba(147, 197, 253, 0.3);
+  background: radial-gradient(circle at 30% 25%, rgba(96, 165, 250, 0.26), rgba(59, 130, 246, 0.05) 60%, transparent 74%);
+  box-shadow: inset 0 0 40px rgba(96, 165, 250, 0.08);
+  animation: brand-bubble 16s ease-in-out infinite;
+}
+.login-container .left-side .brand-circle-1 { width: 280px; height: 280px; top: -80px; right: -80px; }
+.login-container .left-side .brand-circle-2 {
+  width: 360px; height: 360px; bottom: -120px; left: -100px;
+  border-color: rgba(192, 132, 252, 0.32);
+  background: radial-gradient(circle at 30% 25%, rgba(168, 85, 247, 0.28), rgba(147, 51, 234, 0.05) 60%, transparent 74%);
+  animation-duration: 20s; animation-delay: -6s;
+}
+.login-container .left-side .brand-circle-3 {
+  width: 150px; height: 150px; bottom: 70px; right: 9%;
+  animation-duration: 13s; animation-delay: -3s;
+}
+/* bolhas pequenas extras, só decoração */
+.login-container .left-side::before, .login-container .left-side::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(147, 197, 253, 0.28);
+  background: radial-gradient(circle at 30% 25%, rgba(125, 211, 252, 0.22), transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+  animation: brand-bubble 11s ease-in-out infinite;
+}
+.login-container .left-side::before { width: 74px; height: 74px; top: 14%; left: 12%; }
+.login-container .left-side::after { width: 46px; height: 46px; top: 58%; right: 16%; animation-delay: -5s; }
+
+/* grade técnica muito sutil por trás da logo */
+.login-container .left-side .login-header::before {
+  content: '';
+  position: absolute;
+  inset: -140px -200px;
+  z-index: -1;
+  background-image:
+    linear-gradient(rgba(148, 163, 184, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(148, 163, 184, 0.06) 1px, transparent 1px);
+  background-size: 40px 40px;
+  -webkit-mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000, transparent 75%);
+  mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000, transparent 75%);
+}
+
+.login-container .login-logo {
+  width: 96px;
+  height: auto;
+  filter: drop-shadow(0 0 28px rgba(96, 165, 250, 0.55));
+}
+.login-container .left-side .login-header h1 {
+  letter-spacing: 0.08em;
+  font-family: 'Tomorrow', sans-serif;
+}
+.login-container .left-side .login-header p {
+  letter-spacing: 0.04em;
+  opacity: 0.85;
+}
+
+@keyframes brand-bubble {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(12px, -16px); }
+}
+
+/* Lado do formulário: respiro e hierarquia */
+.login-container .right-side .login-box h2 {
+  font-size: 1.75rem;
+  letter-spacing: -0.02em;
+  margin-bottom: 6px;
+}
+.login-container .login-box input { height: 48px; box-sizing: border-box; }
+.login-container { box-shadow: 0 40px 100px -30px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(96, 165, 250, 0.08); }
+
+
+@media (prefers-reduced-motion: reduce) {
+  .login-container .left-side .brand-circle,
+  .login-container .left-side::before,
+  .login-container .left-side::after { animation: none; }
+}

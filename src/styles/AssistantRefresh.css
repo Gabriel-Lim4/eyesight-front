@@ -1,0 +1,316 @@
+/* ============================================================
+   Argos — visual da tela da IA
+   Só estilo: nenhum componente foi alterado.
+   ============================================================ */
+.eyesight-assistant {
+  --ir-accent: var(--accent-blue);
+  --ir-violet: var(--accent-purple);
+  --ir-line: var(--border-color);
+  --ir-soft: color-mix(in srgb, var(--accent-blue) 9%, transparent);
+  max-width: 1560px;
+  padding: clamp(18px, 2.4vw, 36px);
+}
+
+/* ---------- cabeçalho ---------- */
+.eyesight-assistant .assistant-heading {
+  position: relative;
+  overflow: hidden;
+  align-items: center;
+  margin-bottom: 22px;
+  padding: 26px 30px;
+  border: 1px solid var(--ir-line);
+  border-radius: 24px;
+  background:
+    radial-gradient(90% 160% at 0% 0%, color-mix(in srgb, var(--ir-accent) 18%, transparent), transparent 60%),
+    radial-gradient(70% 140% at 100% 100%, color-mix(in srgb, var(--ir-violet) 16%, transparent), transparent 62%),
+    var(--bg-container);
+  box-shadow: var(--shadow);
+}
+
+.eyesight-assistant .assistant-heading h1 {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 0 0 6px;
+  font-family: 'Tomorrow', 'Inter', sans-serif;
+  font-size: clamp(1.9rem, 3vw, 2.6rem);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
+
+/* o ícone vira um selo em degradê */
+.eyesight-assistant .assistant-heading h1 > svg {
+  box-sizing: content-box;
+  flex: none;
+  width: 28px;
+  height: 28px;
+  padding: 13px;
+  border-radius: 18px;
+  background: var(--gradient-btn);
+  color: #ffffff;
+  box-shadow: 0 14px 30px -12px color-mix(in srgb, var(--ir-violet) 70%, transparent);
+}
+
+.eyesight-assistant .assistant-heading p {
+  max-width: 56ch;
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.55;
+  color: var(--text-secondary);
+}
+
+.eyesight-assistant .assistant-heading label {
+  min-width: 210px;
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+  color: var(--text-secondary);
+}
+
+.eyesight-assistant .assistant-heading select {
+  margin-top: 6px;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--bg-input) 88%, transparent);
+}
+
+.eyesight-assistant .assistant-caption,
+.eyesight-assistant .assistant-notice {
+  margin: 0 0 18px;
+  padding: 10px 16px;
+  border: 1px solid var(--ir-line);
+  border-left: 3px solid var(--ir-accent);
+  border-radius: 12px;
+  background: var(--ir-soft);
+  font-size: 0.86rem;
+}
+
+/* ---------- conversa ---------- */
+.eyesight-assistant .assistant-layout {
+  grid-template-columns: minmax(0, 1fr) clamp(300px, 24vw, 380px);
+  gap: 22px;
+}
+
+.eyesight-assistant .assistant-chat {
+  padding: 0;
+  overflow: hidden;
+  border-radius: 24px;
+}
+
+.eyesight-assistant .assistant-chat > .assistant-section-heading {
+  padding: 18px 24px;
+  border-bottom: 1px solid var(--ir-line);
+}
+
+.eyesight-assistant .assistant-chat > .assistant-section-heading h2 {
+  font-family: 'Tomorrow', 'Inter', sans-serif;
+  font-size: 1.05rem;
+  letter-spacing: 0.02em;
+}
+
+.eyesight-assistant .assistant-chat > .assistant-section-heading button {
+  min-height: 38px;
+  border-radius: 999px;
+  padding: 0 16px;
+  font-weight: 600;
+}
+
+.eyesight-assistant .assistant-messages {
+  height: clamp(380px, 52vh, 600px);
+  padding: 24px;
+  background: color-mix(in srgb, var(--bg-input) 55%, transparent);
+  scrollbar-width: thin;
+}
+
+/* boas-vindas */
+.eyesight-assistant .assistant-welcome {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 520px;
+  margin: 0 auto;
+  padding: clamp(28px, 7vh, 64px) 12px;
+}
+
+.eyesight-assistant .assistant-welcome svg {
+  box-sizing: content-box;
+  width: 30px;
+  height: 30px;
+  padding: 18px;
+  margin-bottom: 18px;
+  border-radius: 50%;
+  background: var(--gradient-btn);
+  color: #ffffff;
+  box-shadow:
+    0 0 0 10px color-mix(in srgb, var(--ir-accent) 10%, transparent),
+    0 18px 40px -14px color-mix(in srgb, var(--ir-violet) 75%, transparent);
+}
+
+.eyesight-assistant .assistant-welcome h3 {
+  margin: 0 0 8px;
+  font-family: 'Tomorrow', 'Inter', sans-serif;
+  font-size: 1.35rem;
+  color: var(--text-primary);
+}
+
+.eyesight-assistant .assistant-welcome p {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.65;
+}
+
+/* mensagens */
+.eyesight-assistant .assistant-message {
+  max-width: min(78%, 680px);
+  margin: 0 auto 16px 0;
+  padding: 14px 18px 16px;
+  border: 1px solid var(--ir-line);
+  border-left: 3px solid var(--ir-violet);
+  border-radius: 6px 18px 18px 18px;
+  background: var(--bg-container);
+  box-shadow: var(--shadow-sm);
+}
+
+.eyesight-assistant .assistant-message.user {
+  margin: 0 0 16px auto;
+  border: 0;
+  border-radius: 18px 6px 18px 18px;
+  background: var(--gradient-btn);
+  color: #ffffff;
+}
+
+.eyesight-assistant .assistant-message strong {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  color: var(--ir-violet);
+}
+
+.eyesight-assistant .assistant-message.user strong {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.eyesight-assistant .assistant-message p {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.65;
+}
+
+/* sugestões */
+.eyesight-assistant .assistant-suggestions {
+  gap: 10px;
+  margin: 0;
+  padding: 16px 24px 4px;
+}
+
+.eyesight-assistant .assistant-suggestions button {
+  min-height: 40px;
+  padding: 0 16px;
+  border-radius: 999px;
+  border-color: color-mix(in srgb, var(--ir-accent) 35%, var(--ir-line));
+  background: var(--ir-soft);
+  font-size: 0.84rem;
+  font-weight: 500;
+}
+
+/* campo de envio unificado */
+.eyesight-assistant .assistant-composer {
+  padding: 14px 24px 22px;
+}
+
+.eyesight-assistant .assistant-composer > label {
+  margin-bottom: 2px;
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+  color: var(--text-secondary);
+}
+
+.eyesight-assistant .assistant-composer textarea {
+  min-height: 92px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: var(--bg-input);
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+.eyesight-assistant .assistant-composer > div {
+  margin-top: 12px;
+}
+
+.eyesight-assistant .assistant-composer > div button {
+  min-height: 44px;
+  padding: 0 24px;
+  border-radius: 999px;
+  color: #ffffff;
+  font-weight: 700;
+}
+
+/* ---------- coluna lateral ---------- */
+.eyesight-assistant .assistant-sidebar {
+  gap: 18px;
+}
+
+.eyesight-assistant .assistant-panel {
+  padding: 22px;
+  border-radius: 20px;
+}
+
+.eyesight-assistant .assistant-panel h2 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+  font-size: 1rem;
+  letter-spacing: 0.02em;
+}
+
+.eyesight-assistant .assistant-panel h2::before {
+  content: "";
+  flex: none;
+  width: 4px;
+  height: 18px;
+  border-radius: 4px;
+  background: var(--gradient-btn);
+}
+
+.eyesight-assistant .assistant-panel select {
+  border-radius: 12px;
+}
+
+.eyesight-assistant .assistant-panel .assistant-primary {
+  min-height: 46px;
+  border-radius: 999px;
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.eyesight-assistant .assistant-history-row > button:first-child {
+  border-radius: 12px;
+  background: var(--bg-input);
+}
+
+.eyesight-assistant .assistant-analysis {
+  padding: 28px;
+  border-radius: 24px;
+  border-left: 4px solid var(--ir-violet);
+}
+
+.eyesight-assistant .assistant-analysis h3 {
+  margin-top: 18px;
+  font-family: 'Tomorrow', 'Inter', sans-serif;
+}
+
+@media (max-width: 1000px) {
+  .eyesight-assistant .assistant-layout { grid-template-columns: 1fr; }
+  .eyesight-assistant .assistant-message { max-width: 92%; }
+}
+
+@media (max-width: 600px) {
+  .eyesight-assistant .assistant-heading { padding: 20px; }
+  .eyesight-assistant .assistant-heading h1 > svg { width: 22px; height: 22px; padding: 10px; border-radius: 14px; }
+  .eyesight-assistant .assistant-chat > .assistant-section-heading,
+  .eyesight-assistant .assistant-messages,
+  .eyesight-assistant .assistant-suggestions,
+  .eyesight-assistant .assistant-composer { padding-inline: 16px; }
+}

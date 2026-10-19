@@ -87,7 +87,7 @@
   margin-bottom: 6px;
   font-family: 'Tomorrow', sans-serif;
   letter-spacing: -0.01em;
-  background: linear-gradient(90deg, var(--c-ffffff) 45%, var(--c-c7d5f5) 100%);
+  background: var(--gradient-btn);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -1188,4 +1188,41 @@
     align-items: flex-start;
   }
 
+}
+
+/* ============================================================
+   PERFIL — REFINO DE HIERARQUIA E MÉTRICAS
+   ============================================================ */
+
+/* Número em destaque com fonte mono */
+.stat h3, .plan-price {
+  font-family: 'IBM Plex Mono', 'JetBrains Mono', ui-monospace, monospace;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+
+/* Cards e planos: raio consistente e ícone em chip */
+.profile-card, .personal-info, .social-card, .plan-card {
+  border-radius: var(--radius-lg);
+}
+
+.icon-chip, .stat-icon, .notif-icon, .session-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-sm);
+  font-size: 1.1rem;
+}
+
+/* Abas: ativo destacado */
+.profile-tabs .active {
+  box-shadow: var(--shadow-sm);
+}
+
+/* Espaçamento entre seções */
+.profile-stats { gap: var(--space-6); }
+.profile-tabs { margin-bottom: var(--space-8); }
+
+@media (max-width: 768px) {
+  .plans-grid { gap: var(--space-6); }
+  .stats-grid, .plan-card { gap: var(--space-6); }
 }

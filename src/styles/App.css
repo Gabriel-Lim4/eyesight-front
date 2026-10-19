@@ -7,7 +7,12 @@
 
 /* CONFIGURAÇÕES GERAIS */
 body {
-  font-family: 'Segoe UI', sans-serif;
+  font-family: var(--font-body, 'Space Grotesk', 'Inter', system-ui, -apple-system, sans-serif);
   background: var(--c-020817);
   overflow-x: hidden;
+  color: var(--text-primary);
+}
+
+:root {
+  --font-body: 'Space Grotesk', 'Inter', system-ui, -apple-system, sans-serif;
 }

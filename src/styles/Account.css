@@ -96,7 +96,7 @@
   font-weight: 700;
   font-family: 'Tomorrow', sans-serif;
   margin: 0 0 4px 0;
-  background: linear-gradient(90deg, var(--c-ffffff) 45%, var(--c-c7d5f5) 100%);
+  background: var(--gradient-btn);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -555,4 +555,52 @@
   .account-header {
     flex-direction: column;
   }
+}
+
+/* ============================================================
+   CONTAS — REFINO DE HIERARQUIA E MÉTRICAS
+   ============================================================ */
+
+/* Número em destaque com fonte mono */
+.account-count-pill {
+  font-family: 'IBM Plex Mono', 'JetBrains Mono', ui-monospace, monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Cards de conta: raio consistente e ícone em chip */
+.account-card, .available-card {
+  border-radius: var(--radius-lg);
+}
+
+.platform-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-sm);
+  font-size: 1.2rem;
+}
+
+.platform-icon-sm {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-sm);
+  font-size: 1rem;
+}
+
+/* Lista de contas de anúncio: zebrado suave já global */
+.ad-account-row:hover {
+  background: var(--surface-hover);
+}
+
+/* Botão conectar: primário sutil */
+.connect-btn {
+  border-radius: var(--radius-sm);
+  transition: background var(--duration-150) var(--ease), transform var(--duration-150) var(--ease);
+}
+
+.connect-btn:hover {
+  transform: translateY(-1px);
+}
+
+@media (max-width: 768px) {
+  .cards-grid { gap: var(--space-6); }
 }

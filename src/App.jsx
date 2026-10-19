@@ -13,6 +13,7 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import SkipLink from "./components/SkipLink";
 import RotaProtegida from "./components/RotaProtegida";
 import "./styles/Theme.css";
+import "./styles/Controls.css";
 
 /* Lazy loading das páginas internas (reduz bundle inicial) */
 const Layout = lazy(() => import("./pages/Layout"));

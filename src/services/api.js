@@ -3,7 +3,8 @@ import { clearSession, saveSession } from './session';
 import { demoAdapter } from './demoApi';
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:3333',
+  // Sem VITE_API_URL: em produção a API está no mesmo endereço do site; no desenvolvimento, em localhost:3333.
+  baseURL: import.meta.env.VITE_API_URL ?? (import.meta.env.PROD ? '' : 'http://localhost:3333'),
   headers: { 'Content-Type': 'application/json' },
   timeout: 60000,
 });
@@ -55,8 +56,11 @@ export async function logout() {
     localStorage.removeItem('eyesight-demo');
     return;
   }
-  await api.post('/auth/logout');
-  clearSession();
+  try {
+    await api.post('/auth/logout');
+  } finally {
+    clearSession();
+  }
 }
 
 export default api;

@@ -20,8 +20,46 @@
   /* Cores de destaque (NÃO MUDAM no modo claro) */
   --accent-blue: #3b82f6;
   --accent-purple: #9333ea;
+  --accent-cyan: #06b6d4;
   --gradient-btn: linear-gradient(90deg, #3b82f6, #9333ea);
   --gradient-left: linear-gradient(160deg, #051836, #150233);
+
+  /* --- Design tokens (mesmo valor nos dois temas, exceto sombras/superfícies) --- */
+  /* Espaçamento — grade de 4/8px */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+
+  /* Raio consistente (12–16px) */
+  --radius-sm: 8px;
+  --radius: 12px;
+  --radius-lg: 16px;
+  --radius-pill: 9999px;
+
+  /* Sombras em camadas (curtas + longas e suaves) — tema escuro */
+  --shadow-sm: 0 1px 2px 0 var(--c-rgba-0-0-0-0_45);
+  --shadow: 0 8px 24px -4px var(--c-rgba-0-0-0-0_45);
+  --shadow-md: 0 16px 40px -8px var(--c-rgba-0-0-0-0_45);
+  --shadow-lg: 0 24px 60px -12px var(--c-rgba-0-0-0-0_45);
+  --shadow-inset: inset 0 1px 0 var(--c-rgba-255-255-255-0_04);
+
+  /* Durações (150–250ms) e easing suave */
+  --duration-150: 150ms;
+  --duration-200: 200ms;
+  --duration-250: 250ms;
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Superfícies derivadas */
+  --surface: var(--bg-container);
+  --surface-hover: color-mix(in srgb, var(--text-primary) 5%, transparent);
+  --surface-active: color-mix(in srgb, var(--text-primary) 9%, transparent);
+  --border-subtle: var(--c-rgba-148-163-184-0_08);
 }
 
 /* --- TEMA CLARO --- */
@@ -35,6 +73,14 @@ body.light-mode {
 
   /* Mantém o painel esquerdo elegante no modo claro se desejar */
   --gradient-left: linear-gradient(160deg, #1e3a8a, #581c87);
+
+  /* Sombras do modo claro — mais suaves */
+  --shadow: 0 8px 24px -4px var(--c-rgba-15-23-42-0_05);
+  --shadow-md: 0 16px 40px -8px var(--c-rgba-15-23-42-0_06);
+  --shadow-lg: 0 24px 60px -12px var(--c-rgba-15-23-42-0_08);
+  --shadow-inset: inset 0 1px 0 var(--c-rgba-255-255-255-0_04);
+  --surface-hover: var(--c-f1f5f9);
+  --surface-active: var(--c-e2e8f0);
 }
 
 /* >>> variáveis geradas por `npm run theme:tokens`: cada uma é um par medido (cor no escuro e no claro) >>> */

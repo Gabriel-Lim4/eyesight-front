@@ -5,8 +5,10 @@ import { usePlans } from '../plans/usePlans';
 import ChangeExplainer from './ChangeExplainer';
 import GoalsForm from './GoalsForm';
 import HighlightCards from './HighlightCards';
+import KpiBoard from './KpiBoard';
 import NextActions from './NextActions';
 import VerdictBanner from './VerdictBanner';
+import { DEFAULT_KPIS_OVERVIEW } from '../../utils/kpiCatalog';
 import '../../styles/Overview.css';
 
 function isDemo() {
@@ -34,6 +36,7 @@ export default function SimpleOverview({ data, filters, alertSettings, reload })
     <ChangeExplainer explanation={data.changeExplanation} ctx={ctx} />
     {data.currency === 'UNKNOWN' && <p className="ov-warning">Não conseguimos identificar a moeda da sua conta.</p>}
     <HighlightCards highlights={verdict.highlights} indicator={verdict.indicator} basis={verdict.basis} ctx={ctx} goals={{ cpaMax: alertSettings?.cpaMax }} explain={explain} />
+    <KpiBoard data={data} defaultVisible={DEFAULT_KPIS_OVERVIEW} remote />
     <NextActions actions={verdict.actions} ctx={ctx} explain={explain} plans={plans} aiAvailable={explainer.available !== false} />
     <GoalsForm alertSettings={alertSettings} currency={data.currency} disabled={demo} onSaved={() => reload('Metas salvas.')} />
     {explainer.focus && <ExplainerPanel focus={explainer.focus} messages={explainer.messages} pendingText={explainer.pendingText} state={explainer.state} error={explainer.error} onAsk={explainer.ask} onClose={explainer.close} />}

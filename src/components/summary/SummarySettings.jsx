@@ -65,17 +65,24 @@ export default function SummarySettings({ weekly, alerts, nome }) {
     }
   };
 
-  return <section className="identity-panel summary-settings" aria-labelledby="summary-title">
-    <h2 id="summary-title"><Mail size={20} aria-hidden="true" /> Resumo semanal por e-mail</h2>
-    <p>Toda segunda-feira, um e-mail com como estão seus anúncios, os 4 números e o que fazer agora. Você pode parar quando quiser.</p>
-    <label className="summary-check">
-      <input type="checkbox" checked={values.weekly} onChange={toggle('weekly')} disabled={demo} aria-disabled={saving} />
-      <span>Receber o resumo semanal</span>
+  return <section className="identity-panel summary-settings pf-card" aria-labelledby="summary-title">
+    <div className="pf-card-head">
+      <span className="pf-card-icon" aria-hidden="true"><Mail size={18} /></span>
+      <div><h2 id="summary-title">Resumo semanal por e-mail</h2><p>Toda segunda-feira, um e-mail com como estão seus anúncios, os 4 números e o que fazer agora. Você pode parar quando quiser.</p></div>
+    </div>
+    <label className="pf-switch">
+      <span className="pf-switch-text">
+        <strong id="sum-weekly-title">Receber o resumo semanal</strong>
+        <small id="sum-weekly-desc">Um e-mail por semana, sempre na segunda-feira.</small>
+      </span>
+      <input type="checkbox" checked={values.weekly} onChange={toggle('weekly')} disabled={demo} aria-disabled={saving} aria-labelledby="sum-weekly-title" aria-describedby="sum-weekly-desc" />
     </label>
-    <p>Quer ser avisado antes? Mande um e-mail quando seus anúncios passarem de bom ou estável para pedir atenção: no máximo um aviso por dia e, depois de um aviso, só outro três dias depois.</p>
-    <label className="summary-check">
-      <input type="checkbox" checked={values.alerts} onChange={toggle('alerts')} disabled={demo} aria-disabled={saving} />
-      <span>Avisar quando meus anúncios passarem a pedir atenção</span>
+    <label className="pf-switch">
+      <span className="pf-switch-text">
+        <strong id="sum-alerts-title">Avisar quando meus anúncios passarem a pedir atenção</strong>
+        <small id="sum-alerts-desc">Mandamos um e-mail quando seus anúncios deixarem de estar bons ou estáveis: no máximo um aviso por dia e, depois de um aviso, só outro três dias depois.</small>
+      </span>
+      <input type="checkbox" checked={values.alerts} onChange={toggle('alerts')} disabled={demo} aria-disabled={saving} aria-labelledby="sum-alerts-title" aria-describedby="sum-alerts-desc" />
     </label>
     {demo && <p className="summary-note">Indisponível na demonstração.</p>}
     <div aria-live="polite" role="status">{status}</div>

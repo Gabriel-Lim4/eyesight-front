@@ -1,0 +1,163 @@
+/* ============================================================
+   Login e Cadastro — barra do painel colorido, logo maior e tema
+   ============================================================ */
+
+/* Voltar + seletor de tema ficam DENTRO do painel colorido */
+.login-container .left-side .auth-topbar {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  right: 20px;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.login-container .auth-topbar .theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  font: inherit;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+/* Voltar: só texto e seta, quase imperceptível até o mouse chegar perto */
+.login-container .auth-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 40px;
+  padding: 0 8px 0 4px;
+  border: 0;
+  background: none;
+  color: rgba(255, 255, 255, 0.5);
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.login-container .auth-back svg {
+  font-size: 1rem;
+}
+
+.login-container .auth-topbar .theme-toggle {
+  width: 40px;
+  padding: 0;
+  border-radius: 50%;
+  font-size: 1.1rem;
+}
+
+.login-container .auth-back:hover {
+  color: rgba(255, 255, 255, 0.92);
+  transform: translateX(-2px);
+}
+
+.login-container .auth-topbar .theme-toggle:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.55);
+}
+
+.login-container .auth-back:focus-visible,
+.login-container .auth-topbar .theme-toggle:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 3px;
+}
+
+/* ---------- Logo maior nos dois modos ---------- */
+.login-page .login-container .left-side .login-logo {
+  width: 168px;
+  height: auto;
+  filter: drop-shadow(0 0 34px rgba(96, 165, 250, 0.6));
+}
+
+.login-page .login-container .left-side .login-header h1 {
+  margin-top: 22px;
+  font-size: 2.3rem;
+  letter-spacing: 0.1em;
+}
+
+.login-page .login-container .left-side .login-header p {
+  margin-top: 8px;
+  font-size: 1rem;
+  color: rgba(226, 232, 240, 0.85);
+}
+
+/* Modo claro: a logo mantém as cores, só que mais luminosas e com um halo suave,
+   para aparecer sobre o painel azul-escuro sem placa ou quadrado ao redor. */
+body.light-mode .login-page .login-container .left-side .login-logo {
+  width: 160px;
+  height: auto;
+  padding: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  filter: brightness(1.08) drop-shadow(0 0 1.5px rgba(255, 255, 255, 0.95)) drop-shadow(0 0 14px rgba(255, 255, 255, 0.45)) drop-shadow(0 0 34px rgba(147, 197, 253, 0.55));
+}
+
+body.light-mode .login-page .login-container .left-side .login-header h1 {
+  color: #ffffff;
+  text-shadow: 0 2px 18px rgba(8, 15, 40, 0.45);
+}
+
+body.light-mode .login-page .login-container .left-side .login-header p {
+  color: rgba(255, 255, 255, 0.88);
+}
+
+@media (max-width: 760px) {
+  .login-page .login-container .left-side {
+    padding-top: 84px;
+  }
+
+  .login-page .login-container .left-side .login-logo {
+    width: 132px;
+  }
+
+  body.light-mode .login-page .login-container .left-side .login-logo {
+    width: 124px;
+  }
+
+  .login-page .login-container .left-side .login-header h1 {
+    font-size: 1.8rem;
+  }
+}
+
+@media (max-height: 700px) and (min-width: 761px) {
+  .login-page .login-container .left-side .login-logo {
+    width: 132px;
+  }
+
+  body.light-mode .login-page .login-container .left-side .login-logo {
+    width: 116px;
+  }
+}
+
+/* ---------- Modo claro: fundo atrás do cartão ----------
+   Era quase branco e se confundia com o cartão; agora é um cinza-azulado
+   mais fechado, e o cartão branco se destaca. */
+body.light-mode .login-page.login-page {
+  background-color: #d3dbe8 !important;
+}
+
+body.light-mode .login-page::before {
+  background-image: radial-gradient(rgba(51, 65, 85, 0.16) 1px, transparent 1.5px);
+}
+
+body.light-mode .login-page .login-container.login-container {
+  border-color: #bcc7d8 !important;
+  box-shadow: 0 30px 70px -20px rgba(30, 41, 70, 0.35) !important;
+}
+
+/* Texto do botão principal sempre claro sobre o degradê (no modo claro ele ficava escuro) */
+.login-page .login-box .btn-login,
+body.light-mode .login-page .login-box .btn-login {
+  color: #ffffff;
+}

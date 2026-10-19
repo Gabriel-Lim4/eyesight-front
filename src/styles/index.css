@@ -16,20 +16,22 @@ html {
 
 body {
   margin: 0;
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-family: 'Space Grotesk', 'Inter', system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.5;
+  color: var(--text-primary);
 }
 
 #root {
   min-height: 100vh;
+  isolation: isolate;
 }
 
 /* Foco visível para acessibilidade */
 :focus-visible {
   outline: 2px solid var(--accent-blue);
-  outline-offset: 2px;
+  outline-offset: 3px;
 }
 
 /* Respeita preferência de movimento reduzido */
@@ -53,7 +55,7 @@ body {
   color: white;
   padding: 8px 16px;
   z-index: 1000;
-  transition: top 0.2s;
+  transition: top 0.2s ease;
 }
 
 .skip-link:focus {
@@ -73,7 +75,7 @@ body {
   border-width: 0;
 }
 
-/* Scrollbar customizada */
+/* Scrollbar fina e estética */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -92,7 +94,106 @@ body {
   background: var(--c-475569);
 }
 
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
 /* Seleção de texto */
 ::selection {
   background: var(--c-rgba-59-130-246-0_3);
+  color: var(--text-primary);
+}
+
+/* Utilitário: texto com largura limitada para leitura */
+.read-width {
+  max-width: 68ch;
+}
+
+/* Containers de página */
+.app-container {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.section {
+  padding-top: var(--space-10);
+  padding-bottom: var(--space-12);
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  margin-bottom: var(--space-8);
+}
+
+/* Texto pequeno em caixa-alta (rótulos / labels) */
+.eyebrow,
+.label-sm {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+/* Chip de ícone */
+.icon-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-subtle);
+  background: var(--surface);
+  color: var(--text-primary);
+  font-size: 1rem;
+  transition: border-color var(--duration-250) var(--ease), background var(--duration-250) var(--ease);
+}
+
+/* Badge de status */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  font-size: 0.72rem;
+  font-weight: 600;
+  border: 1px solid transparent;
+}
+
+/* Linha de leitura (seção com divisor discreto) */
+.divider {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin: var(--space-8) 0;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border-color);
+}
+
+/* Número em destaque com fonte mono e tabular-nums */
+.num {
+  font-family: 'IBM Plex Mono', 'JetBrains Mono', ui-monospace, monospace;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
 }

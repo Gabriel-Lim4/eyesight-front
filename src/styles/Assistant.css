@@ -40,3 +40,129 @@
 .assistant-caption { font-size: 13px; margin-bottom: 16px; }
 @media (max-width: 1000px) { .assistant-layout { grid-template-columns: 1fr; } .assistant-sidebar { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 600px) { .eyesight-assistant { padding: 16px; } .assistant-sidebar { display: flex; } .assistant-section-heading { align-items: flex-start; flex-wrap: wrap; } .assistant-messages { height: 390px; } .assistant-chat, .assistant-panel { padding: 14px; } .assistant-heading h1 { font-size: 22px; } .assistant-composer > div { flex-wrap: wrap; } }
+
+/* ============================================================
+   ASSISTENTE — REFINO DE BALÕES, COMPOSER E SUGESTÕES
+   ============================================================ */
+
+/* Layout com mais respiro */
+.assistant-layout { gap: var(--space-6); }
+
+/* Painéis: raio consistente e sombra em camadas */
+.assistant-chat, .assistant-panel {
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border-color);
+}
+
+/* Cabeçalho do assistente */
+.assistant-heading h1 {
+  font-family: 'Tomorrow', sans-serif;
+  letter-spacing: -0.01em;
+  font-size: 1.5rem;
+}
+
+/* Balões de mensagem: raio, sombra suave, variação por remetente */
+.assistant-message {
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-input);
+  box-shadow: var(--shadow-sm);
+  padding: 12px 16px;
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+.assistant-message.user {
+  border-color: var(--accent-blue);
+  background: color-mix(in srgb, var(--accent-blue) 8%, transparent);
+}
+
+.assistant-message strong {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Sugestões (chips): raio, hover sutil */
+.assistant-suggestions { gap: var(--space-3); margin-bottom: var(--space-4); }
+.assistant-suggestions button {
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-color);
+  background: var(--bg-input);
+  padding: 8px 14px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: border-color var(--duration-150) var(--ease), background var(--duration-150) var(--ease), transform var(--duration-150) var(--ease);
+}
+.assistant-suggestions button:hover:not(:disabled) {
+  border-color: var(--accent-blue);
+  background: var(--surface-hover);
+  transform: translateY(-1px);
+}
+
+/* Campo de envio (composer) */
+.assistant-composer textarea {
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+  background: var(--bg-input);
+  padding: 10px 14px;
+  resize: vertical;
+  max-height: 120px;
+}
+.assistant-composer textarea:focus {
+  outline: none;
+  border-color: var(--accent-blue);
+  box-shadow: 0 0 0 3px var(--c-rgba-59-130-246-0_1);
+}
+
+/* Botão primário do composer */
+.assistant-composer button, .assistant-primary {
+  border-radius: var(--radius-sm);
+  background: var(--gradient-btn);
+  border: 1px solid transparent;
+  color: var(--c-ffffff);
+  padding: 10px 20px;
+  font-weight: 600;
+  transition: transform var(--duration-150) var(--ease), box-shadow var(--duration-150) var(--ease);
+}
+.assistant-composer button:hover:not(:disabled), .assistant-primary:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px -10px var(--c-rgba-59-130-246-0_35);
+}
+
+/* Painel lateral: histórico e notícias */
+.assistant-sidebar { gap: var(--space-4); }
+.assistant-panel h2 { font-size: 1.15rem; font-family: 'Tomorrow', sans-serif; }
+.assistant-history-row { gap: var(--space-2); margin-bottom: var(--space-4); }
+.assistant-history-row button {
+  border-radius: var(--radius-sm);
+  padding: 8px 12px;
+  font-size: 0.85rem;
+}
+.assistant-history-row button[aria-current="true"] {
+  background: color-mix(in srgb, var(--accent-blue) 12%, transparent);
+  border-color: var(--accent-blue);
+}
+
+/* Notificações/erros */
+.assistant-notice, .assistant-error {
+  border-radius: var(--radius-sm);
+  padding: 12px 16px;
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+.assistant-error {
+  border-color: var(--c-ef4444);
+  background: color-mix(in srgb, var(--c-ef4444) 8%, transparent);
+}
+
+/* Análise */
+.assistant-analysis { margin-top: var(--space-6); }
+
+@media (prefers-reduced-motion: reduce) {
+  .assistant-suggestions button:hover:not(:disabled),
+  .assistant-composer button:hover:not(:disabled),
+  .assistant-primary:hover:not(:disabled),
+  .assistant-history-row button[aria-current="true"] { transform: none; }
+}
