@@ -10,8 +10,13 @@ const api = axios.create({
 });
 let refreshPromise;
 
+// Entrar, cadastrar e recuperar a senha são sempre reais: uma marca de demonstração esquecida no navegador
+// (por ter saído da demo sem clicar em "Sair") não pode impedir o login, pois a demo recusa qualquer gravação.
+const PUBLIC_AUTH = /\/auth\/(login|cadastro|esqueci-senha|redefinir-senha|reenviar-verificacao)(?:[?]|$)/;
+const isDemo = () => localStorage.getItem('eyesight-demo') === '1';
+
 api.interceptors.request.use(config => {
-  if (localStorage.getItem('eyesight-demo') === '1') {
+  if (isDemo() && !PUBLIC_AUTH.test(config.url || '')) {
     config.adapter = demoAdapter;
     delete config.headers.Authorization;
     delete config.headers.authorization;

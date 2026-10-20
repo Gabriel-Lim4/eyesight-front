@@ -42,4 +42,27 @@ describe('session renewal', () => {
     expect(adapter).not.toHaveBeenCalled(); expect(localStorage.getItem('token')).toBe('real');
     expect(localStorage.getItem('eyesight-demo')).toBeNull();
   });
+
+  it.each(['/auth/login', '/auth/cadastro', '/auth/esqueci-senha', '/auth/redefinir-senha', '/auth/reenviar-verificacao'])(
+    'with a leftover demonstration flag, %s still reaches the real server instead of the read-only demo', async url => {
+      localStorage.setItem('eyesight-demo', '1');
+      const adapter = vi.fn(async config => success(config, { ok: true }));
+      api.defaults.adapter = adapter;
+      const response = await api.post(url, { email: 'a@b.co', senha: 'x' });
+      expect(adapter).toHaveBeenCalledTimes(1);
+      expect(response.data).toEqual({ ok: true });
+      expect(response.headers['x-eyesight-demo']).toBeUndefined();
+      expect(adapter.mock.calls[0][0].headers.Authorization).toBeUndefined();
+    },
+  );
+
+  it('the demonstration still answers every other route offline', async () => {
+    localStorage.setItem('eyesight-demo', '1');
+    const adapter = vi.fn(); api.defaults.adapter = adapter;
+    const response = await api.get('/metricas/analytics', { params: { periodo: 'last_30d' } });
+    expect(adapter).not.toHaveBeenCalled();
+    expect(response.headers['x-eyesight-demo']).toBe('true');
+    await expect(api.post('/auth/alterar-senha', {})).rejects.toThrow();
+    expect(adapter).not.toHaveBeenCalled();
+  });
 });
