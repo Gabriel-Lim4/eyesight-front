@@ -5,7 +5,7 @@ import '../../styles/Explainer.css';
 
 const FOCUSABLE = 'button:not([disabled]), textarea:not([disabled])';
 
-export default function ExplainerPanel({ focus, messages, pendingText, state, error, onAsk, onClose }) {
+export default function ExplainerPanel({ focus, messages, pendingText, streamingText = '', state, error, onAsk, onClose }) {
   const panel = useRef(null);
   const closeRef = useRef(onClose);
   const [draft, setDraft] = useState('');
@@ -51,7 +51,8 @@ export default function ExplainerPanel({ focus, messages, pendingText, state, er
       <div className="ex-log" aria-live="polite">
         {messages.map((message, index) => <p key={index} className={`ex-message is-${message.role}`}>{message.content}</p>)}
         {pendingText && <p className="ex-message is-user">{pendingText}</p>}
-        {sending && <p className="ex-status">{STATE_COPY.sending}</p>}
+        {sending && streamingText && <p className="ex-message is-assistant">{streamingText}</p>}
+        {sending && !streamingText && <p className="ex-status">{STATE_COPY.sending}</p>}
       </div>
       {(state === 'error' || state === 'limit') && <div className="ex-error" role="alert">
         <p>{error}</p>

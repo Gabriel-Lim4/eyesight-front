@@ -120,7 +120,7 @@ describe('SimpleOverview', () => {
     const dialog = screen.getByRole('dialog', { name: 'Como estão seus anúncios' });
     fireEvent.click(within(dialog).getByRole('button', { name: 'O que devo fazer primeiro?' }));
     expect(await within(dialog).findByText('Resposta da IA')).toBeInTheDocument();
-    expect(api.post).toHaveBeenCalledWith('/ia/chat', { message: 'O que devo fazer primeiro?', focus: { kind: 'verdict' }, platform: 'all', periodo: 'last_30d' }, { timeout: 55000 });
+    expect(api.post).toHaveBeenCalledWith('/ia/chat', { message: 'O que devo fazer primeiro?', focus: { kind: 'verdict' }, platform: 'all', periodo: 'last_30d', stream: true }, expect.objectContaining({ timeout: 55000 }));
   });
 
   it('closes the panel when the filters change', async () => {

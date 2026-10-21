@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import api from '../../services/api';
+import { streamChat } from '../../services/chatStream';
 import { STATE_COPY } from './explainerCopy';
 
 const SCOPE_KEYS = ['periodo', 'startDate', 'endDate', 'platform', 'campaignId', 'currency'];
@@ -40,16 +41,17 @@ export function useExplainer(filters) {
     if (!current || !message || inFlight.current === current.id) return false;
     inFlight.current = current.id;
     const base = current;
-    setPanel(value => (value?.id === base.id ? { ...value, state: 'sending', pendingText: message, error: '' } : value));
+    setPanel(value => (value?.id === base.id ? { ...value, state: 'sending', pendingText: message, streamingText: '', error: '' } : value));
     try {
-      const { data } = await api.post('/ia/chat', { message, focus: base.focus, conversationId: base.conversationId || undefined, ...scope }, { timeout: 55000 });
+      const data = await streamChat(api, { message, focus: base.focus, conversationId: base.conversationId || undefined, ...scope },
+        { onText: streamingText => setPanel(value => (value?.id === base.id ? { ...value, streamingText } : value)) });
       const answer = data?.conversation?.messages?.at(-1)?.content ?? '';
       setPanel(value => (value?.id === base.id
-        ? { ...value, messages: [...value.messages, { role: 'user', content: message }, { role: 'assistant', content: answer }], pendingText: '', conversationId: data?.conversation?.id ?? null, state: 'idle' }
+        ? { ...value, messages: [...value.messages, { role: 'user', content: message }, { role: 'assistant', content: answer }], pendingText: '', streamingText: '', conversationId: data?.conversation?.id ?? null, state: 'idle' }
         : value));
       return true;
     } catch (err) {
-      setPanel(value => (value?.id === base.id ? { ...value, state: err.response?.status === 429 ? 'limit' : 'error', error: err.response?.data?.erro || STATE_COPY.fallbackError } : value));
+      setPanel(value => (value?.id === base.id ? { ...value, streamingText: '', state: err.response?.status === 429 ? 'limit' : 'error', error: err.response?.data?.erro || STATE_COPY.fallbackError } : value));
       return false;
     } finally {
       if (inFlight.current === base.id) inFlight.current = null;
@@ -61,6 +63,7 @@ export function useExplainer(filters) {
     focus: current?.focus ?? null,
     messages: current?.messages ?? [],
     pendingText: current?.pendingText ?? '',
+    streamingText: current?.streamingText ?? '',
     state: current?.state ?? 'idle',
     error: current?.error ?? '',
     open, close, ask,

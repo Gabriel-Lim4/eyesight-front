@@ -40,7 +40,7 @@ describe('useExplainer', () => {
     let ok;
     await act(async () => { ok = await result.current.ask('Oi'); });
     expect(ok).toBe(true);
-    expect(api.post).toHaveBeenCalledWith('/ia/chat', { message: 'Oi', focus: { kind: 'card', key: 'cost' }, periodo: 'last_30d', platform: 'all', campaignId: 7, currency: 'BRL' }, { timeout: 55000 });
+    expect(api.post).toHaveBeenCalledWith('/ia/chat', { message: 'Oi', focus: { kind: 'card', key: 'cost' }, periodo: 'last_30d', platform: 'all', campaignId: 7, currency: 'BRL', stream: true }, expect.objectContaining({ timeout: 55000 }));
     expect(result.current.messages).toEqual([{ role: 'user', content: 'Oi' }, { role: 'assistant', content: 'Resposta' }]);
     api.post.mockResolvedValueOnce(reply('c1', 'Outra'));
     await act(async () => { await result.current.ask('E agora?'); });

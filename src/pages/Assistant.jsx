@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Bot, Send, Plus, Trash2, Sparkles } from 'lucide-react';
+import { streamChat } from '../services/chatStream';
 import api from '../services/api';
 import '../styles/variables.css';
 import '../styles/Assistant.css';
@@ -19,6 +20,7 @@ const analysisView = row => ({ id: row.pk_id_analise, texto: row.texto_analise, 
 export default function Assistant() {
   const demo = localStorage.getItem('eyesight-demo') === '1';
   const [messages, setMessages] = useState([]);
+  const [streamText, setStreamText] = useState('');
   const [conversationId, setConversationId] = useState(null);
   const [conversations, setConversations] = useState([]);
   const [campaigns, setCampaigns] = useState([]);
@@ -51,10 +53,10 @@ export default function Assistant() {
     if (busy || !text.trim()) return;
     setBusy(true); setError('');
     try {
-      const { data } = await api.post('/ia/chat', { message: text.trim(), conversationId: conversationId || undefined, periodo: period }, { timeout: 55000 });
-      setMessages(data.conversation.messages); setConversationId(data.conversation.id); setInput('');
+      const data = await streamChat(api, { message: text.trim(), conversationId: conversationId || undefined, periodo: period }, { onText: setStreamText });
+      setStreamText(''); setMessages(data.conversation.messages); setConversationId(data.conversation.id); setInput('');
       setConversations(items => [data.conversation, ...items.filter(item => item.id !== data.conversation.id)].slice(0, 50));
-    } catch (err) { setError(errorMessage(err)); } finally { setBusy(false); }
+    } catch (err) { setStreamText(''); setError(errorMessage(err)); } finally { setBusy(false); }
   }
   async function openConversation(id) {
     setBusy(true); setError('');
@@ -98,7 +100,8 @@ export default function Assistant() {
         <div className="assistant-messages" role="log" aria-live="polite" aria-busy={busy}>
           {!messages.length && <div className="assistant-welcome"><Sparkles size={30} /><h3>Qual é sua próxima decisão?</h3><p>Sou o Argos. Analiso o desempenho e sugiro testes com base nos dados do período selecionado. Quando faltarem dados, aviso a limitação.</p></div>}
           {messages.map((message, index) => <article key={`${message.created_at}-${index}`} className={`assistant-message ${message.role}`}><strong>{message.role === 'user' ? 'Você' : 'Argos'}</strong><p>{message.content}</p></article>)}
-          {busy && <p role="status">Processando solicitação…</p>}<div ref={bottom} />
+          {busy && streamText && <article className="assistant-message assistant"><strong>Argos</strong><p>{streamText}</p></article>}
+          {busy && !streamText && <p role="status">Processando solicitação…</p>}<div ref={bottom} />
         </div>
         <div className="assistant-suggestions">{suggestions.map(text => <button key={text} type="button" disabled={unavailable} onClick={() => send(text)}>{text}</button>)}</div>
         <form className="assistant-composer" onSubmit={e => { e.preventDefault(); send(); }}><label htmlFor="assistant-message">Sua pergunta</label><textarea id="assistant-message" value={input} onChange={e => setInput(e.target.value)} maxLength={2000} rows={3} disabled={unavailable} placeholder="Pergunte algo ao Argos sobre suas campanhas…" onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey && !e.nativeEvent.isComposing) { e.preventDefault(); send(); } }} /><div><small>Enter envia · Shift + Enter quebra a linha · {input.length}/2000</small><button type="submit" disabled={unavailable || !input.trim()}><Send size={16} /> Enviar</button></div></form>

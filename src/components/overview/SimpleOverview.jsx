@@ -39,6 +39,6 @@ export default function SimpleOverview({ data, filters, alertSettings, reload })
     <KpiBoard data={data} defaultVisible={DEFAULT_KPIS_OVERVIEW} remote />
     <NextActions actions={verdict.actions} ctx={ctx} explain={explain} plans={plans} aiAvailable={explainer.available !== false} />
     <GoalsForm alertSettings={alertSettings} currency={data.currency} disabled={demo} onSaved={() => reload('Metas salvas.')} />
-    {explainer.focus && <ExplainerPanel focus={explainer.focus} messages={explainer.messages} pendingText={explainer.pendingText} state={explainer.state} error={explainer.error} onAsk={explainer.ask} onClose={explainer.close} />}
+    {explainer.focus && <ExplainerPanel focus={explainer.focus} messages={explainer.messages} pendingText={explainer.pendingText} streamingText={explainer.streamingText} state={explainer.state} error={explainer.error} onAsk={explainer.ask} onClose={explainer.close} />}
   </>;
 }

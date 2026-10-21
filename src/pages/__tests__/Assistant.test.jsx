@@ -17,7 +17,7 @@ describe('Assistant', () => {
     expect(api.post).not.toHaveBeenCalled();
     fireEvent.click(screen.getByRole('button', { name: 'Enviar' }));
     await screen.findByText('Resposta com métricas.');
-    expect(api.post).toHaveBeenCalledWith('/ia/chat', { message: 'CTR?', conversationId: undefined, periodo: 'last_30d' }, expect.anything());
+    expect(api.post).toHaveBeenCalledWith('/ia/chat', { message: 'CTR?', conversationId: undefined, periodo: 'last_30d', stream: true }, expect.anything());
     fireEvent.change(screen.getByLabelText('Sua pergunta'), { target: { value: 'E CPC?' } });
     fireEvent.click(screen.getByRole('button', { name: 'Enviar' }));
     await waitFor(() => expect(api.post).toHaveBeenLastCalledWith('/ia/chat', expect.objectContaining({ conversationId: 'conversation-1' }), expect.anything()));
